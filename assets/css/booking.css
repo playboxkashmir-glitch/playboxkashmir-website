@@ -6,7 +6,7 @@
 
 /* Booking Hero */
 .booking-hero {
-  background: linear-gradient(135deg, #111827 0%, #1e3a8a 50%, #111827 100%);
+  background: linear-gradient(135deg, #111827 0%, #14532d 50%, #111827 100%);
   padding: 120px 2rem 2.5rem;
   text-align: center;
 }
@@ -62,8 +62,8 @@
 }
 
 .bstep.active .bstep-num {
-  background: #1a56db;
-  border-color: #3b82f6;
+  background: #15803d;
+  border-color: #22c55e;
 }
 
 .bstep.completed .bstep-num {
@@ -151,8 +151,8 @@
   position: relative;
 }
 
-.sport-card:hover { border-color: #1a56db; box-shadow: 0 8px 24px rgba(26,86,219,0.15); }
-.sport-card.selected { border-color: #1a56db; background: rgba(26,86,219,0.03); }
+.sport-card:hover { border-color: #15803d; box-shadow: 0 8px 24px rgba(21,128,61,0.15); }
+.sport-card.selected { border-color: #15803d; background: rgba(21,128,61,0.03); }
 
 .sport-img { height: 140px; overflow: hidden; }
 .sport-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
@@ -162,22 +162,22 @@
 
 .sport-icon-wrap {
   width: 40px; height: 40px;
-  background: rgba(26,86,219,0.1);
+  background: rgba(21,128,61,0.1);
   border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   margin-bottom: 0.75rem;
 }
 
-.sport-icon-wrap i { color: #1a56db; font-size: 1.2rem; }
+.sport-icon-wrap i { color: #15803d; font-size: 1.2rem; }
 
 .sport-info h3 { font-size: 1.1rem; font-weight: 700; color: #111827; margin-bottom: 0.25rem; }
 .sport-info p { font-size: 0.85rem; color: #6b7280; margin-bottom: 0.5rem; }
-.sport-price { font-size: 0.85rem; font-weight: 700; color: #1a56db; }
+.sport-price { font-size: 0.85rem; font-weight: 700; color: #15803d; }
 
 .sport-check {
   position: absolute;
   top: 1rem; right: 1rem;
-  color: #1a56db;
+  color: #15803d;
   font-size: 1.4rem;
   opacity: 0;
   transition: opacity 0.3s;
@@ -214,8 +214,8 @@
   transition: all 0.3s;
 }
 
-.facility-btn:hover { border-color: #1a56db; color: #1a56db; }
-.facility-btn.selected { background: #1a56db; border-color: #1a56db; color: #fff; }
+.facility-btn:hover { border-color: #15803d; color: #15803d; }
+.facility-btn.selected { background: #15803d; border-color: #15803d; color: #fff; }
 
 /* Step Actions */
 .step-actions {
@@ -229,7 +229,7 @@
 }
 
 .btn-next {
-  background: #1a56db;
+  background: #15803d;
   color: #fff;
   border: none;
   padding: 0.85rem 2rem;
@@ -298,7 +298,7 @@
   transition: all 0.2s;
 }
 
-.cal-nav:hover { background: #1a56db; color: #fff; border-color: #1a56db; }
+.cal-nav:hover { background: #15803d; color: #fff; border-color: #15803d; }
 
 .calendar-grid {
   display: grid;
@@ -326,9 +326,9 @@
   color: #374151;
 }
 
-.cal-day:hover:not(.disabled):not(.empty) { background: rgba(26,86,219,0.1); color: #1a56db; }
+.cal-day:hover:not(.disabled):not(.empty) { background: rgba(21,128,61,0.1); color: #15803d; }
 .cal-day.today { background: rgba(245,158,11,0.15); color: #d97706; font-weight: 700; }
-.cal-day.selected { background: #1a56db; color: #fff !important; }
+.cal-day.selected { background: #15803d; color: #fff !important; }
 .cal-day.disabled { color: #d1d5db; cursor: not-allowed; opacity: 0.4; }
 .cal-day.empty { cursor: default; }
 
@@ -336,11 +336,11 @@
 .slots-section { padding-left: 1rem; }
 
 .selected-date-display {
-  background: rgba(26,86,219,0.08);
-  border: 1px solid rgba(26,86,219,0.2);
+  background: rgba(21,128,61,0.08);
+  border: 1px solid rgba(21,128,61,0.2);
   border-radius: 10px;
   padding: 0.75rem 1rem;
-  color: #1a56db;
+  color: #15803d;
   font-weight: 600;
   font-size: 0.9rem;
   display: flex;
@@ -382,14 +382,14 @@
 }
 
 .slot-btn:hover:not(.booked):not(.selected) {
-  border-color: #1a56db;
-  background: rgba(26,86,219,0.05);
+  border-color: #15803d;
+  background: rgba(21,128,61,0.05);
 }
 
 .slot-btn .slot-time { font-size: 0.875rem; font-weight: 700; color: #111827; display: block; }
 .slot-btn .slot-price { font-size: 0.75rem; color: #6b7280; }
 
-.slot-btn.selected { background: #1a56db; border-color: #1a56db; }
+.slot-btn.selected { background: #15803d; border-color: #15803d; }
 .slot-btn.selected .slot-time,
 .slot-btn.selected .slot-price { color: #fff; }
 
@@ -413,7 +413,7 @@
 
 .legend-dot.available { background: #fff; border: 2px solid #e5e7eb; }
 .legend-dot.booked { background: #f9fafb; border: 2px solid #e5e7eb; }
-.legend-dot.selected { background: #1a56db; border: 2px solid #1a56db; }
+.legend-dot.selected { background: #15803d; border: 2px solid #15803d; }
 
 /* Form */
 .form-grid {
@@ -449,8 +449,8 @@
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #1a56db;
-  box-shadow: 0 0 0 3px rgba(26,86,219,0.1);
+  border-color: #15803d;
+  box-shadow: 0 0 0 3px rgba(21,128,61,0.1);
 }
 
 .field-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: block; }
@@ -512,10 +512,10 @@
   transition: border-color 0.2s;
 }
 
-.promo-input-wrap input:focus { border-color: #1a56db; }
+.promo-input-wrap input:focus { border-color: #15803d; }
 
 .btn-apply-promo {
-  background: #1a56db;
+  background: #15803d;
   color: #fff;
   border: none;
   padding: 0.65rem 1.4rem;
@@ -617,7 +617,7 @@
 .cancellation-notice i { flex-shrink: 0; margin-top: 2px; color: #d97706; }
 
 .btn-pay {
-  background: #1a56db;
+  background: #15803d;
   color: #fff;
   border: none;
   padding: 1rem 2rem;
@@ -630,11 +630,11 @@
   gap: 0.5rem;
   justify-content: center;
   transition: all 0.3s;
-  box-shadow: 0 4px 15px rgba(26,86,219,0.4);
+  box-shadow: 0 4px 15px rgba(21,128,61,0.4);
   width: 100%;
 }
 
-.btn-pay:hover { background: #1e40af; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(26,86,219,0.5); }
+.btn-pay:hover { background: #1e40af; transform: translateY(-1px); box-shadow: 0 8px 25px rgba(21,128,61,0.5); }
 
 .payment-note {
   text-align: center;
@@ -693,7 +693,7 @@
 .btn-home:hover { background: #1f2937; }
 
 .btn-book-another {
-  background: var(--primary, #1a56db);
+  background: var(--primary, #15803d);
   color: #fff;
   border: none;
   padding: 0.85rem 2rem;
@@ -727,7 +727,7 @@
 .spinner {
   width: 56px; height: 56px;
   border: 4px solid rgba(255,255,255,0.2);
-  border-top-color: #1a56db;
+  border-top-color: #15803d;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 1rem;
@@ -765,4 +765,19 @@
   .booking-steps { gap: 0.25rem; }
   .bstep-label { font-size: 0.65rem; }
   .bstep-connector { min-width: 15px; }
+}
+
+/* ===== COMING SOON (booking) ===== */
+.sport-card.coming-soon-card { opacity: 0.7; cursor: not-allowed; pointer-events: none; }
+.sport-card.coming-soon-card img { filter: grayscale(70%); }
+.sport-card.coming-soon-card .sport-info h3,
+.sport-card.coming-soon-card .sport-info p { color: #6b7280; }
+.sport-card.coming-soon-card .sport-check { display: none; }
+.coming-soon-tag { color: #6b7280 !important; font-weight: 700; }
+.sport-img { position: relative; }
+.coming-soon-ribbon {
+  position: absolute; top: 12px; right: 12px;
+  background: #6b7280; color: #fff;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px;
+  padding: 4px 10px; border-radius: 50px; text-transform: uppercase;
 }
