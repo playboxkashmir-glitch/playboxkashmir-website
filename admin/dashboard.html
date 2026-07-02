@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard – PlayBox Kashmir</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+
+<!-- ADMIN SIDEBAR -->
+<aside class="admin-sidebar" id="adminSidebar">
+  <div class="sidebar-brand">
+    <span class="logo-play">Play</span><span class="logo-box">Box</span>
+    <span style="color:#f59e0b;font-size:0.75rem;font-weight:700;margin-left:4px;">ADMIN</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="dashboard.html" class="sidebar-link active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+    <a href="bookings.html" class="sidebar-link"><i class="fas fa-calendar-check"></i> Bookings</a>
+    <a href="calendar.html" class="sidebar-link"><i class="fas fa-calendar-alt"></i> Calendar View</a>
+    <a href="customers.html" class="sidebar-link"><i class="fas fa-users"></i> Customers</a>
+    <a href="facilities.html" class="sidebar-link"><i class="fas fa-building"></i> Facilities</a>
+    <a href="pricing.html" class="sidebar-link"><i class="fas fa-tags"></i> Pricing</a>
+    <a href="promos.html" class="sidebar-link"><i class="fas fa-percentage"></i> Promo Codes</a>
+    <a href="reports.html" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a>
+    <a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i> Settings</a>
+    <div class="sidebar-divider"></div>
+    <a href="../index.html" class="sidebar-link" target="_blank"><i class="fas fa-external-link-alt"></i> View Website</a>
+    <a href="login.html" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+  </nav>
+</aside>
+
+<!-- ADMIN MAIN -->
+<main class="admin-main">
+  
+  <!-- Admin Header -->
+  <header class="admin-header">
+    <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="header-title">
+      <h1>Dashboard</h1>
+      <p>Welcome back, Admin</p>
+    </div>
+    <div class="header-actions">
+      <div class="header-date" id="headerDate"></div>
+      <button class="btn-add-booking" onclick="showAddBookingModal()">
+        <i class="fas fa-plus"></i> Add Booking
+      </button>
+    </div>
+  </header>
+
+  <!-- Stats Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-card-icon green"><i class="fas fa-calendar-check"></i></div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="stat-today">8</div>
+        <div class="stat-card-label">Today's Bookings</div>
+        <div class="stat-card-change positive">+2 from yesterday</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon blue"><i class="fas fa-rupee-sign"></i></div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="stat-revenue">₹12,400</div>
+        <div class="stat-card-label">Today's Revenue</div>
+        <div class="stat-card-change positive">+₹1,800 from yesterday</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon orange"><i class="fas fa-calendar-week"></i></div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="stat-week">47</div>
+        <div class="stat-card-label">This Week</div>
+        <div class="stat-card-change positive">+12% vs last week</div>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card-icon purple"><i class="fas fa-chart-line"></i></div>
+      <div class="stat-card-info">
+        <div class="stat-card-num" id="stat-month">₹1,84,200</div>
+        <div class="stat-card-label">This Month</div>
+        <div class="stat-card-change positive">+23% vs last month</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="dashboard-grid">
+    
+    <!-- Today's Bookings -->
+    <div class="admin-card span-2">
+      <div class="card-header">
+        <h3>Today's Bookings</h3>
+        <a href="bookings.html" class="view-all">View All →</a>
+      </div>
+      <div class="bookings-table-wrap">
+        <table class="bookings-table">
+          <thead>
+            <tr>
+              <th>Booking ID</th>
+              <th>Customer</th>
+              <th>Facility</th>
+              <th>Time Slot</th>
+              <th>Amount</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="todayBookingsTable">
+            <tr>
+              <td><code>PBK001</code></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">A</div>
+                  <div>
+                    <div class="customer-name">Ahmed Khan</div>
+                    <div class="customer-contact">+91 98765 43210</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="facility-tag football">Football Turf 1</span></td>
+              <td>6:00 PM – 7:00 PM</td>
+              <td class="amount">₹944</td>
+              <td><span class="status-badge confirmed">Confirmed</span></td>
+              <td>
+                <button class="btn-icon" title="View"><i class="fas fa-eye"></i></button>
+                <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-icon danger" title="Cancel"><i class="fas fa-times"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><code>PBK002</code></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">R</div>
+                  <div>
+                    <div class="customer-name">Rahul Sharma</div>
+                    <div class="customer-contact">+91 87654 32109</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="facility-tag cricket">Cricket Net 2</span></td>
+              <td>7:00 PM – 8:00 PM</td>
+              <td class="amount">₹472</td>
+              <td><span class="status-badge confirmed">Confirmed</span></td>
+              <td>
+                <button class="btn-icon" title="View"><i class="fas fa-eye"></i></button>
+                <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-icon danger" title="Cancel"><i class="fas fa-times"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><code>PBK003</code></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">S</div>
+                  <div>
+                    <div class="customer-name">Sara Malik</div>
+                    <div class="customer-contact">+91 76543 21098</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="facility-tag pickleball">Pickleball Court A</span></td>
+              <td>8:00 PM – 9:00 PM</td>
+              <td class="amount">₹354</td>
+              <td><span class="status-badge reserved">Reserved</span></td>
+              <td>
+                <button class="btn-icon" title="View"><i class="fas fa-eye"></i></button>
+                <button class="btn-icon" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="btn-icon danger" title="Cancel"><i class="fas fa-times"></i></button>
+              </td>
+            </tr>
+            <tr>
+              <td><code>PBK004</code></td>
+              <td>
+                <div class="customer-cell">
+                  <div class="customer-avatar">M</div>
+                  <div>
+                    <div class="customer-name">Mohd Yusuf</div>
+                    <div class="customer-contact">+91 65432 10987</div>
+                  </div>
+                </div>
+              </td>
+              <td><span class="facility-tag football">Football Turf 2</span></td>
+              <td>5:00 PM – 6:00 PM</td>
+              <td class="amount">₹944</td>
+              <td><span class="status-badge cancelled">Cancelled</span></td>
+              <td>
+                <button class="btn-icon" title="View"><i class="fas fa-eye"></i></button>
+                <button class="btn-icon" title="Edit" disabled><i class="fas fa-edit"></i></button>
+                <button class="btn-icon" title="Refund"><i class="fas fa-undo"></i></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Revenue Chart Placeholder -->
+    <div class="admin-card">
+      <div class="card-header">
+        <h3>Revenue (Last 7 Days)</h3>
+      </div>
+      <div class="chart-placeholder">
+        <div class="bar-chart">
+          <div class="bar-wrap">
+            <div class="bar" style="height:60%"><span class="bar-val">₹8.2k</span></div>
+            <span class="bar-label">Mon</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:75%"><span class="bar-val">₹10.1k</span></div>
+            <span class="bar-label">Tue</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:45%"><span class="bar-val">₹6.1k</span></div>
+            <span class="bar-label">Wed</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:85%"><span class="bar-val">₹11.4k</span></div>
+            <span class="bar-label">Thu</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar" style="height:90%"><span class="bar-val">₹12.1k</span></div>
+            <span class="bar-label">Fri</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar peak" style="height:100%"><span class="bar-val">₹13.5k</span></div>
+            <span class="bar-label">Sat</span>
+          </div>
+          <div class="bar-wrap">
+            <div class="bar peak" style="height:95%"><span class="bar-val">₹12.8k</span></div>
+            <span class="bar-label">Sun</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sport Breakdown -->
+    <div class="admin-card">
+      <div class="card-header">
+        <h3>Bookings by Sport</h3>
+      </div>
+      <div class="sport-breakdown">
+        <div class="sport-row">
+          <div class="sport-row-info">
+            <span class="sport-dot football"></span>
+            <span>Football Turf</span>
+          </div>
+          <div class="sport-bar-wrap">
+            <div class="sport-bar" style="width:65%;background:#10b981;"></div>
+          </div>
+          <span class="sport-pct">65%</span>
+        </div>
+        <div class="sport-row">
+          <div class="sport-row-info">
+            <span class="sport-dot cricket"></span>
+            <span>Cricket Nets</span>
+          </div>
+          <div class="sport-bar-wrap">
+            <div class="sport-bar" style="width:25%;background:#3b82f6;"></div>
+          </div>
+          <span class="sport-pct">25%</span>
+        </div>
+        <div class="sport-row">
+          <div class="sport-row-info">
+            <span class="sport-dot pickleball"></span>
+            <span>Pickleball</span>
+          </div>
+          <div class="sport-bar-wrap">
+            <div class="sport-bar" style="width:10%;background:#8b5cf6;"></div>
+          </div>
+          <span class="sport-pct">10%</span>
+        </div>
+      </div>
+
+      <div class="peak-hours">
+        <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem;color:#374151;">Peak Booking Hours</h4>
+        <div class="hours-grid">
+          <div class="hour-cell low" title="6-9 AM">Morning</div>
+          <div class="hour-cell mid" title="9-5 PM">Day</div>
+          <div class="hour-cell high" title="5-10 PM">Evening ⭐</div>
+          <div class="hour-cell low" title="10-11 PM">Night</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- Add Booking Modal -->
+<div class="modal-overlay" id="addBookingModal" style="display:none;">
+  <div class="admin-modal">
+    <div class="modal-header">
+      <h3>Add Manual Booking</h3>
+      <button class="modal-close-btn" onclick="closeAddBookingModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Customer Name</label>
+          <input type="text" placeholder="Enter name">
+        </div>
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="tel" placeholder="+91 XXXXX XXXXX">
+        </div>
+        <div class="form-group form-full">
+          <label>Email</label>
+          <input type="email" placeholder="email@example.com">
+        </div>
+        <div class="form-group">
+          <label>Sport</label>
+          <select>
+            <option>Football Turf</option>
+            <option>Cricket Nets</option>
+            <option>Pickleball Court</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Facility</label>
+          <select>
+            <option>Turf 1</option>
+            <option>Turf 2</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="date">
+        </div>
+        <div class="form-group">
+          <label>Time Slot</label>
+          <select>
+            <option>6:00 AM - 7:00 AM</option>
+            <option>7:00 AM - 8:00 AM</option>
+            <option>6:00 PM - 7:00 PM</option>
+            <option>7:00 PM - 8:00 PM</option>
+            <option>8:00 PM - 9:00 PM</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Payment Method</label>
+          <select>
+            <option>Cash</option>
+            <option>UPI</option>
+            <option>Card</option>
+            <option>Free (Complimentary)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeAddBookingModal()">Cancel</button>
+      <button class="btn-confirm">Create Booking</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>

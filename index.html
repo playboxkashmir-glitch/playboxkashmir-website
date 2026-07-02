@@ -3,155 +3,468 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PlayBox Kashmir | Premium Turf & Sports Arena</title>
-<style>
-:root{--green:#1b7a3e;--green-dark:#0f5228;--green-light:#2fa856;--lime:#7fd44a;--cream:#f4f9f0;--dark:#0c2415;}
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif;}
-html{scroll-behavior:smooth;}
-body{color:var(--dark);background:var(--cream);line-height:1.6;}
-a{text-decoration:none;color:inherit;}
-.container{max-width:1200px;margin:0 auto;padding:0 24px;}
-header{position:fixed;top:0;width:100%;z-index:100;background:rgba(15,82,40,0.95);backdrop-filter:blur(8px);}
-nav{display:flex;align-items:center;justify-content:space-between;padding:16px 24px;max-width:1200px;margin:0 auto;}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:0.5px;}
-.logo span{color:var(--lime);}
-.nav-links{display:flex;gap:32px;align-items:center;}
-.nav-links a{color:#e8f5e9;font-weight:500;transition:color .2s;}
-.nav-links a:hover{color:var(--lime);}
-.btn-book{background:var(--lime);color:var(--green-dark)!important;padding:10px 22px;border-radius:30px;font-weight:700;transition:transform .2s,background .2s;}
-.btn-book:hover{background:#fff;transform:translateY(-2px);}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;background:linear-gradient(rgba(12,36,21,0.65),rgba(12,36,21,0.75)),url('https://images.unsplash.com/photo-1459865264687-595d652de67e?w=1920&q=80') center/cover;color:#fff;}
-.hero-content{max-width:800px;padding:0 24px;}
-.hero h1{font-size:4rem;font-weight:800;line-height:1.1;margin-bottom:20px;text-shadow:0 4px 20px rgba(0,0,0,0.4);}
-.hero h1 span{color:var(--lime);}
-.hero p{font-size:1.3rem;margin-bottom:32px;color:#d7f0dc;}
-.hero .btn-book{font-size:1.1rem;padding:16px 40px;display:inline-block;}
-section{padding:90px 0;}
-.section-title{text-align:center;font-size:2.5rem;font-weight:800;margin-bottom:12px;color:var(--green-dark);}
-.section-title span{color:var(--green-light);}
-.section-sub{text-align:center;color:#5a6b5f;max-width:600px;margin:0 auto 50px;font-size:1.1rem;}
-.about{background:#fff;}
-.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
-.about-img{border-radius:18px;overflow:hidden;box-shadow:0 20px 40px rgba(27,122,62,0.2);}
-.about-img img{width:100%;display:block;height:400px;object-fit:cover;}
-.about-text h3{font-size:1.9rem;color:var(--green-dark);margin-bottom:16px;}
-.about-text p{color:#4a5a4f;margin-bottom:16px;}
-.facilities{background:var(--cream);}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;}
-.card{background:#fff;border-radius:16px;padding:36px 28px;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,0.06);transition:transform .25s,box-shadow .25s;border-top:4px solid var(--green-light);}
-.card:hover{transform:translateY(-8px);box-shadow:0 16px 36px rgba(27,122,62,0.18);}
-.card .icon{width:70px;height:70px;margin:0 auto 20px;background:linear-gradient(135deg,var(--green-light),var(--lime));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:2rem;}
-.card h4{font-size:1.3rem;color:var(--green-dark);margin-bottom:10px;}
-.card p{color:#5a6b5f;font-size:0.97rem;}
-.gallery{background:#fff;}
-.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
-.gallery-grid img{width:100%;height:250px;object-fit:cover;border-radius:12px;transition:transform .3s;cursor:pointer;}
-.gallery-grid img:hover{transform:scale(1.03);}
-.contact{background:linear-gradient(135deg,var(--green-dark),var(--green));color:#fff;}
-.contact .section-title,.contact .section-title span{color:#fff;}
-.contact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:30px;text-align:center;margin-top:40px;}
-.contact-item .icon{font-size:2rem;margin-bottom:10px;}
-.contact-item h4{margin-bottom:6px;color:var(--lime);}
-.cta-band{background:var(--lime);text-align:center;padding:60px 24px;}
-.cta-band h2{font-size:2.2rem;color:var(--green-dark);margin-bottom:14px;}
-.cta-band p{color:var(--green-dark);margin-bottom:26px;font-size:1.1rem;}
-.cta-band .btn-book{background:var(--green-dark);color:#fff!important;font-size:1.1rem;padding:16px 44px;display:inline-block;}
-.cta-band .btn-book:hover{background:var(--dark);}
-footer{background:var(--dark);color:#a8c0af;text-align:center;padding:36px 24px;}
-footer .logo{justify-content:center;margin-bottom:14px;font-size:1.3rem;}
-footer p{font-size:0.9rem;}
-@media(max-width:820px){.nav-links{display:none;}.hero h1{font-size:2.6rem;}.about-grid{grid-template-columns:1fr;}.cards{grid-template-columns:1fr;}.gallery-grid{grid-template-columns:1fr 1fr;}.contact-grid{grid-template-columns:1fr;}}
-</style>
+<title>PlayBox Kashmir – Premium Sports Facility</title>
+<meta name="description" content="PlayBox Kashmir offers premium football turf, cricket nets, and pickleball courts in the heart of Kashmir. Book your slot now!">
+<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<header>
-<nav>
-<a href="#home" class="logo">Play<span>Box</span> Kashmir</a>
-<div class="nav-links">
-<a href="#home">Home</a>
-<a href="#about">About</a>
-<a href="#facilities">Facilities</a>
-<a href="#gallery">Gallery</a>
-<a href="#contact">Contact</a>
-<a href="#book" class="btn-book">Book Now</a>
-</div>
+
+<!-- NAVIGATION -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-play">Play</span><span class="logo-box">Box</span>
+      <span class="logo-kashmir">Kashmir</span>
+    </a>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#home" class="nav-link">Home</a></li>
+      <li><a href="#facilities" class="nav-link">Facilities</a></li>
+      <li><a href="#about" class="nav-link">About</a></li>
+      <li><a href="#gallery" class="nav-link">Gallery</a></li>
+      <li><a href="#contact" class="nav-link">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="book.html" class="btn-book-nav">
+        <i class="fas fa-calendar-check"></i> Book Now
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
 </nav>
-</header>
 
+<!-- HERO SECTION -->
 <section class="hero" id="home">
-<div class="hero-content">
-<h1>Kashmir's Premier <span>Turf Arena</span></h1>
-<p>Experience world-class artificial turf for football, cricket &amp; more. Play under the lights, day or night, on the finest grounds in the valley.</p>
-<a href="#book" class="btn-book">Book Your Slot</a>
-</div>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <i class="fas fa-map-marker-alt"></i> Srinagar, Kashmir
+    </div>
+    <h1 class="hero-title">
+      Kashmir's Premier<br>
+      <span class="highlight">Sports Facility</span>
+    </h1>
+    <p class="hero-sub">
+      World-class football turf, cricket nets & pickleball courts. 
+      Experience sport like never before in the Valley.
+    </p>
+    <div class="hero-btns">
+      <a href="book.html" class="btn-primary-hero">
+        <i class="fas fa-bolt"></i> Book Your Slot
+      </a>
+      <a href="#facilities" class="btn-secondary-hero">
+        <i class="fas fa-play-circle"></i> Explore Facilities
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">3+</span>
+        <span class="stat-label">Sports</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Happy Players</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <span class="stat-num">6AM</span>
+        <span class="stat-label">Opens Daily</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator">
+    <div class="scroll-arrow"></div>
+  </div>
 </section>
 
-<section class="about" id="about">
-<div class="container">
-<h2 class="section-title">About <span>PlayBox</span></h2>
-<p class="section-sub">Where passion meets play. A modern sports destination built for athletes and enthusiasts alike.</p>
-<div class="about-grid">
-<div class="about-img"><img src="https://images.unsplash.com/photo-1551958219-acbc608c6377?w=800&q=80" alt="Turf ground"></div>
-<div class="about-text">
-<h3>Play On The Best Turf In The Valley</h3>
-<p>PlayBox Kashmir brings premium FIFA-standard artificial grass to Srinagar. Our floodlit arena is designed for football, cricket nets, and group sports &mdash; open early morning to late night.</p>
-<p>Whether you're organizing a friendly match, a corporate tournament, or a weekend kickabout, our facilities deliver a professional playing experience with top-tier safety and comfort.</p>
+<!-- QUICK BOOKING BAR -->
+<div class="quick-book-bar">
+  <div class="qb-container">
+    <div class="qb-text">
+      <i class="fas fa-calendar-check"></i>
+      <span>Ready to play? Book your slot in under 60 seconds!</span>
+    </div>
+    <a href="book.html" class="btn-quick-book">Book Now →</a>
+  </div>
 </div>
-</div>
-</div>
-</section>
 
+<!-- FACILITIES SECTION -->
 <section class="facilities" id="facilities">
-<div class="container">
-<h2 class="section-title">Our <span>Facilities</span></h2>
-<p class="section-sub">Everything you need for the perfect game.</p>
-<div class="cards">
-<div class="card"><div class="icon">&#9917;</div><h4>Football Turf</h4><p>Full-size floodlit artificial turf with premium shock-absorbing grass for 5-a-side and 7-a-side matches.</p></div>
-<div class="card"><div class="icon">&#127951;</div><h4>Cricket Nets</h4><p>Professional practice nets with bowling machines available for batting and bowling drills.</p></div>
-<div class="card"><div class="icon">&#128161;</div><h4>Night Lighting</h4><p>High-intensity LED floodlights let you play your best game any time, day or night.</p></div>
-<div class="card"><div class="icon">&#128663;</div><h4>Parking</h4><p>Ample, secure on-site parking for players and spectators, right next to the arena.</p></div>
-<div class="card"><div class="icon">&#9749;</div><h4>Cafe &amp; Lounge</h4><p>Relax and refuel at our cafe with refreshments, snacks and comfortable seating.</p></div>
-<div class="card"><div class="icon">&#128704;</div><h4>Changing Rooms</h4><p>Clean, modern changing rooms and washrooms to freshen up before and after your game.</p></div>
-</div>
-</div>
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Our Facilities</span>
+      <h2 class="section-title">Play Your Game, <span>Your Way</span></h2>
+      <p class="section-sub">Premium facilities designed for serious players and casual enthusiasts alike.</p>
+    </div>
+    <div class="facilities-grid">
+      
+      <!-- Football Turf -->
+      <div class="facility-card" data-sport="football">
+        <div class="facility-img">
+          <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&auto=format&fit=crop&q=80" alt="Football Turf at PlayBox Kashmir">
+          <div class="facility-badge">Available</div>
+          <div class="facility-overlay">
+            <a href="book.html?sport=football" class="btn-book-facility">
+              <i class="fas fa-calendar-plus"></i> Book This Facility
+            </a>
+          </div>
+        </div>
+        <div class="facility-info">
+          <div class="facility-icon">
+            <i class="fas fa-futbol"></i>
+          </div>
+          <h3>Football Turf</h3>
+          <p>FIFA-standard artificial turf with floodlights, goal posts and changing rooms. Perfect for 5-a-side and 7-a-side matches.</p>
+          <div class="facility-features">
+            <span><i class="fas fa-check-circle"></i> 5-a-side & 7-a-side</span>
+            <span><i class="fas fa-check-circle"></i> Floodlit</span>
+            <span><i class="fas fa-check-circle"></i> Premium Turf</span>
+          </div>
+          <div class="facility-footer">
+            <div class="facility-price">
+              <span class="price-from">From</span>
+              <span class="price-amount">₹600</span>
+              <span class="price-unit">/hour</span>
+            </div>
+            <a href="book.html?sport=football" class="btn-book-small">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cricket Nets -->
+      <div class="facility-card" data-sport="cricket">
+        <div class="facility-img">
+          <img src="https://images.unsplash.com/photo-1540747913346-19212a4be3bd?w=800&auto=format&fit=crop&q=80" alt="Cricket Nets at PlayBox Kashmir">
+          <div class="facility-badge">Available</div>
+          <div class="facility-overlay">
+            <a href="book.html?sport=cricket" class="btn-book-facility">
+              <i class="fas fa-calendar-plus"></i> Book This Facility
+            </a>
+          </div>
+        </div>
+        <div class="facility-info">
+          <div class="facility-icon">
+            <i class="fas fa-baseball-ball"></i>
+          </div>
+          <h3>Cricket Nets</h3>
+          <p>Professional cricket practice nets with mat wickets and bowling machines available. Ideal for batting and bowling practice sessions.</p>
+          <div class="facility-features">
+            <span><i class="fas fa-check-circle"></i> Mat Wickets</span>
+            <span><i class="fas fa-check-circle"></i> Bowling Machine</span>
+            <span><i class="fas fa-check-circle"></i> Multiple Nets</span>
+          </div>
+          <div class="facility-footer">
+            <div class="facility-price">
+              <span class="price-from">From</span>
+              <span class="price-amount">₹400</span>
+              <span class="price-unit">/hour</span>
+            </div>
+            <a href="book.html?sport=cricket" class="btn-book-small">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pickleball Court -->
+      <div class="facility-card" data-sport="pickleball">
+        <div class="facility-img">
+          <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&auto=format&fit=crop&q=80" alt="Pickleball Court at PlayBox Kashmir">
+          <div class="facility-badge new-badge">New</div>
+          <div class="facility-overlay">
+            <a href="book.html?sport=pickleball" class="btn-book-facility">
+              <i class="fas fa-calendar-plus"></i> Book This Facility
+            </a>
+          </div>
+        </div>
+        <div class="facility-info">
+          <div class="facility-icon">
+            <i class="fas fa-table-tennis"></i>
+          </div>
+          <h3>Pickleball Court</h3>
+          <p>Kashmir's first dedicated pickleball court with professional surfacing. Perfect for singles and doubles play at all skill levels.</p>
+          <div class="facility-features">
+            <span><i class="fas fa-check-circle"></i> Professional Surface</span>
+            <span><i class="fas fa-check-circle"></i> Equipment Available</span>
+            <span><i class="fas fa-check-circle"></i> Singles & Doubles</span>
+          </div>
+          <div class="facility-footer">
+            <div class="facility-price">
+              <span class="price-from">From</span>
+              <span class="price-amount">₹300</span>
+              <span class="price-unit">/hour</span>
+            </div>
+            <a href="book.html?sport=pickleball" class="btn-book-small">Book Now</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </section>
 
+<!-- WHY PLAYBOX SECTION -->
+<section class="why-us">
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Why Choose Us</span>
+      <h2 class="section-title">The PlayBox <span>Difference</span></h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-mobile-alt"></i>
+        </div>
+        <h4>Easy Online Booking</h4>
+        <p>Book your slot in under 60 seconds from anywhere. Instant confirmation via email.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h4>Secure Payments</h4>
+        <p>Razorpay-powered payments with full encryption. Your money is always safe.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <h4>Flexible Timing</h4>
+        <p>Open from 6 AM to 11 PM daily. Morning, afternoon, or evening – your choice.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-snowflake"></i>
+        </div>
+        <h4>All-Weather Facility</h4>
+        <p>Indoor and covered outdoor facilities to ensure you never miss a game.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-parking"></i>
+        </div>
+        <h4>Free Parking</h4>
+        <p>Ample free parking space for all our guests. No hassle, just sports.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h4>Coaching Available</h4>
+        <p>Professional coaches available on request for all sports and skill levels.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-img-wrap">
+        <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?w=800&auto=format&fit=crop&q=80" alt="PlayBox Kashmir Facility">
+        <div class="about-badge">
+          <span class="ab-num">2024</span>
+          <span class="ab-text">Est. in Kashmir</span>
+        </div>
+      </div>
+      <div class="about-content">
+        <span class="section-tag">Our Story</span>
+        <h2 class="section-title">Bringing <span>World-Class Sport</span> to Kashmir</h2>
+        <p>PlayBox Kashmir was born from a simple belief – that Kashmir deserves premium sports facilities that match the passion and talent of its people.</p>
+        <p style="margin-top:1rem;">Nestled in the heart of Srinagar, our facility offers a world-class experience with state-of-the-art infrastructure, professional-grade equipment, and a commitment to making sport accessible for everyone.</p>
+        <div class="about-stats">
+          <div class="astat">
+            <span class="astat-num">3</span>
+            <span class="astat-lbl">Sports</span>
+          </div>
+          <div class="astat">
+            <span class="astat-num">5</span>
+            <span class="astat-lbl">Courts/Turfs</span>
+          </div>
+          <div class="astat">
+            <span class="astat-num">17h</span>
+            <span class="astat-lbl">Daily Hours</span>
+          </div>
+          <div class="astat">
+            <span class="astat-num">500+</span>
+            <span class="astat-lbl">Players</span>
+          </div>
+        </div>
+        <a href="#contact" class="btn-outline-dark">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY SECTION -->
 <section class="gallery" id="gallery">
-<div class="container">
-<h2 class="section-title">The <span>Arena</span></h2>
-<p class="section-sub">A glimpse of where the action happens.</p>
-<div class="gallery-grid">
-<img src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?w=600&q=80" alt="Football turf">
-<img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=600&q=80" alt="Green turf field">
-<img src="https://images.unsplash.com/photo-1560272564-c83b66b1ad12?w=600&q=80" alt="Players on field">
-<img src="https://images.unsplash.com/photo-1487466365202-1afdb86c764e?w=600&q=80" alt="Stadium lights">
-<img src="https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?w=600&q=80" alt="Football on grass">
-<img src="https://images.unsplash.com/photo-1517927033932-b3d18e61fb3a?w=600&q=80" alt="Sports arena">
-</div>
-</div>
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Gallery</span>
+      <h2 class="section-title">See It <span>In Action</span></h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item gi-large">
+        <img src="https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=900&auto=format&fit=crop&q=80" alt="Football match at PlayBox Kashmir">
+        <div class="gallery-caption">Football Turf</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1540747913346-19212a4be3bd?w=600&auto=format&fit=crop&q=80" alt="Cricket practice">
+        <div class="gallery-caption">Cricket Nets</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=600&auto=format&fit=crop&q=80" alt="Pickleball court">
+        <div class="gallery-caption">Pickleball Court</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=600&auto=format&fit=crop&q=80" alt="Sports training">
+        <div class="gallery-caption">Training Sessions</div>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1526232761682-d26e03ac148e?w=600&auto=format&fit=crop&q=80" alt="Stadium lights">
+        <div class="gallery-caption">Floodlit Facility</div>
+      </div>
+    </div>
+  </div>
 </section>
 
-<section class="cta-band" id="book">
-<h2>Ready To Play?</h2>
-<p>Booking opens soon &mdash; secure your slot at Kashmir's finest turf arena.</p>
-<a href="#book" class="btn-book">Book Now &mdash; Coming Soon</a>
+<!-- CTA SECTION -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="container cta-content">
+    <h2>Ready to Play?</h2>
+    <p>Book your slot now and experience Kashmir's finest sports facility.</p>
+    <div class="cta-btns">
+      <a href="book.html" class="btn-cta-primary">
+        <i class="fas fa-calendar-check"></i> Book Now
+      </a>
+      <a href="tel:+919999999999" class="btn-cta-secondary">
+        <i class="fas fa-phone"></i> Call Us
+      </a>
+    </div>
+  </div>
 </section>
 
+<!-- CONTACT SECTION -->
 <section class="contact" id="contact">
-<div class="container">
-<h2 class="section-title">Get In <span>Touch</span></h2>
-<p class="section-sub" style="color:#c8e6d0;">Have questions? Reach out to us &mdash; we'd love to hear from you.</p>
-<div class="contact-grid">
-<div class="contact-item"><div class="icon">&#128205;</div><h4>Location</h4><p>Srinagar, Kashmir</p></div>
-<div class="contact-item"><div class="icon">&#128231;</div><h4>Email</h4><p>playboxkashmir@gmail.com</p></div>
-<div class="contact-item"><div class="icon">&#128241;</div><h4>Hours</h4><p>Open Daily &middot; 6 AM &ndash; 11 PM</p></div>
-</div>
-</div>
+  <div class="container">
+    <div class="section-header text-center">
+      <span class="section-tag">Find Us</span>
+      <h2 class="section-title">Visit <span>PlayBox Kashmir</span></h2>
+    </div>
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="ci-text">
+            <h4>Address</h4>
+            <p>PlayBox Kashmir, Sports Complex,<br>Srinagar, J&K - 190001</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-phone"></i></div>
+          <div class="ci-text">
+            <h4>Phone</h4>
+            <p>+91 99999 99999</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+          <div class="ci-text">
+            <h4>Email</h4>
+            <p>info@playboxkashmir.com</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="ci-icon"><i class="fas fa-clock"></i></div>
+          <div class="ci-text">
+            <h4>Timings</h4>
+            <p>Monday – Sunday<br>6:00 AM – 11:00 PM</p>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+          <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="contact-map">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26443.065671897524!2d74.78795!3d34.08368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38e18501e0a6b3a9%3A0x5d6b7fc3a7b6a9a!2sSrinagar%2C%20Jammu%20%26%20Kashmir!5e0!3m2!1sen!2sin!4v1234567890" 
+          width="100%" height="350" style="border:0;border-radius:16px;" 
+          allowfullscreen="" loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
 </section>
 
-<footer>
-<div class="logo">Play<span style="color:var(--lime)">Box</span> Kashmir</div>
-<p>&copy; 2026 PlayBox Kashmir. All rights reserved.</p>
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="footer-logo">
+          <span class="logo-play">Play</span><span class="logo-box">Box</span>
+          <span class="logo-kashmir">Kashmir</span>
+        </a>
+        <p>Kashmir's premier sports facility. Book your slot and experience the best of sports in the Valley.</p>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-links">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="#facilities">Facilities</a></li>
+          <li><a href="book.html">Book Now</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Sports</h5>
+        <ul>
+          <li><a href="book.html?sport=football">Football Turf</a></li>
+          <li><a href="book.html?sport=cricket">Cricket Nets</a></li>
+          <li><a href="book.html?sport=pickleball">Pickleball Court</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h5>Policies</h5>
+        <ul>
+          <li><a href="#" onclick="showPolicy('cancellation')">Cancellation Policy</a></li>
+          <li><a href="#" onclick="showPolicy('privacy')">Privacy Policy</a></li>
+          <li><a href="#" onclick="showPolicy('terms')">Terms of Service</a></li>
+        </ul>
+        <div style="margin-top:1.5rem;">
+          <a href="admin/login.html" style="color:rgba(255,255,255,0.3);font-size:0.75rem;text-decoration:none;">Admin</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 PlayBox Kashmir. All rights reserved.</p>
+      <p>Powered by <a href="https://razorpay.com" target="_blank" rel="noopener">Razorpay</a></p>
+    </div>
+  </div>
 </footer>
+
+<!-- Policy Modal -->
+<div class="modal-overlay" id="policyModal" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closePolicy()"><i class="fas fa-times"></i></button>
+    <div id="policyContent"></div>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book Now – PlayBox Kashmir</title>
+<meta name="description" content="Book your sports slot at PlayBox Kashmir. Football Turf, Cricket Nets, Pickleball Court.">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/booking.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="booking-page">
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-play">Play</span><span class="logo-box">Box</span>
+      <span class="logo-kashmir">Kashmir</span>
+    </a>
+    <div class="nav-actions">
+      <a href="index.html" class="btn-back-home">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- BOOKING HERO -->
+<div class="booking-hero">
+  <div class="booking-hero-content">
+    <h1>Book Your Slot</h1>
+    <p>Select your sport, facility, date and time. Confirm in seconds.</p>
+  </div>
+  <div class="booking-steps">
+    <div class="bstep active" id="step-indicator-1">
+      <div class="bstep-num">1</div>
+      <div class="bstep-label">Sport & Facility</div>
+    </div>
+    <div class="bstep-connector"></div>
+    <div class="bstep" id="step-indicator-2">
+      <div class="bstep-num">2</div>
+      <div class="bstep-label">Date & Time</div>
+    </div>
+    <div class="bstep-connector"></div>
+    <div class="bstep" id="step-indicator-3">
+      <div class="bstep-num">3</div>
+      <div class="bstep-label">Your Details</div>
+    </div>
+    <div class="bstep-connector"></div>
+    <div class="bstep" id="step-indicator-4">
+      <div class="bstep-num">4</div>
+      <div class="bstep-label">Payment</div>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING FORM CONTAINER -->
+<div class="booking-container">
+  
+  <!-- STEP 1: Select Sport & Facility -->
+  <div class="booking-step" id="step-1">
+    <div class="step-header">
+      <h2>Choose Your Sport & Facility</h2>
+      <p>Select the sport you want to play and the specific facility.</p>
+    </div>
+
+    <div class="sports-grid">
+      
+      <div class="sport-card" data-sport="football" onclick="selectSport('football')">
+        <div class="sport-img">
+          <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&auto=format&fit=crop&q=80" alt="Football Turf">
+        </div>
+        <div class="sport-info">
+          <div class="sport-icon-wrap"><i class="fas fa-futbol"></i></div>
+          <h3>Football Turf</h3>
+          <p>5-a-side & 7-a-side matches</p>
+          <div class="sport-price">From ₹600/hr</div>
+        </div>
+        <div class="sport-check"><i class="fas fa-check-circle"></i></div>
+      </div>
+
+      <div class="sport-card" data-sport="cricket" onclick="selectSport('cricket')">
+        <div class="sport-img">
+          <img src="https://images.unsplash.com/photo-1540747913346-19212a4be3bd?w=400&auto=format&fit=crop&q=80" alt="Cricket Nets">
+        </div>
+        <div class="sport-info">
+          <div class="sport-icon-wrap"><i class="fas fa-baseball-ball"></i></div>
+          <h3>Cricket Nets</h3>
+          <p>Practice sessions & coaching</p>
+          <div class="sport-price">From ₹400/hr</div>
+        </div>
+        <div class="sport-check"><i class="fas fa-check-circle"></i></div>
+      </div>
+
+      <div class="sport-card" data-sport="pickleball" onclick="selectSport('pickleball')">
+        <div class="sport-img">
+          <img src="https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&auto=format&fit=crop&q=80" alt="Pickleball Court">
+        </div>
+        <div class="sport-info">
+          <div class="sport-icon-wrap"><i class="fas fa-table-tennis"></i></div>
+          <h3>Pickleball Court</h3>
+          <p>Singles & doubles play</p>
+          <div class="sport-price">From ₹300/hr</div>
+        </div>
+        <div class="sport-check"><i class="fas fa-check-circle"></i></div>
+      </div>
+
+    </div>
+
+    <!-- Facility Selection (shown after sport is selected) -->
+    <div class="facility-selector" id="facilitySelector" style="display:none;">
+      <h3 class="facility-selector-title">Select Facility</h3>
+      <div class="facilities-list" id="facilitiesList"></div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn-next" id="btn-step1-next" onclick="goToStep(2)" disabled>
+        Continue to Date & Time <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Date & Time -->
+  <div class="booking-step" id="step-2" style="display:none;">
+    <div class="step-header">
+      <h2>Select Date & Time Slot</h2>
+      <p>Choose your preferred date and an available time slot.</p>
+    </div>
+
+    <div class="datetime-grid">
+      <!-- Calendar -->
+      <div class="calendar-section">
+        <div class="calendar-header">
+          <button class="cal-nav" onclick="prevMonth()"><i class="fas fa-chevron-left"></i></button>
+          <span class="cal-month-year" id="calMonthYear"></span>
+          <button class="cal-nav" onclick="nextMonth()"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="calendar-grid">
+          <div class="cal-day-header">Su</div>
+          <div class="cal-day-header">Mo</div>
+          <div class="cal-day-header">Tu</div>
+          <div class="cal-day-header">We</div>
+          <div class="cal-day-header">Th</div>
+          <div class="cal-day-header">Fr</div>
+          <div class="cal-day-header">Sa</div>
+          <div id="calDays"></div>
+        </div>
+      </div>
+
+      <!-- Time Slots -->
+      <div class="slots-section">
+        <div class="selected-date-display" id="selectedDateDisplay">
+          <i class="fas fa-calendar-day"></i>
+          <span>Please select a date</span>
+        </div>
+        <div class="slots-grid" id="slotsGrid">
+          <div class="slots-placeholder">
+            <i class="fas fa-clock"></i>
+            <p>Select a date to see available time slots</p>
+          </div>
+        </div>
+        
+        <!-- Slot Legend -->
+        <div class="slot-legend">
+          <div class="legend-item"><div class="legend-dot available"></div> Available</div>
+          <div class="legend-item"><div class="legend-dot booked"></div> Booked</div>
+          <div class="legend-item"><div class="legend-dot selected"></div> Selected</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn-back" onclick="goToStep(1)"><i class="fas fa-arrow-left"></i> Back</button>
+      <button class="btn-next" id="btn-step2-next" onclick="goToStep(3)" disabled>
+        Continue to Details <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Customer Details -->
+  <div class="booking-step" id="step-3" style="display:none;">
+    <div class="step-header">
+      <h2>Your Details</h2>
+      <p>We'll send your booking confirmation to the email below.</p>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-group">
+        <label for="custName">Full Name *</label>
+        <input type="text" id="custName" placeholder="Enter your full name" required>
+        <span class="field-error" id="err-name"></span>
+      </div>
+      <div class="form-group">
+        <label for="custPhone">Phone Number *</label>
+        <input type="tel" id="custPhone" placeholder="+91 XXXXX XXXXX" required>
+        <span class="field-error" id="err-phone"></span>
+      </div>
+      <div class="form-group form-full">
+        <label for="custEmail">Email Address *</label>
+        <input type="email" id="custEmail" placeholder="your@email.com" required>
+        <span class="field-error" id="err-email"></span>
+      </div>
+      <div class="form-group form-full">
+        <label for="custNotes">Special Notes (Optional)</label>
+        <textarea id="custNotes" placeholder="Any special requirements or notes..." rows="3"></textarea>
+      </div>
+    </div>
+
+    <!-- Booking Summary -->
+    <div class="booking-summary" id="bookingSummaryStep3">
+      <h4><i class="fas fa-receipt"></i> Booking Summary</h4>
+      <div class="summary-items" id="summaryItems3"></div>
+    </div>
+
+    <!-- Promo Code -->
+    <div class="promo-section">
+      <h4>Have a Promo Code?</h4>
+      <div class="promo-input-wrap">
+        <input type="text" id="promoCode" placeholder="Enter promo code">
+        <button class="btn-apply-promo" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-result" id="promoResult"></div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn-back" onclick="goToStep(2)"><i class="fas fa-arrow-left"></i> Back</button>
+      <button class="btn-next" onclick="validateAndProceed()">
+        Proceed to Payment <i class="fas fa-lock"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- STEP 4: Payment -->
+  <div class="booking-step" id="step-4" style="display:none;">
+    <div class="step-header">
+      <h2>Complete Payment</h2>
+      <p>Review your booking and complete payment securely via Razorpay.</p>
+    </div>
+
+    <div class="payment-layout">
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div id="finalSummary"></div>
+
+        <div class="price-breakdown">
+          <div class="price-row">
+            <span>Slot Price</span>
+            <span id="pay-slot-price">₹0</span>
+          </div>
+          <div class="price-row discount-row" id="discountRow" style="display:none;">
+            <span>Discount</span>
+            <span id="pay-discount" style="color:var(--success);">-₹0</span>
+          </div>
+          <div class="price-row tax-row">
+            <span>GST (18%)</span>
+            <span id="pay-gst">₹0</span>
+          </div>
+          <div class="price-row total-row">
+            <span><strong>Total Amount</strong></span>
+            <span id="pay-total"><strong>₹0</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="payment-section">
+        <div class="secure-badge">
+          <i class="fas fa-shield-alt"></i>
+          <span>100% Secure Payment via Razorpay</span>
+        </div>
+
+        <div class="payment-methods">
+          <div class="pm-item"><i class="fas fa-credit-card"></i> Credit/Debit Card</div>
+          <div class="pm-item"><i class="fas fa-university"></i> Net Banking</div>
+          <div class="pm-item"><img src="https://razorpay.com/favicon.ico" alt="UPI" style="width:16px;height:16px;"> UPI</div>
+        </div>
+
+        <div class="cancellation-notice">
+          <i class="fas fa-info-circle"></i>
+          <span>Free cancellation up to 24 hours before your slot. After that, cancellation policy applies.</span>
+        </div>
+
+        <button class="btn-pay" id="btnPay" onclick="initiatePayment()">
+          <i class="fas fa-lock"></i>
+          Pay <span id="btnPayAmount">₹0</span> Securely
+        </button>
+
+        <div class="payment-note">
+          <i class="fas fa-envelope"></i>
+          Confirmation email will be sent immediately after payment.
+        </div>
+      </div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn-back" onclick="goToStep(3)"><i class="fas fa-arrow-left"></i> Back</button>
+    </div>
+  </div>
+
+  <!-- STEP 5: Booking Confirmed -->
+  <div class="booking-step" id="step-5" style="display:none;">
+    <div class="confirmation-screen">
+      <div class="confirm-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h2>Booking Confirmed!</h2>
+      <p>Your booking is confirmed. A confirmation email has been sent to your inbox.</p>
+      
+      <div class="confirm-card" id="confirmCard"></div>
+
+      <div class="confirm-actions">
+        <a href="index.html" class="btn-home">
+          <i class="fas fa-home"></i> Back to Home
+        </a>
+        <button class="btn-book-another" onclick="resetBooking()">
+          <i class="fas fa-plus-circle"></i> Book Another Slot
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loadingOverlay" style="display:none;">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p id="loadingText">Processing...</p>
+  </div>
+</div>
+
+<!-- Reservation Timer -->
+<div class="reservation-timer" id="reservationTimer" style="display:none;">
+  <div class="timer-content">
+    <i class="fas fa-hourglass-half"></i>
+    <span>Slot reserved for: <strong id="timerDisplay">10:00</strong></span>
+  </div>
+</div>
+
+<script src="assets/js/booking.js"></script>
+</body>
+</html>

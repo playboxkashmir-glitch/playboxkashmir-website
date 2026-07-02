@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login – PlayBox Kashmir</title>
+<link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="login-page">
+<div class="login-card">
+  <div class="login-logo">
+    <span class="play">Play</span><span class="box">Box</span>
+  </div>
+  <h2>Admin Panel Login</h2>
+  <form class="login-form" onsubmit="handleLogin(event)">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" id="loginUser" placeholder="admin" required>
+    </div>
+    <div class="form-group">
+      <label>Password</label>
+      <input type="password" id="loginPass" placeholder="••••••••" required>
+    </div>
+    <div id="loginError" style="color:#ef4444;font-size:0.85rem;margin-bottom:1rem;display:none;"></div>
+    <button type="submit" class="btn-login">Login to Dashboard</button>
+  </form>
+  <p style="margin-top:1.5rem;font-size:0.8rem;color:#9ca3af;">
+    <a href="../index.html" style="color:#1a56db;text-decoration:none;">← Back to Website</a>
+  </p>
+</div>
+<script>
+function handleLogin(e) {
+  e.preventDefault();
+  const user = document.getElementById('loginUser').value;
+  const pass = document.getElementById('loginPass').value;
+  // Demo credentials - replace with server-side auth in production
+  if (user === 'admin' && pass === 'playbox2024') {
+    sessionStorage.setItem('admin_auth', '1');
+    window.location.href = 'dashboard.html';
+  } else {
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginError').textContent = 'Invalid credentials. Please try again.';
+  }
+}
+// Check if already logged in
+if (sessionStorage.getItem('admin_auth') === '1') {
+  window.location.href = 'dashboard.html';
+}
+</script>
+</body>
+</html>
