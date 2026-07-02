@@ -8,18 +8,18 @@
 const CONFIG = {
   facilities: {
     football: {
-      name: 'Football Turf',
+      name: 'Football & Cricket Turf',
       icon: 'fas fa-futbol',
-      color: '#10b981',
+      color: '#15803d',
       options: [
-        { id: 'turf1', name: 'Turf 1 (5-a-side)', price: 600, peak_price: 800 },
-        { id: 'turf2', name: 'Turf 2 (7-a-side)', price: 800, peak_price: 1000 }
+        { id: 'turf1', name: 'Main Turf (Football & Cricket)', price: 1800, peak_price: 1800 }
       ]
     },
     cricket: {
       name: 'Cricket Nets',
       icon: 'fas fa-baseball-ball',
-      color: '#3b82f6',
+      color: '#22c55e',
+      comingSoon: true,
       options: [
         { id: 'net1', name: 'Net 1', price: 400, peak_price: 500 },
         { id: 'net2', name: 'Net 2', price: 400, peak_price: 500 },
@@ -29,7 +29,8 @@ const CONFIG = {
     pickleball: {
       name: 'Pickleball Court',
       icon: 'fas fa-table-tennis',
-      color: '#8b5cf6',
+      color: '#22c55e',
+      comingSoon: true,
       options: [
         { id: 'pb_a', name: 'Court A', price: 300, peak_price: 400 },
         { id: 'pb_b', name: 'Court B', price: 300, peak_price: 400 }
@@ -37,8 +38,8 @@ const CONFIG = {
     }
   },
   slots: {
-    start: 6,   // 6 AM
-    end: 23,    // 11 PM
+    start: 9,   // 9 AM
+    end: 26,    // 2 AM (next day)
     duration: 60 // minutes
   },
   peak_hours: [18, 19, 20, 21], // 6PM - 10PM
@@ -117,6 +118,10 @@ function goToStep(stepNum) {
 // STEP 1: Sport & Facility Selection
 // =====================
 function selectSport(sport) {
+  if (CONFIG.facilities[sport] && CONFIG.facilities[sport].comingSoon) {
+    alert(CONFIG.facilities[sport].name + ' is coming soon. Bookings are not available yet.');
+    return;
+  }
   state.sport = sport;
   state.sportName = CONFIG.facilities[sport].name;
   state.facilityId = null;
@@ -268,12 +273,12 @@ function renderSlots() {
     
     if (isBooked || isPast) {
       html += '<button class="' + slotClass + '" disabled>' +
-        '<span class="slot-time">' + startTime + ' – ' + endTime + '</span>' +
+        '<span class="slot-time">' + startTime + ' - ' + endTime + '</span>' +
         '<span class="slot-price">Booked</span>' +
         '</button>';
     } else {
-      html += '<button class="' + slotClass + '" onclick="selectSlot(\'' + slotKey + '\', \'' + startTime + ' – ' + endTime + '\', ' + price + ')">' +
-        '<span class="slot-time">' + startTime + ' – ' + endTime + '</span>' +
+      html += '<button class="' + slotClass + '" onclick="selectSlot(\'' + slotKey + '\', \'' + startTime + ' - ' + endTime + '\', ' + price + ')">' +
+        '<span class="slot-time">' + startTime + ' - ' + endTime + '</span>' +
         '<span class="slot-price">' + priceDisplay + '</span>' +
         '</button>';
     }
@@ -283,9 +288,11 @@ function renderSlots() {
 }
 
 function formatTime(h) {
-  if (h === 12) return '12:00 PM';
-  if (h < 12) return h + ':00 AM';
-  return (h - 12) + ':00 PM';
+  var hh = h % 24;
+  if (hh === 0) return '12:00 AM';
+  if (hh === 12) return '12:00 PM';
+  if (hh < 12) return hh + ':00 AM';
+  return (hh - 12) + ':00 PM';
 }
 
 function selectSlot(slotKey, label, price) {
@@ -526,7 +533,7 @@ function openRazorpay() {
       slot: state.slotLabel
     },
     theme: {
-      color: '#1a56db'
+      color: '#15803d'
     },
     handler: function(response) {
       handlePaymentSuccess(response);
@@ -568,10 +575,10 @@ function simulatePayment() {
         <p style="color:#6b7280;margin-bottom:1.5rem;">This is a demo booking. In production, Razorpay payment gateway will appear here.</p>
         <div style="background:#f9fafb;border-radius:12px;padding:1rem;margin-bottom:1.5rem;text-align:left;">
           <div style="font-size:0.85rem;color:#6b7280;margin-bottom:0.25rem;">Amount to pay</div>
-          <div style="font-size:1.75rem;font-weight:900;color:#1a56db;">₹${state.totalAmount}</div>
+          <div style="font-size:1.75rem;font-weight:900;color:#15803d;">₹${state.totalAmount}</div>
         </div>
         <button onclick="this.closest('div').closest('div').remove(); handlePaymentSuccess({razorpay_payment_id:'pay_demo_'+Date.now(),razorpay_order_id:'order_demo',razorpay_signature:'sig_demo'})" 
-          style="background:#1a56db;color:#fff;border:none;padding:0.85rem 2rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:0.75rem;font-family:inherit;">
+          style="background:#15803d;color:#fff;border:none;padding:0.85rem 2rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:0.75rem;font-family:inherit;">
           ✓ Confirm Booking (Demo)
         </button>
         <button onclick="this.closest('div').closest('div').remove();showPaymentCancelled();" 
@@ -620,7 +627,7 @@ function showConfirmation(paymentResponse) {
       <div class="summary-row"><span class="label">Time Slot</span><span class="value">${state.slotLabel}</span></div>
       <div class="summary-row"><span class="label">Customer</span><span class="value">${state.customerName}</span></div>
       <div class="summary-row"><span class="label">Email</span><span class="value">${state.customerEmail}</span></div>
-      <div class="summary-row"><span class="label">Amount Paid</span><span class="value" style="color:#1a56db;font-weight:800;">₹${state.totalAmount}</span></div>
+      <div class="summary-row"><span class="label">Amount Paid</span><span class="value" style="color:#15803d;font-weight:800;">₹${state.totalAmount}</span></div>
       <div class="summary-row"><span class="label">Payment ID</span><span class="value" style="font-family:monospace;font-size:0.8rem;">${paymentResponse.razorpay_payment_id}</span></div>
       <div class="summary-row"><span class="label">Status</span><span class="value" style="color:#10b981;">✓ Confirmed</span></div>
     `;
