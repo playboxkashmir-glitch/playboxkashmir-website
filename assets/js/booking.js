@@ -488,6 +488,20 @@ function stopReservationTimer() {
 // PAYMENT (Razorpay Integration)
 // =====================
 function initiatePayment() {
+  // Require agreement to Privacy Policy, Terms & Conditions and Cancellation Policy
+  var agreeBox = document.getElementById('agree-terms');
+  if (agreeBox && !agreeBox.checked) {
+    var wrap = document.getElementById('agree-terms-wrap');
+    if (wrap) { wrap.classList.add('error'); }
+    if (typeof showToast === 'function') {
+      showToast('Please accept the Privacy Policy and Terms & Conditions to continue.', 'error');
+    } else {
+      alert('Please accept the Privacy Policy and Terms & Conditions to continue.');
+    }
+    if (agreeBox.scrollIntoView) { agreeBox.scrollIntoView({behavior:'smooth', block:'center'}); }
+    return;
+  }
+
   showLoading('Initializing payment...');
   
   // Generate booking ID
@@ -754,3 +768,23 @@ document.addEventListener('DOMContentLoaded', () => {
   
   console.log('PlayBox Kashmir Booking System - v2.0 initialized');
 });
+
+
+// ---- Agreement checkbox gate (Privacy Policy / T&C / Cancellation) ----
+function setupAgreeTermsGate() {
+  var box = document.getElementById('agree-terms');
+  var btn = document.getElementById('btnPay');
+  if (!box) { return; }
+  function sync() {
+    if (btn) { btn.disabled = !box.checked; }
+    var wrap = document.getElementById('agree-terms-wrap');
+    if (box.checked && wrap) { wrap.classList.remove('error'); }
+  }
+  box.addEventListener('change', sync);
+  sync();
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', setupAgreeTermsGate);
+} else {
+  setupAgreeTermsGate();
+}
