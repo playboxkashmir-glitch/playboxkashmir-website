@@ -472,10 +472,7 @@ function startReservationTimer() {
       alert('Your slot reservation has expired. Please select a new slot.');
       goToStep(2);
     }
-  }).catch((err) => {
-    hideLoading();
-    alert(err && err.message ? err.message : 'Could not start payment. Please try again.');
-  });
+  }, 1000);
 }
 
 function stopReservationTimer() {
@@ -524,7 +521,10 @@ function initiatePayment() {
     } else {
       openRazorpay();
     }
-  }, 1000);
+  }).catch((err) => {
+    hideLoading();
+    alert(err && err.message ? err.message : 'Could not start payment. Please try again.');
+  });
 }
 
 // Create a Razorpay order via the serverless API (/api/create-order)
