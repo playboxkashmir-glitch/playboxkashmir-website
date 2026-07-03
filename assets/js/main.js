@@ -59,13 +59,73 @@ window.showPolicy = function(type) {
     cancellation: {
       title: 'Cancellation Policy',
       content: `
-        <h3 style="margin-bottom:1rem;">Cancellation Policy</h3>
-        <p><strong>24+ hours before booking:</strong> Full refund</p>
-        <p style="margin-top:0.75rem;"><strong>12-24 hours before booking:</strong> 50% refund</p>
-        <p style="margin-top:0.75rem;"><strong>Less than 12 hours:</strong> No refund</p>
-        <p style="margin-top:0.75rem;"><strong>No-shows:</strong> No refund</p>
-        <p style="margin-top:1rem;">To cancel a booking, visit your booking confirmation email and click "Cancel Booking", or contact us directly.</p>
-      `
+       <h3 style="margin-bottom:1rem;">Cancellation Policy</h3>
+
+<p>We understand that plans can change. To ensure fairness to all players and efficient scheduling of our facilities, the following cancellation policy applies to all bookings:</p>
+
+<div style="margin-top:1rem;padding:14px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;">
+<p><strong>✔ More than 24 hours before your booking:</strong> Full refund.</p>
+
+<p><strong>✔ Between 12 and 24 hours before your booking:</strong> 50% refund.</p>
+
+<p><strong>✔ Less than 12 hours before your booking:</strong> No refund.</p>
+
+<p><strong>✔ No-shows:</strong> No refund.</p>
+
+<p><strong>✔ To cancel a booking:</strong> Click <strong>"Cancel Booking"</strong> in your booking confirmation email or contact PlayBox Kashmir through our official customer support channels before the applicable cancellation deadline.</p>
+</div>
+
+<h4 style="margin-top:1.5rem;">Detailed Terms</h4>
+
+<p><strong>1. Acceptance of this Policy</strong><br>
+By making a booking with PlayBox Kashmir, you acknowledge that you have read, understood, and agreed to this Cancellation & Refund Policy. This policy forms part of the contractual terms governing every booking.</p>
+
+<p><strong>2. Refund Eligibility</strong><br>
+Refund eligibility is determined solely by the time remaining before the scheduled booking start time.</p>
+
+<ul style="padding-left:20px;line-height:1.8;">
+<li>More than <strong>24 hours</strong> before the booking: <strong>100% refund.</strong></li>
+<li>Between <strong>12 and 24 hours</strong>: <strong>50% refund.</strong></li>
+<li>Less than <strong>12 hours</strong>: <strong>No refund.</strong></li>
+<li><strong>No-show:</strong> No refund, credit or rescheduling.</li>
+</ul>
+
+<p><strong>3. Cancellation Procedure</strong><br>
+A cancellation is considered valid only after it has been successfully submitted through the "Cancel Booking" option in the booking confirmation email or acknowledged by an authorized representative of PlayBox Kashmir.</p>
+
+<p><strong>4. Refund Processing</strong><br>
+Approved refunds shall be processed to the original payment method. Processing times may vary depending upon banks, payment gateways or financial institutions. PlayBox Kashmir shall not be responsible for delays caused by third-party payment processors.</p>
+
+<p><strong>5. Booking & Payment Charges</strong><br>
+Payment gateway fees, convenience charges, platform charges or similar third-party transaction fees, where applicable, may be non-refundable unless otherwise required under applicable law.</p>
+
+<p><strong>6. Rescheduling</strong><br>
+Rescheduling requests are subject to slot availability and are entirely at the discretion of PlayBox Kashmir. Approval of one rescheduling request shall not create any obligation to approve future requests.</p>
+
+<p><strong>7. Late Arrival</strong><br>
+Customers arriving late will not receive additional playing time or a partial refund. Bookings shall end at the originally scheduled end time.</p>
+
+<p><strong>8. Partial Use</strong><br>
+No refund or credit shall be issued where a customer voluntarily ends their session before the scheduled completion time.</p>
+
+<p><strong>9. Weather & Operational Interruptions</strong><br>
+If PlayBox Kashmir cancels a booking due to unsafe weather, maintenance, technical issues, government orders or operational necessity, we may, at our sole discretion, provide a rescheduled slot, booking credit or full refund.</p>
+
+<p><strong>10. Fraud & Misuse</strong><br>
+PlayBox Kashmir reserves the right to refuse refunds and cancel bookings involving suspected fraud, duplicate bookings, misuse of promotional offers, payment disputes or violations of our Terms of Service.</p>
+
+<p><strong>11. Chargebacks</strong><br>
+Customers agree to contact PlayBox Kashmir before initiating any payment dispute or chargeback. In the event of a chargeback, PlayBox Kashmir may submit booking records, payment confirmations, communication logs, system timestamps, IP logs and other relevant evidence to the payment processor or issuing bank.</p>
+
+<p><strong>12. Limitation of Liability</strong><br>
+To the maximum extent permitted by law, PlayBox Kashmir's total liability shall never exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or economic losses, including travel expenses, accommodation costs or loss of opportunity.</p>
+
+<p><strong>13. Amendments</strong><br>
+PlayBox Kashmir reserves the right to modify this Cancellation & Refund Policy at any time. The version in force at the time of booking shall apply to that booking unless otherwise required by law.</p>
+
+<p><strong>14. Governing Law</strong><br>
+This policy shall be governed by the laws of India. Any dispute arising from this policy or any booking shall be subject to the exclusive jurisdiction of the competent courts at Srinagar, Jammu & Kashmir.</p>
+`
     },
     privacy: {
       title: 'Privacy Policy',
