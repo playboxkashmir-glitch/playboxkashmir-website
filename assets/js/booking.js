@@ -472,7 +472,10 @@ function startReservationTimer() {
       alert('Your slot reservation has expired. Please select a new slot.');
       goToStep(2);
     }
-  }, 1000);
+  }).catch((err) => {
+    hideLoading();
+    alert(err && err.message ? err.message : 'Could not start payment. Please try again.');
+  });
 }
 
 function stopReservationTimer() {
@@ -490,9 +493,8 @@ function initiatePayment() {
   // Generate booking ID
   state.bookingId = 'PBK' + Date.now().toString(36).toUpperCase();
   
-  // In production, create order on server first
-  // For demo: show Razorpay checkout directly
-  setTimeout(() => {
+  // Create order on the server (Razorpay Orders API) before opening checkout
+  createRazorpayOrder().then(() => {
     hideLoading();
     
     // Check if Razorpay script is loaded
@@ -511,6 +513,58 @@ function initiatePayment() {
   }, 1000);
 }
 
+// Create a Razorpay order via the serverless API (/api/create-order)
+function createRazorpayOrder() {
+  return fetch('/api/create-order', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      amount: Math.round(state.totalAmount * 100),
+      currency: 'INR',
+      receipt: state.bookingId,
+      notes: {
+        booking_id: state.bookingId,
+        facility: state.facilityName,
+        date: state.dateFormatted,
+        slot: state.slotLabel
+      }
+    })
+  }).then(function (res) {
+    if (!res.ok) { throw new Error('Order creation failed. Please try again.'); }
+    return res.json();
+  }).then(function (data) {
+    if (!data || !data.id) { throw new Error('Invalid order response from server.'); }
+    state.razorpayOrderId = data.id;
+    return data.id;
+  });
+}
+
+// Verify the payment signature on the server (/api/verify-payment) before confirming
+function verifyAndConfirm(response) {
+  showLoading('Verifying payment...');
+  fetch('/api/verify-payment', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      razorpay_order_id: response.razorpay_order_id,
+      razorpay_payment_id: response.razorpay_payment_id,
+      razorpay_signature: response.razorpay_signature
+    })
+  }).then(function (res) {
+    return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+  }).then(function (result) {
+    hideLoading();
+    if (result.ok && result.data && result.data.verified) {
+      handlePaymentSuccess(response);
+    } else {
+      alert('Payment could not be verified. If money was deducted, it will be refunded. Please contact support.');
+    }
+  }).catch(function () {
+    hideLoading();
+    alert('Payment verification failed due to a network error. Please contact support with your payment ID.');
+  });
+}
+
 function openRazorpay() {
   const options = {
     key: 'rzp_test_YourKeyHere', // Replace with actual Razorpay key
@@ -519,7 +573,7 @@ function openRazorpay() {
     name: 'PlayBox Kashmir',
     description: state.facilityName + ' - ' + state.slotLabel + ' on ' + state.dateFormatted,
     image: 'https://playboxkashmir.com/assets/images/logo.png',
-    order_id: 'order_' + Date.now(), // Replace with server-generated order ID
+    order_id: state.razorpayOrderId,
     prefill: {
       name: state.customerName,
       email: state.customerEmail,
@@ -536,7 +590,7 @@ function openRazorpay() {
       color: '#15803d'
     },
     handler: function(response) {
-      handlePaymentSuccess(response);
+      verifyAndConfirm(response);
     },
     modal: {
       ondismiss: function() {
@@ -555,7 +609,8 @@ function openRazorpay() {
     const rzp = new Razorpay(options);
     rzp.open();
   } catch(e) {
-    simulatePayment();
+    hideLoading();
+    alert('Unable to open the payment gateway. Please refresh and try again.');
   }
 }
 
