@@ -10,6 +10,15 @@
 <link rel="stylesheet" href="assets/css/booking.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .agree-terms{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#f9fafb;font-size:14px;line-height:1.5;color:#374151;}
+    .agree-terms.error{border-color:#ef4444;background:#fef2f2;}
+    .agree-terms input{margin-top:3px;width:18px;height:18px;flex:0 0 auto;cursor:pointer;accent-color:#15803d;}
+    .agree-terms label{cursor:pointer;}
+    .agree-terms a{color:#15803d;text-decoration:underline;}
+    .agree-terms .req{color:#ef4444;}
+    #btnPay:disabled{opacity:.55;cursor:not-allowed;}
+  </style>
 </head>
 <body class="booking-page">
 
@@ -282,6 +291,11 @@
         <div class="cancellation-notice">
           <i class="fas fa-info-circle"></i>
           <span>Free cancellation up to 24 hours before your slot. After that, cancellation policy applies.</span>
+        </div>
+
+        <div class="agree-terms" id="agree-terms-wrap">
+          <input type="checkbox" id="agree-terms" />
+          <label for="agree-terms">I agree to PlayBox Kashmir's <a href="privacy.html" target="_blank">Privacy Policy</a>, <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and <a href="cancellation.html" target="_blank">Cancellation Policy</a>. <span class="req">*</span></label>
         </div>
 
         <button class="btn-pay" id="btnPay" onclick="initiatePayment()">
