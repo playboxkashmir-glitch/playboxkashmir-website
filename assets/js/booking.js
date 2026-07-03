@@ -44,7 +44,8 @@ const CONFIG = {
   },
   peak_hours: [18, 19, 20, 21], // 6PM - 10PM
   weekend_days: [0, 6], // Sunday, Saturday
-  gst_rate: 0.18,
+  gst_rate: 0,
+  convenience_fee: 15,
   reservation_minutes: 10,
   promo_codes: {
     'PLAYBOX20': { type: 'percent', value: 20, min_amount: 500 },
@@ -261,7 +262,6 @@ function renderSlots() {
     const isPeak = CONFIG.peak_hours.includes(h);
     let price = state.facilityPrice;
     if (isPeak) price = state.facilityPeakPrice || price;
-    if (isWeekend) price = Math.round(price * 1.1);
     
     const priceDisplay = isPeak ? '₹' + price + ' <span style="font-size:0.65rem;color:#f59e0b;">Peak</span>' : '₹' + price;
     
@@ -327,7 +327,7 @@ function buildSummaryRows() {
     ['Facility', state.facilityName],
     ['Date', state.dateFormatted],
     ['Time Slot', state.slotLabel],
-    ['Base Price', '₹' + state.basePrice]
+    ['Booking Price (all inclusive)', '₹' + state.basePrice]
   ].map(([label, value]) => 
     '<div class="summary-row"><span class="label">' + label + '</span><span class="value">' + value + '</span></div>'
   ).join('');
@@ -347,9 +347,9 @@ function calculatePrice() {
   
   state.promoDiscount = discount;
   const discounted = price - discount;
-  const gst = Math.round(discounted * CONFIG.gst_rate);
-  state.gstAmount = gst;
-  state.totalAmount = discounted + gst;
+  const convenienceFee = CONFIG.convenience_fee;
+  state.gstAmount = convenienceFee;
+  state.totalAmount = discounted + convenienceFee;
 }
 
 function applyPromo() {
@@ -577,11 +577,11 @@ function simulatePayment() {
           <div style="font-size:0.85rem;color:#6b7280;margin-bottom:0.25rem;">Amount to pay</div>
           <div style="font-size:1.75rem;font-weight:900;color:#15803d;">₹${state.totalAmount}</div>
         </div>
-        <button onclick="this.closest('div').closest('div').remove(); handlePaymentSuccess({razorpay_payment_id:'pay_demo_'+Date.now(),razorpay_order_id:'order_demo',razorpay_signature:'sig_demo'})" 
+        <button onclick="this.closest('div').parentElement.remove(); handlePaymentSuccess({razorpay_payment_id:'pay_demo_'+Date.now(),razorpay_order_id:'order_demo',razorpay_signature:'sig_demo'})" 
           style="background:#15803d;color:#fff;border:none;padding:0.85rem 2rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-bottom:0.75rem;font-family:inherit;">
           ✓ Confirm Booking (Demo)
         </button>
-        <button onclick="this.closest('div').closest('div').remove();showPaymentCancelled();" 
+        <button onclick="this.closest('div').parentElement.remove();showPaymentCancelled();" 
           style="background:#f3f4f6;color:#374151;border:none;padding:0.85rem 2rem;border-radius:50px;font-size:0.9rem;font-weight:600;cursor:pointer;width:100%;font-family:inherit;">
           Cancel
         </button>
@@ -617,6 +617,10 @@ function showPaymentCancelled() {
 }
 
 function showConfirmation(paymentResponse) {
+  // Safety: remove any leftover demo/payment overlay so the confirmation is never dimmed
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.style && d.style.position==='fixed' && d.style.zIndex==='99999'){ d.remove(); }
+  });
   const confirmCard = document.getElementById('confirmCard');
   if (confirmCard) {
     confirmCard.innerHTML = `
