@@ -285,14 +285,128 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
       title: 'Terms of Service',
       content: `
         <h3 style="margin-bottom:1rem;">Terms of Service</h3>
-        <ul style="padding-left:1.5rem;line-height:2;">
-          <li>Bookings are confirmed only after payment</li>
-          <li>Players must arrive 10 minutes before their slot</li>
-          <li>Appropriate sports footwear required</li>
-          <li>PlayBox Kashmir reserves the right to cancel bookings due to maintenance or weather</li>
-          <li>Alcohol and smoking prohibited on premises</li>
-        </ul>
-      `
+
+<p>Welcome to <strong>PlayBox Kashmir</strong>. These Terms of Service govern your access to and use of our website, online booking platform, sports facilities, and related services. By making a booking, accessing our facilities, or using our website, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms of Service.</p>
+
+<div style="margin-top:1rem;padding:14px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;">
+<p><strong>Summary</strong></p>
+
+<p>• Bookings are confirmed only after successful payment.</p>
+
+<p>• Players must arrive at least <strong>10 minutes</strong> before their scheduled booking.</p>
+
+<p>• Appropriate sports footwear and attire are mandatory.</p>
+
+<p>• PlayBox Kashmir reserves the right to cancel or reschedule bookings due to maintenance, weather conditions, emergencies, or operational requirements.</p>
+
+<p>• Alcohol, smoking, vaping, narcotic substances, and any illegal activities are strictly prohibited anywhere on the premises.</p>
+</div>
+
+<h4 style="margin-top:1.5rem;">1. Acceptance of Terms</h4>
+
+<p>By accessing our website, making a booking, entering our premises, or using any services provided by PlayBox Kashmir, you agree to comply with these Terms of Service, our Privacy Policy, Cancellation & Refund Policy, and all other policies published by PlayBox Kashmir.</p>
+
+<h4 style="margin-top:1.5rem;">2. Eligibility</h4>
+
+<p>Users making bookings must have the legal capacity to enter into a binding agreement under applicable law. Bookings for minors should be made by a parent, legal guardian, coach or other authorized adult.</p>
+
+<h4 style="margin-top:1.5rem;">3. Booking Confirmation</h4>
+
+<p>Bookings are confirmed only after successful payment through our approved payment gateway and receipt of a booking confirmation. Until payment has been successfully completed, the selected slot is not guaranteed and may become unavailable.</p>
+
+<h4 style="margin-top:1.5rem;">4. Arrival Requirements</h4>
+
+<p>Players are required to arrive at least <strong>10 minutes before</strong> their scheduled booking. Late arrival shall not entitle the customer to additional playing time, extension of the booking, or any refund.</p>
+
+<h4 style="margin-top:1.5rem;">5. Player Responsibilities</h4>
+
+<p>All players and visitors are expected to:</p>
+
+<ul style="padding-left:20px;line-height:1.8;">
+<li>Respect staff, officials, and other customers.</li>
+<li>Use facilities responsibly.</li>
+<li>Follow all posted safety instructions.</li>
+<li>Maintain appropriate sportsmanship.</li>
+<li>Avoid damaging equipment or property.</li>
+<li>Comply with all instructions issued by PlayBox Kashmir staff.</li>
+</ul>
+
+<h4 style="margin-top:1.5rem;">6. Dress Code</h4>
+
+<p>Appropriate sports clothing and sports footwear must be worn while using the facilities. Barefoot play, inappropriate footwear, metal studs (where prohibited), or attire likely to damage the playing surface may result in refusal of entry without refund.</p>
+
+<h4 style="margin-top:1.5rem;">7. Facility Rules</h4>
+
+<p>The following are strictly prohibited:</p>
+
+<ul style="padding-left:20px;line-height:1.8;">
+<li>Smoking and vaping.</li>
+<li>Consumption or possession of alcohol.</li>
+<li>Illegal drugs or narcotic substances.</li>
+<li>Violence, abusive behaviour, threats or harassment.</li>
+<li>Gambling or unlawful activities.</li>
+<li>Carrying weapons or dangerous items.</li>
+<li>Intentional damage to facilities or equipment.</li>
+</ul>
+
+<p>PlayBox Kashmir reserves the right to remove any person violating these rules without refund.</p>
+
+<h4 style="margin-top:1.5rem;">8. Health and Safety</h4>
+
+<p>Players participate entirely at their own risk. Users are responsible for ensuring that they are medically fit to participate in sporting activities. PlayBox Kashmir shall not be responsible for injuries arising from normal sporting activities, misuse of facilities, negligence by other participants, or failure to follow safety instructions.</p>
+
+<h4 style="margin-top:1.5rem;">9. Personal Property</h4>
+
+<p>Customers are solely responsible for their personal belongings. PlayBox Kashmir shall not be liable for any loss, theft, damage or misplacement of personal property left on the premises.</p>
+
+<h4 style="margin-top:1.5rem;">10. Booking Cancellations</h4>
+
+<p>Cancellation and refund requests shall be governed exclusively by the PlayBox Kashmir Cancellation & Refund Policy, which forms an integral part of these Terms of Service.</p>
+
+<h4 style="margin-top:1.5rem;">11. Cancellation by PlayBox Kashmir</h4>
+
+<p>PlayBox Kashmir reserves the right to cancel, postpone or reschedule bookings due to maintenance, weather conditions, technical failures, tournaments, government orders, safety concerns, force majeure events or other operational requirements. In such cases, customers may be offered a rescheduled booking, booking credit or refund at our discretion.</p>
+
+<h4 style="margin-top:1.5rem;">12. User Conduct</h4>
+
+<p>Users shall not misuse the website, attempt unauthorized access, interfere with system operations, introduce malicious software, abuse promotional offers, impersonate others or engage in fraudulent transactions.</p>
+
+<h4 style="margin-top:1.5rem;">13. Suspension or Refusal of Service</h4>
+
+<p>PlayBox Kashmir reserves the right to suspend or permanently refuse access to any individual who violates these Terms of Service, engages in misconduct, damages property, threatens staff or customers, or attempts fraudulent activities.</p>
+
+<h4 style="margin-top:1.5rem;">14. Intellectual Property</h4>
+
+<p>All logos, trademarks, photographs, graphics, software, website content, branding and other intellectual property displayed on this website remain the exclusive property of PlayBox Kashmir unless otherwise stated. Unauthorized copying, reproduction or commercial use is prohibited.</p>
+
+<h4 style="margin-top:1.5rem;">15. Website Availability</h4>
+
+<p>While we strive to maintain uninterrupted access, PlayBox Kashmir does not guarantee that the website or booking platform will always be available, error-free or free from interruptions caused by maintenance, internet failures or third-party services.</p>
+
+<h4 style="margin-top:1.5rem;">16. Limitation of Liability</h4>
+
+<p>To the fullest extent permitted by law, PlayBox Kashmir's total liability arising from any booking, service or use of the facilities shall not exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or special damages, including loss of income, travel expenses, accommodation costs or business interruption.</p>
+
+<h4 style="margin-top:1.5rem;">17. Indemnification</h4>
+
+<p>You agree to indemnify and hold harmless PlayBox Kashmir, its owners, partners, employees, representatives and affiliates from any claims, liabilities, damages, losses or expenses arising from your violation of these Terms, misuse of the facilities, negligence or unlawful conduct.</p>
+
+<h4 style="margin-top:1.5rem;">18. Force Majeure</h4>
+
+<p>PlayBox Kashmir shall not be responsible for any delay, interruption or failure to provide services due to events beyond our reasonable control, including natural disasters, floods, earthquakes, pandemics, government restrictions, civil unrest, utility failures, internet outages or other force majeure events.</p>
+
+<h4 style="margin-top:1.5rem;">19. Changes to Terms</h4>
+
+<p>PlayBox Kashmir reserves the right to amend or update these Terms of Service at any time. The version in effect at the time of booking shall apply unless otherwise required by applicable law.</p>
+
+<h4 style="margin-top:1.5rem;">20. Governing Law and Jurisdiction</h4>
+
+<p>These Terms of Service shall be governed by the laws of India. Any dispute arising out of or relating to these Terms or the use of PlayBox Kashmir's facilities shall be subject to the exclusive jurisdiction of the competent courts at Srinagar, Jammu & Kashmir.</p>
+
+<h4 style="margin-top:1.5rem;">21. Contact</h4>
+
+<p>For questions regarding these Terms of Service or your booking, please contact PlayBox Kashmir through the official contact details available on our website.</p>
+`
     }
   };
 
