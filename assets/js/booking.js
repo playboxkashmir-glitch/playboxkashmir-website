@@ -581,7 +581,7 @@ function verifyAndConfirm(response) {
 
 function openRazorpay() {
   const options = {
-    key: 'rzp_test_YourKeyHere', // Replace with actual Razorpay key
+    key: 'rzp_live_T90dB0bfW4qEMO',
     amount: state.totalAmount * 100, // Amount in paise
     currency: 'INR',
     name: 'PlayBox Kashmir',
@@ -612,12 +612,6 @@ function openRazorpay() {
       }
     }
   };
-  
-  // For demo purposes (no real Razorpay key), simulate payment
-  if (options.key === 'rzp_test_YourKeyHere') {
-    simulatePayment();
-    return;
-  }
   
   try {
     const rzp = new Razorpay(options);
