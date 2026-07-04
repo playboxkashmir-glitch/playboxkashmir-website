@@ -124,153 +124,153 @@ let editingFacilityId = null;
 let allFacilities = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-loadFacilitiesList();
+  loadFacilitiesList();
 });
 
 async function loadFacilitiesList() {
-const tbody = document.getElementById('facilitiesTable');
-tbody.innerHTML = '<tr><td colspan="6" class="pk-loading">Loading facilities...</td></tr>';
-try {
-const res = await fetch('/api/facilities', { credentials: 'include' });
-if (!res.ok) { tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">Failed to load facilities.</td></tr>'; return; }
-const data = await res.json();
-allFacilities = data.facilities || [];
-if (!allFacilities.length) {
-tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">No facilities yet. Click "Add Facility" to create one.</td></tr>';
-return;
-}
-tbody.innerHTML = allFacilities.map(renderFacilityRow).join('');
-} catch (err) {
-tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">Failed to load facilities.</td></tr>';
-}
+  const tbody = document.getElementById('facilitiesTable');
+  tbody.innerHTML = '<tr><td colspan="6" class="pk-loading">Loading facilities...</td></tr>';
+  try {
+    const res = await fetch('/api/facilities', { credentials: 'include' });
+    if (!res.ok) { tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">Failed to load facilities.</td></tr>'; return; }
+    const data = await res.json();
+    allFacilities = data.facilities || [];
+    if (!allFacilities.length) {
+      tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">No facilities yet. Click "Add Facility" to create one.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = allFacilities.map(renderFacilityRow).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="6" class="pk-empty">Failed to load facilities.</td></tr>';
+  }
 }
 
 function renderFacilityRow(f) {
-const active = f.is_active !== false;
-const statusClass = active ? 'confirmed' : 'cancelled';
-const statusLabel = active ? 'Active' : 'Inactive';
-return '<tr>' +
-'<td>' + escapeHtml(f.sport_name) + '</td>' +
-'<td>' + escapeHtml(f.option_name) + '</td>' +
-'<td class="amount">' + formatCurrency(f.base_price) + '</td>' +
-'<td class="amount">' + formatCurrency(f.peak_price) + '</td>' +
-'<td><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></td>' +
-'<td>' +
-'<button class="btn-icon" title="Edit" onclick="openEditFacility(' + f.id + ')"><i class="fas fa-edit"></i></button>' +
-'<button class="btn-icon' + (active ? ' danger' : '') + '" title="' + (active ? 'Deactivate' : 'Activate') + '" onclick="toggleFacilityActive(' + f.id + ', ' + active + ')"><i class="fas fa-' + (active ? 'ban' : 'check') + '"></i></button>' +
-'</td>' +
-'</tr>';
+  const active = f.is_active !== false;
+  const statusClass = active ? 'confirmed' : 'cancelled';
+  const statusLabel = active ? 'Active' : 'Inactive';
+  return '<tr>' +
+    '<td>' + escapeHtml(f.sport_name) + '</td>' +
+    '<td>' + escapeHtml(f.option_name) + '</td>' +
+    '<td class="amount">' + formatCurrency(f.base_price) + '</td>' +
+    '<td class="amount">' + formatCurrency(f.peak_price) + '</td>' +
+    '<td><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></td>' +
+    '<td>' +
+    '<button class="btn-icon" title="Edit" onclick="openEditFacility(' + f.id + ')"><i class="fas fa-edit"></i></button>' +
+    '<button class="btn-icon' + (active ? ' danger' : '') + '" title="' + (active ? 'Deactivate' : 'Activate') + '" onclick="toggleFacilityActive(' + f.id + ', ' + active + ')"><i class="fas fa-' + (active ? 'ban' : 'check') + '"></i></button>' +
+    '</td>' +
+    '</tr>';
 }
 
 function showAddFacilityModal() {
-editingFacilityId = null;
-document.getElementById('facilityModalTitle').textContent = 'Add Facility';
-['facilitySportKey','facilitySportName','facilityOptionId','facilityOptionName','facilityBasePrice','facilityPeakPrice'].forEach(id => {
-document.getElementById(id).value = '';
-document.getElementById(id).disabled = false;
-});
-hideFacilityError();
-document.getElementById('facilityModal').style.display = 'flex';
+  editingFacilityId = null;
+  document.getElementById('facilityModalTitle').textContent = 'Add Facility';
+  ['facilitySportKey','facilitySportName','facilityOptionId','facilityOptionName','facilityBasePrice','facilityPeakPrice'].forEach(id => {
+    document.getElementById(id).value = '';
+    document.getElementById(id).disabled = false;
+  });
+  hideFacilityError();
+  document.getElementById('facilityModal').style.display = 'flex';
 }
 
 function openEditFacility(id) {
-const f = allFacilities.find(x => x.id === id);
-if (!f) return;
-editingFacilityId = id;
-document.getElementById('facilityModalTitle').textContent = 'Edit Facility';
-document.getElementById('facilitySportKey').value = f.sport_key;
-document.getElementById('facilitySportKey').disabled = true;
-document.getElementById('facilitySportName').value = f.sport_name;
-document.getElementById('facilitySportName').disabled = true;
-document.getElementById('facilityOptionId').value = f.option_id;
-document.getElementById('facilityOptionId').disabled = true;
-document.getElementById('facilityOptionName').value = f.option_name;
-document.getElementById('facilityBasePrice').value = f.base_price;
-document.getElementById('facilityPeakPrice').value = f.peak_price;
-hideFacilityError();
-document.getElementById('facilityModal').style.display = 'flex';
+  const f = allFacilities.find(x => x.id === id);
+  if (!f) return;
+  editingFacilityId = id;
+  document.getElementById('facilityModalTitle').textContent = 'Edit Facility';
+  document.getElementById('facilitySportKey').value = f.sport_key;
+  document.getElementById('facilitySportKey').disabled = true;
+  document.getElementById('facilitySportName').value = f.sport_name;
+  document.getElementById('facilitySportName').disabled = true;
+  document.getElementById('facilityOptionId').value = f.option_id;
+  document.getElementById('facilityOptionId').disabled = true;
+  document.getElementById('facilityOptionName').value = f.option_name;
+  document.getElementById('facilityBasePrice').value = f.base_price;
+  document.getElementById('facilityPeakPrice').value = f.peak_price;
+  hideFacilityError();
+  document.getElementById('facilityModal').style.display = 'flex';
 }
 
 function closeFacilityModal() {
-document.getElementById('facilityModal').style.display = 'none';
+  document.getElementById('facilityModal').style.display = 'none';
 }
 
 function showFacilityError(msg) {
-const el = document.getElementById('facilityError');
-el.textContent = msg;
-el.style.display = 'block';
+  const el = document.getElementById('facilityError');
+  el.textContent = msg;
+  el.style.display = 'block';
 }
 
 function hideFacilityError() {
-const el = document.getElementById('facilityError');
-el.style.display = 'none';
-el.textContent = '';
+  const el = document.getElementById('facilityError');
+  el.style.display = 'none';
+  el.textContent = '';
 }
 
 async function submitFacility() {
-const btn = document.getElementById('saveFacilityBtn');
-const optionName = document.getElementById('facilityOptionName').value.trim();
-const basePrice = document.getElementById('facilityBasePrice').value;
-const peakPrice = document.getElementById('facilityPeakPrice').value;
+  const btn = document.getElementById('saveFacilityBtn');
+  const optionName = document.getElementById('facilityOptionName').value.trim();
+  const basePrice = document.getElementById('facilityBasePrice').value;
+  const peakPrice = document.getElementById('facilityPeakPrice').value;
 
-if (!optionName || basePrice === '') {
-showFacilityError('Facility name and base price are required.');
-return;
-}
+  if (!optionName || basePrice === '') {
+    showFacilityError('Facility name and base price are required.');
+    return;
+  }
 
-btn.disabled = true;
-btn.textContent = 'Saving...';
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
 
-try {
-if (editingFacilityId) {
-const res = await fetch('/api/facilities/' + editingFacilityId, {
-method: 'PATCH',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ option_name: optionName, base_price: Number(basePrice), peak_price: peakPrice ? Number(peakPrice) : Number(basePrice) })
-});
-const data = await res.json();
-if (!res.ok) { showFacilityError(data.error || 'Could not update facility.'); return; }
-} else {
-const sportKey = document.getElementById('facilitySportKey').value.trim();
-const sportName = document.getElementById('facilitySportName').value.trim();
-const optionId = document.getElementById('facilityOptionId').value.trim();
-if (!sportKey || !sportName || !optionId) {
-showFacilityError('Sport key, sport name and option ID are required.');
-return;
-}
-const res = await fetch('/api/facilities', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ sport_key: sportKey, sport_name: sportName, option_id: optionId, option_name: optionName, base_price: Number(basePrice), peak_price: peakPrice ? Number(peakPrice) : Number(basePrice) })
-});
-const data = await res.json();
-if (!res.ok) { showFacilityError(data.error || 'Could not create facility.'); return; }
-}
-closeFacilityModal();
-await loadFacilitiesList();
-} catch (err) {
-showFacilityError('Network error. Please try again.');
-} finally {
-btn.disabled = false;
-btn.textContent = 'Save Facility';
-}
+  try {
+    if (editingFacilityId) {
+      const res = await fetch('/api/facilities?id=' + editingFacilityId, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ option_name: optionName, base_price: Number(basePrice), peak_price: peakPrice ? Number(peakPrice) : Number(basePrice) })
+      });
+      const data = await res.json();
+      if (!res.ok) { showFacilityError(data.error || 'Could not update facility.'); return; }
+    } else {
+      const sportKey = document.getElementById('facilitySportKey').value.trim();
+      const sportName = document.getElementById('facilitySportName').value.trim();
+      const optionId = document.getElementById('facilityOptionId').value.trim();
+      if (!sportKey || !sportName || !optionId) {
+        showFacilityError('Sport key, sport name and option ID are required.');
+        return;
+      }
+      const res = await fetch('/api/facilities', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ sport_key: sportKey, sport_name: sportName, option_id: optionId, option_name: optionName, base_price: Number(basePrice), peak_price: peakPrice ? Number(peakPrice) : Number(basePrice) })
+      });
+      const data = await res.json();
+      if (!res.ok) { showFacilityError(data.error || 'Could not create facility.'); return; }
+    }
+    closeFacilityModal();
+    await loadFacilitiesList();
+  } catch (err) {
+    showFacilityError('Network error. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Facility';
+  }
 }
 
 async function toggleFacilityActive(id, currentlyActive) {
-try {
-const res = await fetch('/api/facilities/' + id, {
-method: 'PATCH',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ is_active: !currentlyActive })
-});
-if (!res.ok) { alert('Could not update facility status.'); return; }
-await loadFacilitiesList();
-} catch (err) {
-alert('Network error. Please try again.');
-}
+  try {
+    const res = await fetch('/api/facilities?id=' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ is_active: !currentlyActive })
+    });
+    if (!res.ok) { alert('Could not update facility status.'); return; }
+    await loadFacilitiesList();
+  } catch (err) {
+    alert('Network error. Please try again.');
+  }
 }
 </script>
 </body>
