@@ -116,159 +116,159 @@ let editingPromoId = null;
 let allPromos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-loadPromos();
+  loadPromos();
 });
 
 async function loadPromos() {
-const tbody = document.getElementById('promosTable');
-tbody.innerHTML = '<tr><td colspan="7" class="pk-loading">Loading promo codes...</td></tr>';
-try {
-const res = await fetch('/api/promos', { credentials: 'include' });
-if (!res.ok) { tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">Failed to load promo codes.</td></tr>'; return; }
-const data = await res.json();
-allPromos = data.promos || [];
-if (!allPromos.length) {
-tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">No promo codes yet. Click "Add Promo Code" to create one.</td></tr>';
-return;
-}
-tbody.innerHTML = allPromos.map(renderPromoRow).join('');
-} catch (err) {
-tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">Failed to load promo codes.</td></tr>';
-}
+  const tbody = document.getElementById('promosTable');
+  tbody.innerHTML = '<tr><td colspan="7" class="pk-loading">Loading promo codes...</td></tr>';
+  try {
+    const res = await fetch('/api/promos', { credentials: 'include' });
+    if (!res.ok) { tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">Failed to load promo codes.</td></tr>'; return; }
+    const data = await res.json();
+    allPromos = data.promos || [];
+    if (!allPromos.length) {
+      tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">No promo codes yet. Click "Add Promo Code" to create one.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = allPromos.map(renderPromoRow).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="7" class="pk-empty">Failed to load promo codes.</td></tr>';
+  }
 }
 
 function renderPromoRow(p) {
-const active = p.is_active !== false;
-const statusClass = active ? 'confirmed' : 'cancelled';
-const statusLabel = active ? 'Active' : 'Inactive';
-const valueLabel = p.type === 'percent' ? (p.value + '%') : formatCurrency(p.value);
-const created = p.created_at ? new Date(p.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
-return '<tr>' +
-'<td><code>' + escapeHtml(p.code) + '</code></td>' +
-'<td>' + capitalize(p.type) + '</td>' +
-'<td>' + valueLabel + '</td>' +
-'<td class="amount">' + formatCurrency(p.min_amount || 0) + '</td>' +
-'<td><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></td>' +
-'<td>' + created + '</td>' +
-'<td>' +
-'<button class="btn-icon" title="Edit" onclick="openEditPromo(' + p.id + ')"><i class="fas fa-edit"></i></button>' +
-'<button class="btn-icon' + (active ? ' danger' : '') + '" title="' + (active ? 'Deactivate' : 'Activate') + '" onclick="togglePromoActive(' + p.id + ', ' + active + ')"><i class="fas fa-' + (active ? 'ban' : 'check') + '"></i></button>' +
-'<button class="btn-icon danger" title="Delete" onclick="deletePromo(' + p.id + ')"><i class="fas fa-trash"></i></button>' +
-'</td>' +
-'</tr>';
+  const active = p.is_active !== false;
+  const statusClass = active ? 'confirmed' : 'cancelled';
+  const statusLabel = active ? 'Active' : 'Inactive';
+  const valueLabel = p.type === 'percent' ? (p.value + '%') : formatCurrency(p.value);
+  const created = p.created_at ? new Date(p.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+  return '<tr>' +
+    '<td><code>' + escapeHtml(p.code) + '</code></td>' +
+    '<td>' + capitalize(p.type) + '</td>' +
+    '<td>' + valueLabel + '</td>' +
+    '<td class="amount">' + formatCurrency(p.min_amount || 0) + '</td>' +
+    '<td><span class="status-badge ' + statusClass + '">' + statusLabel + '</span></td>' +
+    '<td>' + created + '</td>' +
+    '<td>' +
+    '<button class="btn-icon" title="Edit" onclick="openEditPromo(' + p.id + ')"><i class="fas fa-edit"></i></button>' +
+    '<button class="btn-icon' + (active ? ' danger' : '') + '" title="' + (active ? 'Deactivate' : 'Activate') + '" onclick="togglePromoActive(' + p.id + ', ' + active + ')"><i class="fas fa-' + (active ? 'ban' : 'check') + '"></i></button>' +
+    '<button class="btn-icon danger" title="Delete" onclick="deletePromo(' + p.id + ')"><i class="fas fa-trash"></i></button>' +
+    '</td>' +
+    '</tr>';
 }
 
 function showAddPromoModal() {
-editingPromoId = null;
-document.getElementById('promoModalTitle').textContent = 'Add Promo Code';
-document.getElementById('promoCode').value = '';
-document.getElementById('promoCode').disabled = false;
-document.getElementById('promoType').value = 'percent';
-document.getElementById('promoValue').value = '';
-document.getElementById('promoMinAmount').value = '';
-hidePromoError();
-document.getElementById('promoModal').style.display = 'flex';
+  editingPromoId = null;
+  document.getElementById('promoModalTitle').textContent = 'Add Promo Code';
+  document.getElementById('promoCode').value = '';
+  document.getElementById('promoCode').disabled = false;
+  document.getElementById('promoType').value = 'percent';
+  document.getElementById('promoValue').value = '';
+  document.getElementById('promoMinAmount').value = '';
+  hidePromoError();
+  document.getElementById('promoModal').style.display = 'flex';
 }
 
 function openEditPromo(id) {
-const p = allPromos.find(x => x.id === id);
-if (!p) return;
-editingPromoId = id;
-document.getElementById('promoModalTitle').textContent = 'Edit Promo Code';
-document.getElementById('promoCode').value = p.code;
-document.getElementById('promoCode').disabled = true;
-document.getElementById('promoType').value = p.type;
-document.getElementById('promoValue').value = p.value;
-document.getElementById('promoMinAmount').value = p.min_amount || 0;
-hidePromoError();
-document.getElementById('promoModal').style.display = 'flex';
+  const p = allPromos.find(x => x.id === id);
+  if (!p) return;
+  editingPromoId = id;
+  document.getElementById('promoModalTitle').textContent = 'Edit Promo Code';
+  document.getElementById('promoCode').value = p.code;
+  document.getElementById('promoCode').disabled = true;
+  document.getElementById('promoType').value = p.type;
+  document.getElementById('promoValue').value = p.value;
+  document.getElementById('promoMinAmount').value = p.min_amount || 0;
+  hidePromoError();
+  document.getElementById('promoModal').style.display = 'flex';
 }
 
 function closePromoModal() {
-document.getElementById('promoModal').style.display = 'none';
+  document.getElementById('promoModal').style.display = 'none';
 }
 
 function showPromoError(msg) {
-const el = document.getElementById('promoError');
-el.textContent = msg;
-el.style.display = 'block';
+  const el = document.getElementById('promoError');
+  el.textContent = msg;
+  el.style.display = 'block';
 }
 
 function hidePromoError() {
-const el = document.getElementById('promoError');
-el.style.display = 'none';
-el.textContent = '';
+  const el = document.getElementById('promoError');
+  el.style.display = 'none';
+  el.textContent = '';
 }
 
 async function submitPromo() {
-const btn = document.getElementById('savePromoBtn');
-const code = document.getElementById('promoCode').value.trim();
-const type = document.getElementById('promoType').value;
-const value = document.getElementById('promoValue').value;
-const minAmount = document.getElementById('promoMinAmount').value || 0;
+  const btn = document.getElementById('savePromoBtn');
+  const code = document.getElementById('promoCode').value.trim();
+  const type = document.getElementById('promoType').value;
+  const value = document.getElementById('promoValue').value;
+  const minAmount = document.getElementById('promoMinAmount').value || 0;
 
-if ((!editingPromoId && !code) || value === '') {
-showPromoError('Code and value are required.');
-return;
-}
+  if ((!editingPromoId && !code) || value === '') {
+    showPromoError('Code and value are required.');
+    return;
+  }
 
-btn.disabled = true;
-btn.textContent = 'Saving...';
+  btn.disabled = true;
+  btn.textContent = 'Saving...';
 
-try {
-if (editingPromoId) {
-const res = await fetch('/api/promos/' + editingPromoId, {
-method: 'PATCH',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ type: type, value: Number(value), min_amount: Number(minAmount) })
-});
-const data = await res.json();
-if (!res.ok) { showPromoError(data.error || 'Could not update promo code.'); return; }
-} else {
-const res = await fetch('/api/promos', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ code: code, type: type, value: Number(value), min_amount: Number(minAmount) })
-});
-const data = await res.json();
-if (!res.ok) { showPromoError(data.error || 'Could not create promo code.'); return; }
-}
-closePromoModal();
-await loadPromos();
-} catch (err) {
-showPromoError('Network error. Please try again.');
-} finally {
-btn.disabled = false;
-btn.textContent = 'Save Promo Code';
-}
+  try {
+    if (editingPromoId) {
+      const res = await fetch('/api/promos?id=' + editingPromoId, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ type: type, value: Number(value), min_amount: Number(minAmount) })
+      });
+      const data = await res.json();
+      if (!res.ok) { showPromoError(data.error || 'Could not update promo code.'); return; }
+    } else {
+      const res = await fetch('/api/promos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ code: code, type: type, value: Number(value), min_amount: Number(minAmount) })
+      });
+      const data = await res.json();
+      if (!res.ok) { showPromoError(data.error || 'Could not create promo code.'); return; }
+    }
+    closePromoModal();
+    await loadPromos();
+  } catch (err) {
+    showPromoError('Network error. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Save Promo Code';
+  }
 }
 
 async function togglePromoActive(id, currentlyActive) {
-try {
-const res = await fetch('/api/promos/' + id, {
-method: 'PATCH',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ is_active: !currentlyActive })
-});
-if (!res.ok) { alert('Could not update promo status.'); return; }
-await loadPromos();
-} catch (err) {
-alert('Network error. Please try again.');
-}
+  try {
+    const res = await fetch('/api/promos?id=' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ is_active: !currentlyActive })
+    });
+    if (!res.ok) { alert('Could not update promo status.'); return; }
+    await loadPromos();
+  } catch (err) {
+    alert('Network error. Please try again.');
+  }
 }
 
 async function deletePromo(id) {
-if (!confirm('Delete this promo code? This cannot be undone.')) return;
-try {
-const res = await fetch('/api/promos/' + id, { method: 'DELETE', credentials: 'include' });
-if (!res.ok) { alert('Could not delete promo code.'); return; }
-await loadPromos();
-} catch (err) {
-alert('Network error. Please try again.');
-}
+  if (!confirm('Delete this promo code? This cannot be undone.')) return;
+  try {
+    const res = await fetch('/api/promos?id=' + id, { method: 'DELETE', credentials: 'include' });
+    if (!res.ok) { alert('Could not delete promo code.'); return; }
+    await loadPromos();
+  } catch (err) {
+    alert('Network error. Please try again.');
+  }
 }
 </script>
 </body>
