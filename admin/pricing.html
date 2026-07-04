@@ -76,68 +76,68 @@
 <script src="admin.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-loadPricing();
+  loadPricing();
 });
 
 async function loadPricing() {
-const tbody = document.getElementById('pricingTable');
-tbody.innerHTML = '<tr><td colspan="4" class="pk-loading">Loading pricing...</td></tr>';
-try {
-const res = await fetch('/api/facilities', { credentials: 'include' });
-if (!res.ok) { tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">Failed to load pricing.</td></tr>'; return; }
-const data = await res.json();
-const facilities = data.facilities || [];
-if (!facilities.length) {
-tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">No facilities yet. Add facilities from the Facilities page first.</td></tr>';
-return;
-}
-const bySport = {};
-facilities.forEach(f => {
-if (!bySport[f.sport_name]) bySport[f.sport_name] = [];
-bySport[f.sport_name].push(f);
-});
-let html = '';
-Object.keys(bySport).forEach(sport => {
-html += '<tr><td colspan="4" class="pk-sport-heading">' + escapeHtml(sport) + '</td></tr>';
-html += bySport[sport].map(renderPricingRow).join('');
-});
-tbody.innerHTML = html;
-} catch (err) {
-tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">Failed to load pricing.</td></tr>';
-}
+  const tbody = document.getElementById('pricingTable');
+  tbody.innerHTML = '<tr><td colspan="4" class="pk-loading">Loading pricing...</td></tr>';
+  try {
+    const res = await fetch('/api/facilities', { credentials: 'include' });
+    if (!res.ok) { tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">Failed to load pricing.</td></tr>'; return; }
+    const data = await res.json();
+    const facilities = data.facilities || [];
+    if (!facilities.length) {
+      tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">No facilities yet. Add facilities from the Facilities page first.</td></tr>';
+      return;
+    }
+    const bySport = {};
+    facilities.forEach(f => {
+      if (!bySport[f.sport_name]) bySport[f.sport_name] = [];
+      bySport[f.sport_name].push(f);
+    });
+    let html = '';
+    Object.keys(bySport).forEach(sport => {
+      html += '<tr><td colspan="4" class="pk-sport-heading">' + escapeHtml(sport) + '</td></tr>';
+      html += bySport[sport].map(renderPricingRow).join('');
+    });
+    tbody.innerHTML = html;
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="4" class="pk-empty">Failed to load pricing.</td></tr>';
+  }
 }
 
 function renderPricingRow(f) {
-return '<tr id="price-row-' + f.id + '">' +
-'<td>' + escapeHtml(f.option_name) + '</td>' +
-'<td><input type="number" class="pk-price-input" min="0" step="1" value="' + f.base_price + '" data-field="base" oninput="markDirty(' + f.id + ')" id="base-' + f.id + '"></td>' +
-'<td><input type="number" class="pk-price-input" min="0" step="1" value="' + f.peak_price + '" data-field="peak" oninput="markDirty(' + f.id + ')" id="peak-' + f.id + '"></td>' +
-'<td><span class="pk-save-row" id="save-wrap-' + f.id + '"><button class="btn-icon" title="Save" onclick="savePrice(' + f.id + ')"><i class="fas fa-check"></i></button></span></td>' +
-'</tr>';
+  return '<tr id="price-row-' + f.id + '">' +
+    '<td>' + escapeHtml(f.option_name) + '</td>' +
+    '<td><input type="number" class="pk-price-input" min="0" step="1" value="' + f.base_price + '" data-field="base" oninput="markDirty(' + f.id + ')" id="base-' + f.id + '"></td>' +
+    '<td><input type="number" class="pk-price-input" min="0" step="1" value="' + f.peak_price + '" data-field="peak" oninput="markDirty(' + f.id + ')" id="peak-' + f.id + '"></td>' +
+    '<td><span class="pk-save-row" id="save-wrap-' + f.id + '"><button class="btn-icon" title="Save" onclick="savePrice(' + f.id + ')"><i class="fas fa-check"></i></button></span></td>' +
+    '</tr>';
 }
 
 function markDirty(id) {
-const el = document.getElementById('save-wrap-' + id);
-if (el) el.classList.add('dirty');
+  const el = document.getElementById('save-wrap-' + id);
+  if (el) el.classList.add('dirty');
 }
 
 async function savePrice(id) {
-const base = document.getElementById('base-' + id).value;
-const peak = document.getElementById('peak-' + id).value;
-if (base === '' || peak === '') { alert('Both base and peak price are required.'); return; }
-try {
-const res = await fetch('/api/facilities/' + id, {
-method: 'PATCH',
-headers: { 'Content-Type': 'application/json' },
-credentials: 'include',
-body: JSON.stringify({ base_price: Number(base), peak_price: Number(peak) })
-});
-if (!res.ok) { const data = await res.json(); alert(data.error || 'Could not update pricing.'); return; }
-const wrap = document.getElementById('save-wrap-' + id);
-if (wrap) wrap.classList.remove('dirty');
-} catch (err) {
-alert('Network error. Please try again.');
-}
+  const base = document.getElementById('base-' + id).value;
+  const peak = document.getElementById('peak-' + id).value;
+  if (base === '' || peak === '') { alert('Both base and peak price are required.'); return; }
+  try {
+    const res = await fetch('/api/facilities?id=' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ base_price: Number(base), peak_price: Number(peak) })
+    });
+    if (!res.ok) { const data = await res.json(); alert(data.error || 'Could not update pricing.'); return; }
+    const wrap = document.getElementById('save-wrap-' + id);
+    if (wrap) wrap.classList.remove('dirty');
+  } catch (err) {
+    alert('Network error. Please try again.');
+  }
 }
 </script>
 </body>
