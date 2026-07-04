@@ -1,37 +1,336 @@
-/* PlayBox Kashmir - Admin JS */
-document.addEventListener('DOMContentLoaded', () => {
-  // Auth check
-  if (!sessionStorage.getItem('admin_auth')) {
-    window.location.href = 'login.html';
-    return;
-  }
-  
-  // Set date
+/* PlayBox Kashmir – Admin JS */
+
+const CONFIG = {
+  slotStartHour: 9,
+  slotEndHour: 26,
+  slotDurationMin: 60
+};
+
+let currentFacilities = [];
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const authed = await checkSession();
+  if (!authed) return;
+
   const dateEl = document.getElementById('headerDate');
   if (dateEl) {
     dateEl.textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   }
-  
-  // Navbar scroll
+
   const navbar = document.getElementById('navbar');
   if (navbar) {
     window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
   }
+
+  await loadDashboardSummary();
+  await loadTodayBookings();
+  await loadFacilities();
+
+  const bookingDateInput = document.getElementById('bookingDate');
+  if (bookingDateInput) {
+    const today = new Date().toISOString().slice(0, 10);
+    bookingDateInput.min = today;
+    bookingDateInput.value = today;
+  }
 });
 
+async function checkSession() {
+  try {
+    const res = await fetch('/api/auth/session', { credentials: 'include' });
+    if (!res.ok) {
+      window.location.href = 'login.html';
+      return false;
+    }
+    return true;
+  } catch (err) {
+    window.location.href = 'login.html';
+    return false;
+  }
+}
+
+async function handleLogout(e) {
+  if (e) e.preventDefault();
+  try {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
+  } catch (err) {}
+  window.location.href = 'login.html';
+}
+
 function toggleSidebar() {
-  document.getElementById('adminSidebar').classList.toggle('open');
+  const sidebar = document.getElementById('adminSidebar');
+  if (sidebar) sidebar.classList.toggle('open');
+}
+
+async function loadDashboardSummary() {
+  try {
+    const res = await fetch('/api/reports/summary', { credentials: 'include' });
+    if (!res.ok) return;
+    const data = await res.json();
+    setText('stat-today', data.today ? data.today.count : 0);
+    setText('stat-revenue', formatCurrency(data.today ? data.today.revenue : 0));
+    setText('stat-week', data.week ? data.week.count : 0);
+    setText('stat-month', formatCurrency(data.month ? data.month.revenue : 0));
+  } catch (err) {
+    console.error('Failed to load dashboard summary', err);
+  }
+}
+
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+function formatCurrency(amount) {
+  const n = Number(amount) || 0;
+  return '₹' + n.toLocaleString('en-IN');
+}
+
+async function loadTodayBookings() {
+  const tbody = document.getElementById('todayBookingsTable');
+  if (!tbody) return;
+  const today = new Date().toISOString().slice(0, 10);
+  try {
+    const res = await fetch('/api/bookings?date=' + today, { credentials: 'include' });
+    if (!res.ok) return;
+    const data = await res.json();
+    const bookings = data.bookings || [];
+    if (!bookings.length) {
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:#9ca3af;padding:1.5rem;">No bookings for today yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = bookings.map(renderBookingRow).join('');
+  } catch (err) {
+    console.error('Failed to load bookings', err);
+  }
+}
+
+function renderBookingRow(b) {
+  const initial = (b.customer_name || '?').charAt(0).toUpperCase();
+  const statusClass = b.status === 'confirmed' ? 'confirmed' : (b.status === 'cancelled' ? 'cancelled' : 'reserved');
+  return '<tr>' +
+    '<td><code>' + b.booking_ref + '</code></td>' +
+    '<td><div class="customer-cell"><div class="customer-avatar">' + initial + '</div><div>' +
+    '<div class="customer-name">' + escapeHtml(b.customer_name) + '</div>' +
+    '<div class="customer-contact">' + escapeHtml(b.customer_phone) + '</div>' +
+    '</div></div></td>' +
+    '<td><span class="facility-tag">' + escapeHtml(b.option_name) + '</span></td>' +
+    '<td>' + formatTimeLabel(b.start_time) + ' – ' + formatTimeLabel(b.end_time) + '</td>' +
+    '<td class="amount">₹' + b.amount + '</td>' +
+    '<td><span class="status-badge ' + statusClass + '">' + capitalize(b.status) + '</span></td>' +
+    '<td><button class="btn-icon" title="View"><i class="fas fa-eye"></i></button></td>' +
+    '</tr>';
+}
+
+function capitalize(str) {
+  if (!str) return '';
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function escapeHtml(str) {
+  return String(str == null ? '' : str).replace(/[&<>"']/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c];
+  });
+}
+
+async function loadFacilities() {
+  try {
+    const res = await fetch('/api/facilities', { credentials: 'include' });
+    if (!res.ok) return;
+    const data = await res.json();
+    currentFacilities = data.facilities || [];
+  } catch (err) {
+    console.error('Failed to load facilities', err);
+  }
 }
 
 function showAddBookingModal() {
-  document.getElementById('addBookingModal').style.display = 'flex';
+  const modal = document.getElementById('addBookingModal');
+  if (!modal) return;
+  modal.style.display = 'flex';
+  clearAddBookingForm();
+  onBookingSportChange();
 }
 
 function closeAddBookingModal() {
-  document.getElementById('addBookingModal').style.display = 'none';
+  const modal = document.getElementById('addBookingModal');
+  if (modal) modal.style.display = 'none';
 }
 
-document.addEventListener('click', (e) => {
-  const modal = document.getElementById('addBookingModal');
-  if (modal && e.target === modal) closeAddBookingModal();
-});
+function clearAddBookingForm() {
+  ['bookingCustomerName', 'bookingCustomerPhone', 'bookingCustomerEmail', 'bookingRate'].forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  const errEl = document.getElementById('addBookingError');
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+}
+
+function onBookingSportChange() {
+  const sportSel = document.getElementById('bookingSport');
+  const facilitySel = document.getElementById('bookingFacility');
+  if (!sportSel || !facilitySel) return;
+  const sportKey = sportSel.value;
+  const matches = currentFacilities.filter(function (f) { return f.sport_key === sportKey && f.is_active !== false; });
+  let html = '<option value="">Select facility</option>';
+  matches.forEach(function (f) {
+    html += '<option value="' + f.id + '" data-base-price="' + f.base_price + '" data-peak-price="' + f.peak_price + '">' + escapeHtml(f.option_name) + '</option>';
+  });
+  facilitySel.innerHTML = html;
+  onBookingSlotInputsChange();
+}
+
+function generateTimeSlots() {
+  const slots = [];
+  let hour = CONFIG.slotStartHour;
+  while (hour < CONFIG.slotEndHour) {
+    const startH = hour % 24;
+    const endH = (hour + 1) % 24;
+    const startLabel = formatHourLabel(startH);
+    const endLabel = formatHourLabel(endH);
+    const startValue = String(startH).padStart(2, '0') + ':00';
+    const endValue = String(endH).padStart(2, '0') + ':00';
+    slots.push({ value: startValue + '|' + endValue, label: startLabel + ' – ' + endLabel });
+    hour += 1;
+  }
+  return slots;
+}
+
+function formatHourLabel(h24) {
+  const period = h24 >= 12 ? 'PM' : 'AM';
+  let h = h24 % 12;
+  if (h === 0) h = 12;
+  return h + ':00 ' + period;
+}
+
+async function onBookingSlotInputsChange() {
+  const facilitySel = document.getElementById('bookingFacility');
+  const dateInput = document.getElementById('bookingDate');
+  const timeSel = document.getElementById('bookingTimeSlot');
+  const rateInput = document.getElementById('bookingRate');
+  if (!facilitySel || !dateInput || !timeSel) return;
+
+  const facilityId = facilitySel.value;
+  const date = dateInput.value;
+  const slots = generateTimeSlots();
+
+  if (!facilityId || !date) {
+    timeSel.innerHTML = '<option value="">Select date &amp; facility first</option>';
+    return;
+  }
+
+  let blocked = [];
+  try {
+    const res = await fetch('/api/bookings/availability?date=' + date + '&facility_id=' + facilityId, { credentials: 'include' });
+    if (res.ok) {
+      const data = await res.json();
+      blocked = (data.blocked || []).map(function (b) { return b.start_time; });
+    }
+  } catch (err) {
+    console.error('Failed to check availability', err);
+  }
+
+  timeSel.innerHTML = slots.map(function (s) {
+    const startTime = s.value.split('|')[0];
+    const isBlocked = blocked.indexOf(startTime) !== -1;
+    return '<option value="' + s.value + '"' + (isBlocked ? ' disabled' : '') + '>' + s.label + (isBlocked ? ' (Booked)' : '') + '</option>';
+  }).join('');
+
+  const selectedOption = facilitySel.options[facilitySel.selectedIndex];
+  if (selectedOption && rateInput && !rateInput.value) {
+    rateInput.value = selectedOption.dataset.basePrice || '';
+  }
+}
+
+async function submitAddBooking() {
+  const errEl = document.getElementById('addBookingError');
+  const btn = document.getElementById('createBookingBtn');
+  function showError(msg) {
+    if (errEl) { errEl.textContent = msg; errEl.style.display = 'block'; }
+  }
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
+
+  const nameEl = document.getElementById('bookingCustomerName');
+  const phoneEl = document.getElementById('bookingCustomerPhone');
+  const emailEl = document.getElementById('bookingCustomerEmail');
+  const facilityEl = document.getElementById('bookingFacility');
+  const dateEl = document.getElementById('bookingDate');
+  const timeEl = document.getElementById('bookingTimeSlot');
+  const rateEl = document.getElementById('bookingRate');
+  const paymentEl = document.getElementById('bookingPaymentMethod');
+
+  const name = nameEl ? nameEl.value.trim() : '';
+  const phone = phoneEl ? phoneEl.value.trim() : '';
+  const email = emailEl ? emailEl.value.trim() : '';
+  const facilityId = facilityEl ? facilityEl.value : '';
+  const date = dateEl ? dateEl.value : '';
+  const timeValue = timeEl ? timeEl.value : '';
+  const rate = rateEl ? rateEl.value : '';
+  const paymentMethod = paymentEl ? paymentEl.value : 'cash';
+
+  if (!name || !phone || !email || !facilityId || !date || !timeValue || rate === '') {
+    showError('Please fill in all fields, including the time slot and rate.');
+    return;
+  }
+
+  const parts = timeValue.split('|');
+  const start_time = parts[0];
+  const end_time = parts[1];
+
+  btn.disabled = true;
+  btn.textContent = 'Booking...';
+
+  try {
+    const res = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({
+        facility_id: Number(facilityId),
+        customer_name: name,
+        customer_email: email,
+        customer_phone: phone,
+        booking_date: date,
+        start_time: start_time,
+        end_time: end_time,
+        rate: Number(rate),
+        payment_method: paymentMethod,
+        status: 'confirmed'
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      showError(data.error || 'Could not create booking.');
+      btn.disabled = false;
+      btn.textContent = 'Create Booking';
+      return;
+    }
+
+    closeAddBookingModal();
+    await loadDashboardSummary();
+    await loadTodayBookings();
+
+    if (data.booking && data.booking.id) {
+      fetch('/api/bookings/send-confirmation', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ booking_id: data.booking.id })
+      }).catch(function () {});
+    }
+  } catch (err) {
+    showError('Network error while creating booking. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Create Booking';
+  }
+}
+
+function formatTimeLabel(time24) {
+  if (!time24) return '';
+  const parts = String(time24).split(':');
+  let h = parseInt(parts[0], 10);
+  const period = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  if (h === 0) h = 12;
+  return h + ':' + (parts[1] || '00') + ' ' + period;
+}
