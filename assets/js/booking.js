@@ -538,9 +538,21 @@ function createRazorpayOrder() {
       receipt: state.bookingId,
       notes: {
         booking_id: state.bookingId,
+         sport: state.sport,
+         facility_id: state.facilityId,
         facility: state.facilityName,
-        date: state.dateFormatted,
-        slot: state.slotLabel
+         customer_name: state.customerName,
+         customer_email: state.customerEmail,
+         customer_phone: state.customerPhone,
+        booking_date: state.date ? state.date.toISOString().split('T')[0] : '',
+         start_time: state.slotTime,
+         end_time: (function () {
+            var h = parseInt(String(state.slotTime).split(':')[0], 10);
+            var eh = (h + 1) % 24;
+            return (eh < 10 ? '0' : '') + eh + ':00';
+         })(),
+         rate: state.basePrice,
+         amount: state.totalAmount
       }
     })
   }).then(function (res) {
