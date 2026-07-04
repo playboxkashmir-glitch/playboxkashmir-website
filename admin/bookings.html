@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookings – PlayBox Kashmir Admin</title>
+<link rel="stylesheet" href="../assets/css/style.css">
+<link rel="stylesheet" href="admin.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+.pk-empty,.pk-loading{text-align:center;color:#9ca3af;padding:2rem;}
+.pk-filter-bar{display:flex;align-items:flex-end;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem;}
+.pk-filter-group{display:flex;flex-direction:column;gap:0.3rem;}
+.pk-filter-group label{font-size:0.75rem;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:0.03em;}
+.pk-filter-group input,.pk-filter-group select{padding:0.5rem 0.65rem;border:1px solid #e5e7eb;border-radius:6px;font-family:inherit;font-size:0.85rem;color:#111827;min-width:150px;}
+.pk-filter-btn{padding:0.55rem 1rem;border-radius:6px;border:none;font-weight:600;font-size:0.85rem;cursor:pointer;}
+.pk-filter-apply{background:#1a56db;color:#fff;}
+.pk-filter-clear{background:#f3f4f6;color:#374151;}
+.pk-details-row{display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid #f3f4f6;font-size:0.9rem;}
+.pk-details-row span:first-child{color:#6b7280;}
+.pk-details-row span:last-child{color:#111827;font-weight:600;text-align:right;}
+</style>
+</head>
+<body class="admin-body">
+
+<aside class="admin-sidebar" id="adminSidebar">
+<div class="sidebar-brand">
+<span class="logo-play">Play</span><span class="logo-box">Box</span>
+<span style="color:#f59e0b;font-size:0.75rem;font-weight:700;margin-left:4px;">ADMIN</span>
+</div>
+<nav class="sidebar-nav">
+<a href="dashboard.html" class="sidebar-link"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+<a href="bookings.html" class="sidebar-link active"><i class="fas fa-calendar-check"></i> Bookings</a>
+<a href="calendar.html" class="sidebar-link"><i class="fas fa-calendar-alt"></i> Calendar View</a>
+<a href="customers.html" class="sidebar-link"><i class="fas fa-users"></i> Customers</a>
+<a href="facilities.html" class="sidebar-link"><i class="fas fa-building"></i> Facilities</a>
+<a href="pricing.html" class="sidebar-link"><i class="fas fa-tags"></i> Pricing</a>
+<a href="promos.html" class="sidebar-link"><i class="fas fa-percentage"></i> Promo Codes</a>
+<a href="reports.html" class="sidebar-link"><i class="fas fa-chart-bar"></i> Reports</a>
+<a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i> Settings</a>
+<div class="sidebar-divider"></div>
+<a href="../index.html" class="sidebar-link" target="_blank"><i class="fas fa-external-link-alt"></i> View Website</a>
+<a href="login.html" class="sidebar-link logout" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt"></i> Logout</a>
+</nav>
+</aside>
+
+<main class="admin-main">
+<header class="admin-header">
+<button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+<div class="header-title">
+<h1>Bookings</h1>
+<p>View and manage all your bookings</p>
+</div>
+<div class="header-actions">
+<div class="header-date" id="headerDate"></div>
+<button class="btn-add-booking" onclick="showAddBookingModal()"><i class="fas fa-plus"></i> Add Booking</button>
+</div>
+</header>
+
+<div style="padding:2rem;">
+<div class="admin-card">
+<div class="pk-filter-bar">
+<div class="pk-filter-group">
+<label>From</label>
+<input type="date" id="filterFrom">
+</div>
+<div class="pk-filter-group">
+<label>To</label>
+<input type="date" id="filterTo">
+</div>
+<div class="pk-filter-group">
+<label>Status</label>
+<select id="filterStatus">
+<option value="">All</option>
+<option value="confirmed">Confirmed</option>
+<option value="reserved">Reserved</option>
+<option value="cancelled">Cancelled</option>
+</select>
+</div>
+<div class="pk-filter-group">
+<label>Search</label>
+<input type="text" id="filterSearch" placeholder="Name, phone or ref">
+</div>
+<button class="pk-filter-btn pk-filter-apply" onclick="applyFilters()">Apply Filters</button>
+<button class="pk-filter-btn pk-filter-clear" onclick="clearFilters()">Clear</button>
+</div>
+<div class="bookings-table-wrap">
+<table class="bookings-table">
+<thead>
+<tr>
+<th>Booking Ref</th>
+<th>Customer</th>
+<th>Facility</th>
+<th>Date</th>
+<th>Time</th>
+<th>Amount</th>
+<th>Status</th>
+<th>Actions</th>
+</tr>
+</thead>
+<tbody id="bookingsTable">
+<tr><td colspan="8" class="pk-loading">Loading bookings...</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+
+<!-- Booking Details Modal -->
+<div class="modal-overlay" id="bookingDetailsModal" style="display:none;">
+<div class="admin-modal">
+<div class="modal-header">
+<h3>Booking Details</h3>
+<button class="modal-close-btn" onclick="closeBookingDetailsModal()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body" id="bookingDetailsBody" style="padding:1.5rem;"></div>
+<div class="modal-footer">
+<button class="btn-cancel" onclick="closeBookingDetailsModal()">Close</button>
+</div>
+</div>
+</div>
+
+<!-- Add Booking Modal -->
+<div class="modal-overlay" id="addBookingModal" style="display:none;">
+<div class="admin-modal">
+<div class="modal-header">
+<h3>Add Manual Booking</h3>
+<button class="modal-close-btn" onclick="closeAddBookingModal()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body">
+<div class="form-grid">
+<div class="form-group">
+<label>Customer Name</label>
+<input type="text" id="bookingCustomerName" placeholder="Enter name">
+</div>
+<div class="form-group">
+<label>Phone</label>
+<input type="tel" id="bookingCustomerPhone" placeholder="+91 XXXXX XXXXX">
+</div>
+<div class="form-group form-full">
+<label>Email</label>
+<input type="email" id="bookingCustomerEmail" placeholder="email@example.com">
+</div>
+<div class="form-group">
+<label>Sport</label>
+<select id="bookingSport" onchange="onBookingSportChange()">
+<option value="football">Football Turf</option>
+<option value="cricket">Cricket Nets</option>
+<option value="pickleball">Pickleball Court</option>
+</select>
+</div>
+<div class="form-group">
+<label>Facility</label>
+<select id="bookingFacility" onchange="onBookingSlotInputsChange()">
+<option value="">Select facility</option>
+</select>
+</div>
+<div class="form-group">
+<label>Date</label>
+<input type="date" id="bookingDate" onchange="onBookingSlotInputsChange()">
+</div>
+<div class="form-group">
+<label>Time Slot</label>
+<select id="bookingTimeSlot">
+<option value="">Select date &amp; facility first</option>
+</select>
+</div>
+<div class="form-group">
+<label>Rate (Rs.)</label>
+<input type="number" id="bookingRate" placeholder="Enter rate" min="0" step="1">
+</div>
+<div class="form-group">
+<label>Payment Method</label>
+<select id="bookingPaymentMethod">
+<option value="cash">Cash</option>
+<option value="upi">UPI</option>
+<option value="card">Card</option>
+<option value="free">Free (Complimentary)</option>
+</select>
+</div>
+</div>
+</div>
+<div id="addBookingError" style="display:none;color:#ef4444;font-size:0.85rem;padding:0 1.5rem 0.75rem;"></div>
+<div class="modal-footer">
+<button class="btn-cancel" onclick="closeAddBookingModal()">Cancel</button>
+<button class="btn-confirm" id="createBookingBtn" onclick="submitAddBooking()">Create Booking</button>
+</div>
+</div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+let allBookingsCache = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  loadBookingsList();
+});
+
+function buildQuery() {
+  const from = document.getElementById('filterFrom').value;
+  const to = document.getElementById('filterTo').value;
+  const status = document.getElementById('filterStatus').value;
+  const params = [];
+  if (from) params.push('from=' + from);
+  if (to) params.push('to=' + to);
+  if (status) params.push('status=' + status);
+  return params.length ? ('?' + params.join('&')) : '';
+}
+
+async function loadBookingsList() {
+  const tbody = document.getElementById('bookingsTable');
+  tbody.innerHTML = '<tr><td colspan="8" class="pk-loading">Loading bookings...</td></tr>';
+  try {
+    const res = await fetch('/api/bookings' + buildQuery(), { credentials: 'include' });
+    if (!res.ok) { tbody.innerHTML = '<tr><td colspan="8" class="pk-empty">Failed to load bookings.</td></tr>'; return; }
+    const data = await res.json();
+    allBookingsCache = data.bookings || [];
+    renderBookingsTable();
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="8" class="pk-empty">Failed to load bookings.</td></tr>';
+  }
+}
+
+function renderBookingsTable() {
+  const tbody = document.getElementById('bookingsTable');
+  const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+  let list = allBookingsCache;
+  if (search) {
+    list = list.filter(b =>
+      (b.customer_name || '').toLowerCase().includes(search) ||
+      (b.customer_phone || '').toLowerCase().includes(search) ||
+      (b.booking_ref || '').toLowerCase().includes(search)
+    );
+  }
+  if (!list.length) {
+    tbody.innerHTML = '<tr><td colspan="8" class="pk-empty">No bookings found.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = list.map(renderRow).join('');
+}
+
+function renderRow(b) {
+  const initial = (b.customer_name || '?').charAt(0).toUpperCase();
+  const statusClass = b.status === 'confirmed' ? 'confirmed' : (b.status === 'cancelled' ? 'cancelled' : 'reserved');
+  const dateLabel = b.booking_date ? new Date(b.booking_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+  return '<tr>' +
+    '<td><code>' + escapeHtml(b.booking_ref) + '</code></td>' +
+    '<td><div class="customer-cell"><div class="customer-avatar">' + initial + '</div><div>' +
+    '<div class="customer-name">' + escapeHtml(b.customer_name) + '</div>' +
+    '<div class="customer-contact">' + escapeHtml(b.customer_phone) + '</div>' +
+    '</div></div></td>' +
+    '<td><span class="facility-tag">' + escapeHtml(b.option_name) + '</span></td>' +
+    '<td>' + dateLabel + '</td>' +
+    '<td>' + formatTimeLabel(b.start_time) + ' – ' + formatTimeLabel(b.end_time) + '</td>' +
+    '<td class="amount">' + formatCurrency(b.amount) + '</td>' +
+    '<td><span class="status-badge ' + statusClass + '">' + capitalize(b.status) + '</span></td>' +
+    '<td>' +
+    '<button class="btn-icon" title="View" onclick="viewBooking(' + b.id + ')"><i class="fas fa-eye"></i></button>' +
+    (b.status !== 'cancelled' ? '<button class="btn-icon danger" title="Cancel" onclick="cancelBooking(' + b.id + ')"><i class="fas fa-ban"></i></button>' : '') +
+    '</td>' +
+    '</tr>';
+}
+
+function applyFilters() {
+  loadBookingsList();
+}
+
+function clearFilters() {
+  document.getElementById('filterFrom').value = '';
+  document.getElementById('filterTo').value = '';
+  document.getElementById('filterStatus').value = '';
+  document.getElementById('filterSearch').value = '';
+  loadBookingsList();
+}
+
+function viewBooking(id) {
+  const b = allBookingsCache.find(x => x.id === id);
+  if (!b) return;
+  const dateLabel = b.booking_date ? new Date(b.booking_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '—';
+  const rows = [
+    ['Booking Ref', b.booking_ref],
+    ['Customer', b.customer_name],
+    ['Phone', b.customer_phone],
+    ['Email', b.customer_email],
+    ['Facility', b.option_name + ' (' + b.sport_name + ')'],
+    ['Date', dateLabel],
+    ['Time', formatTimeLabel(b.start_time) + ' – ' + formatTimeLabel(b.end_time)],
+    ['Amount', formatCurrency(b.amount)],
+    ['Payment Method', capitalize(b.payment_method || '')],
+    ['Status', capitalize(b.status)],
+    ['Notes', b.notes || '—']
+  ];
+  document.getElementById('bookingDetailsBody').innerHTML = rows.map(r =>
+    '<div class="pk-details-row"><span>' + escapeHtml(r[0]) + '</span><span>' + escapeHtml(String(r[1] || '')) + '</span></div>'
+  ).join('');
+  document.getElementById('bookingDetailsModal').style.display = 'flex';
+}
+
+function closeBookingDetailsModal() {
+  document.getElementById('bookingDetailsModal').style.display = 'none';
+}
+
+async function cancelBooking(id) {
+  if (!confirm('Cancel this booking? This cannot be undone.')) return;
+  try {
+    const res = await fetch('/api/bookings?id=' + id, { method: 'DELETE', credentials: 'include' });
+    if (!res.ok) { alert('Could not cancel booking.'); return; }
+    await loadBookingsList();
+  } catch (err) {
+    alert('Network error. Please try again.');
+  }
+}
+</script>
+</body>
+</html>
