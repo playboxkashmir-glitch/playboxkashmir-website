@@ -220,7 +220,7 @@ async function onBookingSlotInputsChange() {
 
   let blocked = [];
   try {
-    const res = await fetch('/api/bookings/availability?date=' + date + '&facility_id=' + facilityId, { credentials: 'include' });
+    const res = await fetch('/api/bookings?resource=availability&date=' + date + '&facility_id=' + facilityId, { credentials: 'include' });
     if (res.ok) {
       const data = await res.json();
       blocked = (data.blocked || []).map(function (b) { return b.start_time; });
@@ -310,7 +310,7 @@ async function submitAddBooking() {
     await loadTodayBookings();
 
     if (data.booking && data.booking.id) {
-      fetch('/api/bookings/send-confirmation', {
+      fetch('/api/bookings?resource=send-confirmation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
