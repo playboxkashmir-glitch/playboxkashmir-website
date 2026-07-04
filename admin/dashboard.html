@@ -29,7 +29,7 @@
     <a href="settings.html" class="sidebar-link"><i class="fas fa-cog"></i> Settings</a>
     <div class="sidebar-divider"></div>
     <a href="../index.html" class="sidebar-link" target="_blank"><i class="fas fa-external-link-alt"></i> View Website</a>
-    <a href="login.html" class="sidebar-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <a href="login.html" class="sidebar-link logout" onclick="handleLogout(event)"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </nav>
 </aside>
 
@@ -302,60 +302,60 @@
       <div class="form-grid">
         <div class="form-group">
           <label>Customer Name</label>
-          <input type="text" placeholder="Enter name">
+          <input type="text" id="bookingCustomerName" placeholder="Enter name">
         </div>
         <div class="form-group">
           <label>Phone</label>
-          <input type="tel" placeholder="+91 XXXXX XXXXX">
+          <input type="tel" id="bookingCustomerPhone" placeholder="+91 XXXXX XXXXX">
         </div>
         <div class="form-group form-full">
           <label>Email</label>
-          <input type="email" placeholder="email@example.com">
+          <input type="email" id="bookingCustomerEmail" placeholder="email@example.com">
         </div>
         <div class="form-group">
           <label>Sport</label>
-          <select>
-            <option>Football Turf</option>
-            <option>Cricket Nets</option>
-            <option>Pickleball Court</option>
-          </select>
+          <select id="bookingSport" onchange="onBookingSportChange()">
+<option value="football">Football Turf</option>
+<option value="cricket">Cricket Nets</option>
+<option value="pickleball">Pickleball Court</option>
+</select>
         </div>
         <div class="form-group">
           <label>Facility</label>
-          <select>
-            <option>Turf 1</option>
-            <option>Turf 2</option>
-          </select>
+          <select id="bookingFacility" onchange="onBookingSlotInputsChange()">
+<option value="">Select facility</option>
+</select>
         </div>
         <div class="form-group">
           <label>Date</label>
-          <input type="date">
+          <input type="date" id="bookingDate" onchange="onBookingSlotInputsChange()">
         </div>
         <div class="form-group">
-          <label>Time Slot</label>
-          <select>
-            <option>6:00 AM - 7:00 AM</option>
-            <option>7:00 AM - 8:00 AM</option>
-            <option>6:00 PM - 7:00 PM</option>
-            <option>7:00 PM - 8:00 PM</option>
-            <option>8:00 PM - 9:00 PM</option>
-          </select>
-        </div>
+<label>Time Slot</label>
+<select id="bookingTimeSlot">
+<option value="">Select date &amp; facility first</option>
+</select>
+</div>
+<div class="form-group">
+<label>Rate (Rs.)</label>
+<input type="number" id="bookingRate" placeholder="Enter rate" min="0" step="1">
+</div>
         <div class="form-group">
           <label>Payment Method</label>
-          <select>
-            <option>Cash</option>
-            <option>UPI</option>
-            <option>Card</option>
-            <option>Free (Complimentary)</option>
-          </select>
+<select id="bookingPaymentMethod">
+<option value="cash">Cash</option>
+<option value="upi">UPI</option>
+<option value="card">Card</option>
+<option value="free">Free (Complimentary)</option>
+</select>
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" onclick="closeAddBookingModal()">Cancel</button>
-      <button class="btn-confirm">Create Booking</button>
-    </div>
+    <div id="addBookingError" style="display:none;color:#ef4444;font-size:0.85rem;padding:0 1.5rem 0.75rem;"></div>
+<div class="modal-footer">
+<button class="btn-cancel" onclick="closeAddBookingModal()">Cancel</button>
+<button class="btn-confirm" id="createBookingBtn" onclick="submitAddBooking()">Create Booking</button>
+</div>
   </div>
 </div>
 
