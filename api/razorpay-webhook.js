@@ -6,6 +6,8 @@
 // so automatic JSON body-parsing is disabled below and we read the raw stream.
 
 import crypto from 'crypto';
+import { query } from '../lib/db.js';
+import { sendBookingConfirmationEmail } from '../lib/email.js';
 
 export const config = {
   api: {
@@ -73,16 +75,78 @@ export default async function handler(req, res) {
   // to automatically update booking records.
   console.log('Verified Razorpay webhook event:', eventType);
 
-  switch (eventType) {
-    case 'payment.captured':
-    case 'order.paid':
-    case 'payment.failed':
-      // Acknowledge receipt. Add persistence/notifications here if needed.
-      break;
-    default:
-      // Unrecognized event type; still acknowledge so Razorpay doesn't retry.
-      break;
-  }
-
+ if (eventType === 'payment.captured') {
+     await handlePaymentCaptured(event);
+ } else {
+     console.log('Unhandled Razorpay webhook event type:', eventType);
+ }
+ 
   return res.status(200).json({ received: true });
+}
+
+
+async function handlePaymentCaptured(event) {
+  try {
+    const payment = event.payload && event.payload.payment && event.payload.payment.entity;
+    if (!payment) {
+      console.error('payment.captured event missing payment entity.');
+      return;
+    }
+
+  const notes = payment.notes || {};
+    const bookingRef = notes.booking_id;
+    if (!bookingRef) {
+      console.error('payment.captured event missing booking_id in notes.');
+      return;
+    }
+
+  const existing = await query('SELECT id FROM bookings WHERE booking_ref = $1', [bookingRef]);
+    if (existing.rows.length > 0) {
+      console.log('Booking already recorded for', bookingRef);
+      return;
+    }
+
+  const facilityLookup = await query('SELECT id, option_name FROM facilities WHERE option_id = $1', [notes.facility_id]);
+    if (facilityLookup.rows.length === 0) {
+      console.error('No facility found for option_id', notes.facility_id);
+      return;
+    }
+    const facility = facilityLookup.rows[0];
+
+  const amount = payment.amount ? payment.amount / 100 : Number(notes.amount) || 0;
+    const rate = Number(notes.rate) || amount;
+
+  const insertResult = await query(
+    `INSERT INTO bookings
+    (booking_ref, facility_id, customer_name, customer_email, customer_phone,
+    booking_date, start_time, end_time, rate, amount, payment_method, status, source, notes)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+    RETURNING *`,
+    [
+      bookingRef,
+      facility.id,
+      notes.customer_name || '',
+      notes.customer_email || '',
+      notes.customer_phone || '',
+      notes.booking_date,
+      notes.start_time,
+      notes.end_time,
+      rate,
+      amount,
+      'razorpay',
+      'confirmed',
+      'online',
+      'Razorpay payment_id: ' + payment.id
+      ]
+    );
+
+  const booking = insertResult.rows[0];
+    booking.option_name = facility.option_name;
+
+  await sendBookingConfirmationEmail(booking);
+
+  await query('UPDATE bookings SET confirmation_sent_at = now() WHERE id = $1', [booking.id]);
+  } catch (err) {
+    console.error('handlePaymentCaptured error:', err);
+  }
 }
