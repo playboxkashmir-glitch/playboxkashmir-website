@@ -3,7 +3,7 @@ import { hashPassword } from '../lib/auth.js';
 
 export default async function handler(req, res) {
   // Change this to your own secret before deploying
-  const SETUP_KEY = 'PlayB0xKmR26#';
+  const SETUP_KEY = 'PlayBoxSetup2026!X9kLm';
 
   if (req.query.key !== SETUP_KEY) {
     return res.status(403).json({ error: 'Forbidden' });
