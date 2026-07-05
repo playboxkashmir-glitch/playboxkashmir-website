@@ -48,7 +48,7 @@ let state = {
    customerName: null,
    customerPhone: null,
    customerEmail: null,
-   customerNotes: null,
+   customerNotes: null, welcomeBackName: null,
    promoCode: null,
    promoType: null,
    promoValue: 0,
@@ -278,12 +278,12 @@ async function renderSlots() {
    if (!slotsGrid || !state.date || !state.facilityId) return;
    const dateKey = state.date.toISOString().split('T')[0];
    slotsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;">Loading available slots...</p>';
-   let bookedTimes = [];
+   let blockedRanges = [];
    try {
       const res = await fetch('/api/bookings?resource=availability&date=' + dateKey + '&facility_id=' + state.facilityDbId);
       if (res.ok) {
          const data = await res.json();
-         bookedTimes = (data.blocked || []).map(function (b) { return b.start_time; });
+         blockedRanges = (data.blocked || []);
       }
    } catch (err) {
       console.error('Could not check slot availability:', err);
@@ -300,19 +300,19 @@ const today = new Date();
       const startTime = formatTime(hour % 24);
       const endTime = formatTime((hour + 1) % 24);
       const slotKey = (hour % 24) + ':00';
-      const isBooked = bookedTimes.indexOf(slotKey) !== -1;
+      const isBooked = blockedRanges.some(function (b) { return isHourBlocked(hour, b); });
       const isPast = isToday && (hour % 24) <= currentHour;
       const isPeak = CONFIG.peak_hours.includes(hour % 24);
       let price = isPeak ? state.facilityPeakPrice : state.facilityPrice;
       const priceDisplay = isPeak ? ('₹' + price + ' <span style="font-size:0.65rem;color:#f59e0b;">Peak</span>') : ('₹' + price);
       let slotClass = 'slot-btn';
       if (isBooked || isPast) slotClass += ' booked';
-      const isSelected = state.slotTime === slotKey;
+      const isSelected = state.selectedHours.indexOf(hour) !== -1;
       if (isSelected) slotClass += ' selected';
       if (isBooked || isPast) {
          html += '<button class="' + slotClass + '" disabled><span class="slot-time">' + startTime + ' - ' + endTime + '</span><span class="slot-price">Booked</span></button>';
       } else {
-         html += '<button class="' + slotClass + '" onclick="selectSlot(\'' + slotKey + '\', \'' + startTime + ' - ' + endTime + '\', ' + price + ')"><span class="slot-time">' + startTime + ' - ' + endTime + '</span><span class="slot-price">' + priceDisplay + '</span></button>';
+         html += '<button class="' + slotClass + '" onclick="toggleSlot(' + hour + ')"><span class="slot-time">' + startTime + ' - ' + endTime + '</span><span class="slot-price">' + priceDisplay + '</span></button>';
       }
    }
    slotsGrid.innerHTML = html;
@@ -325,20 +325,20 @@ function formatTime(hour) {
    return (hour - 12) + ':00 PM';
 }
 
-function selectSlot(slotKey, label, price) {
-   state.slotTime = slotKey;
-   state.slotLabel = label;
-   state.basePrice = price;
-   document.querySelectorAll('.slot-btn').forEach(function (el) { el.classList.remove('selected'); });
-   const target = event && event.target ? event.target.closest('.slot-btn') : null;
-   if (target) target.classList.add('selected');
-   updateStep2Btn();
+function toggleSlot(hour) {
+   var hrs = state.selectedHours; var idx = hrs.indexOf(hour); if (idx !== -1) { var isEnd = hour === hrs[0] || hour === hrs[hrs.length - 1]; if (isEnd) { hrs.splice(idx, 1); } else { state.selectedHours = [hour]; } } else if (hrs.length === 0) { state.selectedHours = [hour]; } else { var mn = Math.min.apply(null, hrs); var mx = Math.max.apply(null, hrs); if (hour === mx + 1 || hour === mn - 1) { hrs.push(hour); } else { state.selectedHours = [hour]; } } state.selectedHours.sort(function (a, b) { return a - b; }); updateSelectedSlotSummary(); renderSlots(); updateStep2Btn();
+   
+   
+   
+   
+   
+   
 }
 
-function updateStep2Btn() {
+function isHourBlocked(hour, block) { var s = parseInt(String(block.start_time).split(':')[0], 10); var e = parseInt(String(block.end_time).split(':')[0], 10); var h = hour % 24; if (e > s) { return h >= s && h < e; } return h >= s || h < e; } function updateSelectedSlotSummary() { var hrs = state.selectedHours; if (!hrs || !hrs.length) { state.slotTime = null; state.slotLabel = null; state.basePrice = 0; return; } var first = hrs[0]; var last = hrs[hrs.length - 1]; state.slotTime = (first % 24) + ':00'; var total = 0; for (var i = 0; i < hrs.length; i++) { var hh = hrs[i] % 24; total += (CONFIG.peak_hours.indexOf(hh) !== -1) ? state.facilityPeakPrice : state.facilityPrice; } state.basePrice = total; state.slotLabel = formatTime(first % 24) + ' - ' + formatTime((last + 1) % 24) + ' (' + hrs.length + (hrs.length > 1 ? ' hrs)' : ' hr)'); } function updateStep2Btn() {
    const btn = document.getElementById('btn-step2-next');
    if (!btn) return;
-   btn.disabled = !(state.date && state.slotTime);
+   btn.disabled = !(state.date && state.selectedHours && state.selectedHours.length);
 }
 
 // =====================
@@ -458,7 +458,7 @@ function validateAndProceed() {
    if (!valid) return;
    state.customerName = name;
    state.customerPhone = phone;
-   state.customerEmail = email;
+   state.customerEmail = email; lookupReturningCustomer(email);
    const notesEl = document.getElementById('custNotes');
    state.customerNotes = notesEl ? notesEl.value.trim() : '';
    calculatePrice();
@@ -468,9 +468,9 @@ function validateAndProceed() {
 // =====================
 // STEP 4: Payment
 // =====================
-function renderPaymentStep() {
+function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookings?resource=customer-lookup&email=' + encodeURIComponent(email)).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { state.welcomeBackName = (data && data.found && data.name) ? data.name : null; var el = document.getElementById('welcomeBackMsg'); if (el) { if (state.welcomeBackName) { el.textContent = 'Welcome back, ' + state.welcomeBackName + '!'; el.style.display = 'flex'; } else { el.style.display = 'none'; } } }).catch(function () {}); } function renderPaymentStep() {
    calculatePrice();
-   const finalSummary = document.getElementById('finalSummary');
+   const finalSummary = document.getElementById('finalSummary'); var welcomeEl = document.getElementById('welcomeBackMsg'); if (welcomeEl) { if (state.welcomeBackName) { welcomeEl.textContent = 'Welcome back, ' + state.welcomeBackName + '!'; welcomeEl.style.display = 'flex'; } else { welcomeEl.style.display = 'none'; } }
    if (finalSummary) {
       finalSummary.innerHTML = buildSummaryRows() +
          '<div class="summary-row"><span class="label">Customer</span><span class="value">' + state.customerName + '</span></div>' +
@@ -498,8 +498,8 @@ function renderPaymentStep() {
        // extend to a 2-hour slot before peak-hour demand fills up the remaining time.
        const upsellEl = document.getElementById('peakUpsellBanner');
        if (upsellEl) {
-                const startHour = state.slotTime ? parseInt(String(state.slotTime).split(':')[0], 10) : null;
-                const isPeakSlot = startHour !== null && CONFIG.peak_hours.indexOf(startHour) !== -1;
+                
+                const isPeakSlot = (state.selectedHours || []).some(function (h) { return CONFIG.peak_hours.indexOf(h % 24) !== -1; });
                 upsellEl.style.display = isPeakSlot ? 'flex' : 'none';
        }
    startReservationTimer();
@@ -595,9 +595,9 @@ function createRazorpayOrder() {
             customer_email: state.customerEmail,
             customer_phone: state.customerPhone,
             booking_date: state.date ? state.date.toISOString().split('T')[0] : '',
-            start_time: state.slotTime,
+            start_time: (function () { var hh = (state.selectedHours && state.selectedHours[0] !== undefined) ? state.selectedHours[0] : parseInt(String(state.slotTime).split(':')[0], 10); return (hh % 24) + ':00'; })(),
             end_time: (function () {
-               var h = parseInt(String(state.slotTime).split(':')[0], 10);
+               var hrsArr = state.selectedHours || []; var h = hrsArr.length ? hrsArr[hrsArr.length - 1] : parseInt(String(state.slotTime).split(':')[0], 10);
                return ((h + 1) % 24) + ':00';
             })(),
             rate: state.basePrice,
@@ -746,7 +746,7 @@ function resetBooking() {
       customerName: null,
       customerPhone: null,
       customerEmail: null,
-      customerNotes: null,
+      customerNotes: null, welcomeBackName: null,
       promoCode: null,
       promoType: null,
       promoValue: 0,

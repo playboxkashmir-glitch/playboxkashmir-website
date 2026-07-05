@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 // Slot availability must be readable by anonymous visitors on the public
 // booking page, so this one resource is intentionally not behind requireAuth.
 if (resource === 'availability') {
-  return handleAvailability(req, res);
+  return handleAvailability(req, res); } if (resource === 'customer-lookup') { return handleCustomerLookup(req, res);
 }
 
 const user = await requireAuth(req, res);
@@ -196,7 +196,7 @@ res.setHeader('Allow', 'GET, PATCH, DELETE');
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-async function handleAvailability(req, res) {
+async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); } const { email } = req.query; if (!email) { return res.status(400).json({ error: 'email query param is required.' }); } try { const rows = await query('SELECT customer_name FROM bookings WHERE lower(customer_email) = lower($1) ORDER BY booking_date DESC LIMIT 1', [email]); if (rows.rows.length === 0) { return res.status(200).json({ found: false }); } const fullName = rows.rows[0].customer_name || ''; const firstName = fullName.trim().split(/\s+/)[0] || fullName; return res.status(200).json({ found: true, name: firstName }); } catch (err) { console.error('Customer lookup error:', err); return res.status(500).json({ error: 'Server error while looking up customer.' }); } } async function handleAvailability(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
