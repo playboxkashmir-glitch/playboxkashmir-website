@@ -10,7 +10,7 @@
 // backend APIs below so that changes made in the admin dashboard (pricing,
 // promos) show up here automatically without editing this file.
 const SPORT_META = {
-   football: { name: 'Football & Cricket Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false },
+   football: { name: 'Football Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false }, boxcricket: { name: 'Box Cricket', icon: 'fas fa-baseball-ball', color: '#ea580c', comingSoon: false },
    cricket: { name: 'Cricket Nets', icon: 'fas fa-baseball-ball', color: '#22c55e', comingSoon: true },
    pickleball: { name: 'Pickleball Court', icon: 'fas fa-table-tennis', color: '#22c55e', comingSoon: true }
 };
@@ -25,7 +25,7 @@ const CONFIG = {
    peak_hours: [18, 19, 20, 21], // 6PM - 10PM
    weekend_days: [0, 6], // Sunday, Saturday
    gst_rate: 0,
-   convenience_fee: 15.49,
+   convenience_fee: 7,
    reservation_minutes: 10
 };
 
@@ -357,7 +357,7 @@ function buildSummaryRows() {
       ['Facility', state.facilityName],
       ['Date', state.dateFormatted],
       ['Time Slot', state.slotLabel],
-      ['Booking Price (all inclusive)', '₹' + state.basePrice]
+      ['Price', '₹' + state.basePrice]
       ];
    return rows.map(function (r) {
       return '<div class="summary-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>';
