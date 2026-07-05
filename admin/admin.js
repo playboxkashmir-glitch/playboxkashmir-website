@@ -1,8 +1,9 @@
 /* PlayBox Kashmir – Admin JS */
 
 const CONFIG = {
-  slotStartHour: 9,
+  slotStartHour: 5,
   slotEndHour: 26,
+  peakHours: [18, 19, 20, 21], // 6PM-10PM start hours use peak_price (matches assets/js/booking.js)
   slotDurationMin: 60
 };
 
@@ -235,10 +236,14 @@ async function onBookingSlotInputsChange() {
     return '<option value="' + s.value + '"' + (isBlocked ? ' disabled' : '') + '>' + s.label + (isBlocked ? ' (Booked)' : '') + '</option>';
   }).join('');
 
-  const selectedOption = facilitySel.options[facilitySel.selectedIndex];
-  if (selectedOption && rateInput && !rateInput.value) {
-    rateInput.value = selectedOption.dataset.basePrice || '';
-  }
+const selectedOption = facilitySel.options[facilitySel.selectedIndex];
+    if (selectedOption && rateInput) {
+          const selectedSlotValue = timeSel.value;
+          const startHour = selectedSlotValue ? parseInt(selectedSlotValue.split('|')[0].split(':')[0], 10) : null;
+          const isPeak = startHour !== null && CONFIG.peakHours.indexOf(startHour) !== -1;
+          const price = isPeak ? selectedOption.dataset.peakPrice : selectedOption.dataset.basePrice;
+          rateInput.value = price || selectedOption.dataset.basePrice || '';
+    }
 }
 
 async function submitAddBooking() {
