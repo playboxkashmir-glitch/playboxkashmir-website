@@ -44,7 +44,7 @@ let state = {
    date: null,
    dateFormatted: null,
    slotTime: null,
-   slotLabel: null,
+   slotLabel: null, selectedHours: [],
    customerName: null,
    customerPhone: null,
    customerEmail: null,
@@ -260,7 +260,7 @@ function nextMonth() {
 function selectDate(year, month, day) {
    state.date = new Date(year, month, day);
    state.slotTime = null;
-   state.slotLabel = null;
+   state.slotLabel = null; state.selectedHours = []; state.basePrice = 0;
    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
    state.dateFormatted = state.date.toLocaleDateString('en-IN', dateOptions);
    const displayEl = document.getElementById('selectedDateDisplay');
@@ -742,7 +742,7 @@ function resetBooking() {
       date: null,
       dateFormatted: null,
       slotTime: null,
-      slotLabel: null,
+      slotLabel: null, selectedHours: [],
       customerName: null,
       customerPhone: null,
       customerEmail: null,
