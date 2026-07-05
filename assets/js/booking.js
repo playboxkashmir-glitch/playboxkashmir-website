@@ -380,7 +380,7 @@ function calculatePrice() {
    const discounted = price - discount;
    const convenienceFee = CONFIG.convenience_fee;
    state.gstAmount = convenienceFee;
-   state.totalAmount = discounted + convenienceFee;
+   state.totalAmount = Math.round((discounted + convenienceFee) * 100) / 100;
 }
 
 // Validates the promo code against the live database (/api/promos?validate=)
