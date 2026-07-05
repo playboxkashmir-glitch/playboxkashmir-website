@@ -53,7 +53,7 @@
 </header>
 
 <div style="padding:2rem;">
-<div class="admin-card">
+<div class="admin-card" style="margin-bottom:1.5rem;"><h3 style="margin:0 0 0.75rem;font-size:1rem;">Convenience Fee</h3><p style="color:#6b7280;font-size:0.85rem;margin:0 0 0.75rem;">Fixed fee added to every booking at checkout. Not affected by promo codes.</p><div style="display:flex;align-items:center;gap:0.6rem;"><span>Rs.</span><input type="number" id="convenienceFeeInput" class="pk-price-input" step="0.01" min="0" placeholder="15.49"><button onclick="saveConvenienceFee()" style="background:#15803d;color:#fff;border:none;padding:0.5rem 1rem;border-radius:6px;cursor:pointer;font-weight:600;">Save</button></div></div> <div class="admin-card">
 <div class="bookings-table-wrap">
 <table class="bookings-table">
 <thead>
@@ -73,10 +73,10 @@
 </div>
 </main>
 
-<script src="admin.js"></script>
+<script src="admin.js">async function loadConvenienceFee(){try{const res=await fetch('/api/settings');const data=await res.json();const el=document.getElementById('convenienceFeeInput');if(el&&data&&data.convenience_fee!==undefined){const v=parseFloat(data.convenience_fee);if(!isNaN(v))el.value=v;}}catch(err){console.error('Load convenience fee error:',err);}} async function saveConvenienceFee(){const val=document.getElementById('convenienceFeeInput').value;if(val===''){alert('Enter a convenience fee amount.');return;}try{const res=await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({key:'convenience_fee',value:Number(val)})});const data=await res.json();if(!res.ok){alert(data.error||'Could not update convenience fee.');return;}alert('Convenience fee updated.');}catch(err){alert('Network error. Please try again.');}} </script>
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  loadPricing();
+  loadPricing(); loadConvenienceFee();
 });
 
 async function loadPricing() {
@@ -139,6 +139,6 @@ async function savePrice(id) {
     alert('Network error. Please try again.');
   }
 }
-</script>
+async function loadConvenienceFee(){try{const res=await fetch('/api/settings');const data=await res.json();const el=document.getElementById('convenienceFeeInput');if(el&&data&&data.convenience_fee!==undefined){const v=parseFloat(data.convenience_fee);if(!isNaN(v))el.value=v;}}catch(err){console.error('Load convenience fee error:',err);}} async function saveConvenienceFee(){const val=document.getElementById('convenienceFeeInput').value;if(val===''){alert('Enter a convenience fee amount.');return;}try{const res=await fetch('/api/settings',{method:'PUT',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({key:'convenience_fee',value:Number(val)})});const data=await res.json();if(!res.ok){alert(data.error||'Could not update convenience fee.');return;}alert('Convenience fee updated.');}catch(err){alert('Network error. Please try again.');}} </script>
 </body>
 </html>
