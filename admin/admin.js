@@ -230,11 +230,12 @@ async function onBookingSlotInputsChange() {
     console.error('Failed to check availability', err);
   }
 
-  timeSel.innerHTML = slots.map(function (s) {
+  const previousSlotValue = timeSel.value; timeSel.innerHTML = slots.map(function (s) {
     const startTime = s.value.split('|')[0];
     const isBlocked = blocked.indexOf(startTime) !== -1;
     return '<option value="' + s.value + '"' + (isBlocked ? ' disabled' : '') + '>' + s.label + (isBlocked ? ' (Booked)' : '') + '</option>';
   }).join('');
+  if (previousSlotValue) { timeSel.value = previousSlotValue; }
 
 const selectedOption = facilitySel.options[facilitySel.selectedIndex];
     if (selectedOption && rateInput) {
