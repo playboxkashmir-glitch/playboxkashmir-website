@@ -18,14 +18,14 @@ const SPORT_META = {
 const CONFIG = {
    facilities: {}, // populated at runtime by loadFacilities() from /api/facilities
    slots: {
-      start: 9, // 9 AM
+      start: 5, // 5 AM
       end: 26, // 2 AM (next day)
       duration: 60 // minutes
    },
    peak_hours: [18, 19, 20, 21], // 6PM - 10PM
    weekend_days: [0, 6], // Sunday, Saturday
    gst_rate: 0,
-   convenience_fee: 0,
+   convenience_fee: 15.49,
    reservation_minutes: 10
 };
 
@@ -98,6 +98,23 @@ async function loadFacilities() {
       console.error('Could not load facilities from server:', err);
    }
 }
+
+// Loads site-wide pricing settings (e.g. convenience fee) from /api/settings
+// so that changing them in the admin dashboard reflects here automatically.
+async function loadSettings() {
+     try {
+            const res = await fetch('/api/settings');
+            if (!res.ok) return;
+            const data = await res.json();
+            const fee = parseFloat(data.convenience_fee);
+            if (!isNaN(fee)) {
+                     CONFIG.convenience_fee = fee;
+            }
+     } catch (err) {
+            console.error('Could not load settings from server:', err);
+     }
+}
+
 
 // Keeps any static "starting from" price teasers elsewhere on the page (e.g.
 // the homepage facility cards) in sync with the live price from the database.
@@ -477,6 +494,14 @@ function renderPaymentStep() {
          discRow.style.display = 'none';
       }
    }
+   // Peak-hour upsell nudge: classic marketing tactic encouraging customers to
+       // extend to a 2-hour slot before peak-hour demand fills up the remaining time.
+       const upsellEl = document.getElementById('peakUpsellBanner');
+       if (upsellEl) {
+                const startHour = state.slotTime ? parseInt(String(state.slotTime).split(':')[0], 10) : null;
+                const isPeakSlot = startHour !== null && CONFIG.peak_hours.indexOf(startHour) !== -1;
+                upsellEl.style.display = isPeakSlot ? 'flex' : 'none';
+       }
    startReservationTimer();
 }
 
@@ -766,6 +791,7 @@ document.addEventListener('DOMContentLoaded', async () => {
    // Load live facility/pricing data from the backend before the user can
                           // interact with sport/facility selection.
                           await loadFacilities();
+   await loadSettings();
 
                           // Check URL params for pre-selected sport
                           const urlParams = new URLSearchParams(window.location.search);
