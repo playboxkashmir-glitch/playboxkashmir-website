@@ -202,7 +202,7 @@ async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
   }
-  const { date, facility_id } = req.query;
+  const { date, facility_id, hold_token } = req.query;
   if (!date) {
     return res.status(400).json({ error: 'date query param is required (YYYY-MM-DD).' });
   }
@@ -219,7 +219,7 @@ async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.
       WHERE booking_date = $1 AND status IN ('reserved','confirmed') ${facilityClause}`,
       params
       );
-      const holdParams = [date]; let holdFacilityClause = ''; if (facility_id) { holdParams.push(facility_id); holdFacilityClause = `AND facility_id = $${holdParams.length}`; } const holdRows = await query(`SELECT facility_id, start_time, end_time, 'held' as status FROM slot_holds WHERE booking_date = $1 AND expires_at > now() ${holdFacilityClause}`, holdParams);
+      const holdParams = [date]; let holdFacilityClause = ''; if (facility_id) { holdParams.push(facility_id); holdFacilityClause = `AND facility_id = $${holdParams.length}`; } let holdTokenClause = ''; if (hold_token) { holdParams.push(hold_token); holdTokenClause = `AND hold_token IS DISTINCT FROM $${holdParams.length}`; } const holdRows = await query(`SELECT facility_id, start_time, end_time, 'held' as status FROM slot_holds WHERE booking_date = $1 AND expires_at > now() ${holdFacilityClause} ${holdTokenClause}`, holdParams);
     return res.status(200).json({ blocked: rows.rows.concat(holdRows.rows) });
   } catch (err) {
     console.error('Availability error:', err);

@@ -281,7 +281,7 @@ async function renderSlots() {
    slotsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;">Loading available slots...</p>';
    let blockedRanges = [];
    try {
-      const res = await fetch('/api/bookings?resource=availability&date=' + dateKey + '&facility_id=' + state.facilityDbId);
+      const res = await fetch('/api/bookings?resource=availability&date=' + dateKey + '&facility_id=' + state.facilityDbId + '&hold_token=' + encodeURIComponent(state.holdToken || ''));
       if (res.ok) {
          const data = await res.json();
          blockedRanges = (data.blocked || []);
