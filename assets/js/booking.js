@@ -188,7 +188,7 @@ const options = CONFIG.facilities[sport].options;
          return '<button class="facility-btn" data-facility="' + opt.id + '" onclick="selectFacility(\'' + opt.id + '\', ' + opt.dbId + ', \'' + opt.name + '\', ' + opt.price + ', ' + opt.peak_price + ')">' + opt.name + '</button>';
       }).join('');
    }
-   checkStep1Complete();
+   if (options.length === 1) { selectFacility(options[0].id, options[0].dbId, options[0].name, options[0].price, options[0].peak_price); } else { checkStep1Complete(); }
 }
 
 function selectFacility(id, dbId, name, price, peakPrice) {
