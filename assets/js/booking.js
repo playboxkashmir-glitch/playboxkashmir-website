@@ -26,6 +26,7 @@ const CONFIG = {
    weekend_days: [0, 6], // Sunday, Saturday
    gst_rate: 0,
    convenience_fee: 7,
+    inaugural_discount_pct: 15,
    reservation_minutes: 10
 };
 
@@ -124,7 +125,7 @@ function updateStaticPriceDisplays() {
       for (const sportKey in CONFIG.facilities) {
          const match = CONFIG.facilities[sportKey].options.find(function (o) { return o.id === optionId; });
          if (match) {
-            el.textContent = '₹' + match.price;
+            el.textContent = '₹' + (match.price - Math.round(match.price * CONFIG.inaugural_discount_pct / 100));
          }
       }
    });
@@ -303,7 +304,7 @@ const today = new Date();
       const isBooked = blockedRanges.some(function (b) { return isHourBlocked(hour, b); });
       const isPast = isToday && (hour % 24) <= currentHour;
       const isPeak = CONFIG.peak_hours.includes(hour % 24);
-      let price = isPeak ? state.facilityPeakPrice : state.facilityPrice;
+      let rawPrice = isPeak ? state.facilityPeakPrice : state.facilityPrice; let price = rawPrice - Math.round(rawPrice * CONFIG.inaugural_discount_pct / 100);
       const priceDisplay = isPeak ? ('₹' + price + ' <span style="font-size:0.65rem;color:#f59e0b;">Peak</span>') : ('₹' + price);
       let slotClass = 'slot-btn';
       if (isBooked || isPast) slotClass += ' booked';
@@ -352,13 +353,7 @@ function renderSummaryStep3() {
 }
 
 function buildSummaryRows() {
-   const rows = [
-      ['Sport', state.sportName],
-      ['Facility', state.facilityName],
-      ['Date', state.dateFormatted],
-      ['Time Slot', state.slotLabel],
-      ['Price', '₹' + state.basePrice]
-      ];
+const rows = []; rows.push(['Sport', state.sportName]); rows.push(['Facility', state.facilityName]); rows.push(['Date', state.dateFormatted]); rows.push(['Time Slot', state.slotLabel]); rows.push(['Turf Price', '₹' + state.basePrice]); rows.push(['Inaugural Offer (-' + CONFIG.inaugural_discount_pct + '%)', '-₹' + state.inauguralDiscount]); if (state.promoDiscount > 0) { rows.push(['Promo (' + state.promoCode + ')', '-₹' + state.promoDiscount]); } rows.push(['Subtotal', '₹' + state.discountedSubtotal]);
    return rows.map(function (r) {
       return '<div class="summary-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>';
    }).join('');
@@ -366,23 +361,7 @@ function buildSummaryRows() {
 
 // Discount is applied using whichever promo was last validated by the server
 // via applyPromo() below - no promo details are hardcoded in the frontend.
-function calculatePrice() {
-   let price = state.basePrice;
-   let discount = 0;
-   if (state.promoCode && price >= state.promoMinAmount) {
-      if (state.promoType === 'percent') {
-         discount = Math.round(price * state.promoValue / 100);
-      } else {
-         discount = state.promoValue;
-      }
-   }
-   state.promoDiscount = discount;
-   const discounted = price - discount;
-   const convenienceFee = CONFIG.convenience_fee;
-   state.gstAmount = convenienceFee;
-   state.totalAmount = Math.round((discounted + convenienceFee) * 100) / 100;
-}
-
+function calculatePrice() { const original = state.basePrice; const inauguralDiscount = Math.round(original * CONFIG.inaugural_discount_pct / 100); state.inauguralDiscount = inauguralDiscount; const afterInaugural = original - inauguralDiscount; let price = afterInaugural; let discount = 0; if (state.promoCode && price >= state.promoMinAmount) { if (state.promoType === 'percent') { discount = Math.round(price * state.promoValue / 100); } else { discount = state.promoValue; } } state.promoDiscount = discount; const discounted = price - discount; state.discountedSubtotal = discounted; const convenienceFee = CONFIG.convenience_fee; state.gstAmount = convenienceFee; state.totalAmount = Math.round((discounted + convenienceFee) * 100) / 100; }
 // Validates the promo code against the live database (/api/promos?validate=)
 // instead of a hardcoded list, so promo codes created/edited/disabled in the
 // admin dashboard take effect immediately on the website.
@@ -406,7 +385,7 @@ async function applyPromo() {
          state.promoType = null;
          state.promoValue = 0;
          state.promoMinAmount = 0;
-         calculatePrice();
+         calculatePrice(); renderSummaryStep3();
          resultEl.textContent = (data && data.error) || 'Invalid promo code. Please try again.';
          resultEl.className = 'promo-result error';
          return;
@@ -422,7 +401,7 @@ async function applyPromo() {
       state.promoType = promo.type;
       state.promoValue = Number(promo.value);
       state.promoMinAmount = minAmount;
-      calculatePrice();
+      calculatePrice(); renderSummaryStep3();
       const discountText = promo.type === 'percent' ? (promo.value + '% off') : ('₹' + promo.value + ' off');
       resultEl.textContent = '✓ Promo applied! ' + discountText;
       resultEl.className = 'promo-result success';
@@ -478,6 +457,7 @@ function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookin
    }
    const slotPriceEl = document.getElementById('pay-slot-price');
    if (slotPriceEl) slotPriceEl.textContent = '₹' + state.basePrice;
+   const inaugRow = document.getElementById('inauguralRow'); if (inaugRow) { if (state.inauguralDiscount > 0) { inaugRow.style.display = 'flex'; const payInaugEl = document.getElementById('pay-inaugural'); if (payInaugEl) payInaugEl.textContent = '-₹' + state.inauguralDiscount; } else { inaugRow.style.display = 'none'; } }
    const gstEl = document.getElementById('pay-gst');
    if (gstEl) gstEl.textContent = '₹' + state.gstAmount;
    const totalEl = document.getElementById('pay-total');
@@ -500,9 +480,9 @@ function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookin
        if (upsellEl) {
                 
                 const isPeakSlot = (state.selectedHours || []).some(function (h) { return CONFIG.peak_hours.indexOf(h % 24) !== -1; });
-                upsellEl.style.display = isPeakSlot ? 'flex' : 'none';
-       }
+upsellEl.style.display = (isPeakSlot && (state.selectedHours || []).length === 1) ? 'flex' : 'none';       }
    startReservationTimer();
+   createSlotHold();
 }
 
 function startReservationTimer() {
@@ -534,6 +514,7 @@ function stopReservationTimer() {
    const timerEl = document.getElementById('reservationTimer');
    if (timerEl) timerEl.style.display = 'none';
 }
+function createSlotHold() { if (!state.facilityDbId || !state.date || !(state.selectedHours && state.selectedHours.length)) return; var dateKey = state.date.toISOString().split('T')[0]; var slots = state.selectedHours.map(function (h) { return { start_time: (h % 24) + ':00', end_time: ((h + 1) % 24) + ':00' }; }); if (!state.holdToken) { state.holdToken = 'H' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); } fetch('/api/bookings?resource=hold', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ facility_id: state.facilityDbId, booking_date: dateKey, slots: slots, hold_token: state.holdToken }) }).catch(function (err) { console.error('Could not place slot hold:', err); }); }
 
 // =====================
 // PAYMENT (Razorpay Integration)

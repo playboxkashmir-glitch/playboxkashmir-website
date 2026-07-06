@@ -26,6 +26,7 @@ export default async function handler(req, res) {
 if (resource === 'availability') {
   return handleAvailability(req, res); } if (resource === 'customer-lookup') { return handleCustomerLookup(req, res);
 }
+if (resource === 'hold') { return handleHold(req, res); }
 
 const user = await requireAuth(req, res);
   if (!user) return;
@@ -218,12 +219,14 @@ async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.
       WHERE booking_date = $1 AND status IN ('reserved','confirmed') ${facilityClause}`,
       params
       );
-    return res.status(200).json({ blocked: rows.rows });
+      const holdParams = [date]; let holdFacilityClause = ''; if (facility_id) { holdParams.push(facility_id); holdFacilityClause = `AND facility_id = $${holdParams.length}`; } const holdRows = await query(`SELECT facility_id, start_time, end_time, 'held' as status FROM slot_holds WHERE booking_date = $1 AND expires_at > now() ${holdFacilityClause}`, holdParams);
+    return res.status(200).json({ blocked: rows.rows.concat(holdRows.rows) });
   } catch (err) {
     console.error('Availability error:', err);
     return res.status(500).json({ error: 'Server error while checking availability.' });
   }
 }
+async function handleHold(req, res) { if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'Method not allowed' }); } try { const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {}); const { facility_id, booking_date, slots, hold_token } = body; if (!facility_id || !booking_date || !Array.isArray(slots) || slots.length === 0 || !hold_token) { return res.status(400).json({ error: 'facility_id, booking_date, slots[], and hold_token are required.' }); } await query('DELETE FROM slot_holds WHERE expires_at < now()'); const expiresAt = new Date(Date.now() + 10 * 60000); for (const s of slots) { await query('INSERT INTO slot_holds (facility_id, booking_date, start_time, end_time, hold_token, expires_at) VALUES ($1,$2,$3,$4,$5,$6)', [facility_id, booking_date, s.start_time, s.end_time, hold_token, expiresAt]); } return res.status(200).json({ success: true, expires_at: expiresAt }); } catch (err) { console.error('Hold error:', err); return res.status(500).json({ error: 'Server error while creating slot hold.' }); } }
 
 async function handleSendConfirmation(req, res) {
   if (req.method !== 'POST') {

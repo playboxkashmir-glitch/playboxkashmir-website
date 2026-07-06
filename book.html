@@ -168,6 +168,8 @@
           <i class="fas fa-calendar-day"></i>
           <span>Please select a date</span>
         </div>
+        <div class="multi-hour-hint" style="background:#eef6ff;border:1px solid #cfe3ff;color:#1a4d8f;padding:0.6rem 0.9rem;border-radius:8px;font-size:0.85rem;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem;"></div><i class="fas fa-info-circle"></i> Tip: You can select multiple hours to book a longer session in one go.</div>
+        <div class="promo-hint" style="font-size:0.8rem;color:#555;margin-bottom:0.75rem;"><i class="fas fa-tag"></i> Use promo code <strong>PBK10</strong> at checkout for an additional 10% off, on top of the flat 15% inaugural discount.</div>
         <div class="slots-grid" id="slotsGrid">
           <div class="slots-placeholder">
             <i class="fas fa-clock"></i>
@@ -234,6 +236,7 @@
         <input type="text" id="promoCode" placeholder="Enter promo code">
         <button class="btn-apply-promo" onclick="applyPromo()">Apply</button>
       </div>
+      <div class="promo-hint" style="font-size:0.8rem;color:#555;margin-top:0.4rem;"><i class="fas fa-tag"></i> Try code <strong>PBK10</strong> for an additional 10% off (on top of the flat 15% inaugural discount).</div>
       <div class="promo-result" id="promoResult"></div>
     </div>
 
@@ -259,11 +262,12 @@
 
         <div class="price-breakdown">
           <div class="price-row">
-            <span>Subtotal</span>
+            <span>Turf Price</span>
             <span id="pay-slot-price">₹0</span>
           </div>
+          <div class="price-row" id="inauguralRow" style="display:none;"><span>Inaugural Offer (-15%)</span><span id="pay-inaugural" style="color:var(--success);">-₹0</span></div>
           <div class="price-row discount-row" id="discountRow" style="display:none;">
-            <span>Discount</span>
+            <span>Promo Discount</span>
             <span id="pay-discount" style="color:var(--success);">-₹0</span>
           </div>
           <div class="price-row tax-row">
@@ -283,12 +287,6 @@
           <span>100% Secure Online Payment</span>
         </div>
 
-        <div class="payment-methods">
-          <div class="pm-item"><i class="fas fa-credit-card"></i> Credit/Debit Card</div>
-          <div class="pm-item"><i class="fas fa-university"></i> Net Banking</div>
-          <div class="pm-item"><i class="fas fa-mobile-alt"></i> UPI</div>
-        </div>
-
         <div class="cancellation-notice">
           <i class="fas fa-info-circle"></i>
           <span>Free cancellation up to 24 hours before your slot. After that, cancellation policy applies.</span>
@@ -304,7 +302,7 @@
           Pay <span id="btnPayAmount">₹0</span> Securely
         </button>
 
-        <div class="payment-note">
+        <div class="payment-note" style="margin-bottom:8px;"><i class="fas fa-shield-alt"></i> After clicking Pay, you'll be redirected to our secure payment gateway to complete the transaction.</div><div class="payment-note">
           <i class="fas fa-envelope"></i>
           Confirmation email will be sent immediately after payment.
         </div>
