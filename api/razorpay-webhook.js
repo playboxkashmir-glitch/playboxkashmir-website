@@ -8,6 +8,7 @@
 import crypto from 'crypto';
 import { query } from '../lib/db.js';
 import { sendBookingConfirmationEmail } from '../lib/email.js';
+import { sendBookingConfirmationSms } from '../lib/sms.js';
 
 export const config = {
   api: {
@@ -144,6 +145,7 @@ async function handlePaymentCaptured(event) {
     booking.option_name = facility.option_name;
 
   await sendBookingConfirmationEmail(booking);
+  await sendBookingConfirmationSms(booking);
 
   await query('UPDATE bookings SET confirmation_sent_at = now() WHERE id = $1', [booking.id]);
   } catch (err) {
