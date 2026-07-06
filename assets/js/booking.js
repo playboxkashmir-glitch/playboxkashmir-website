@@ -448,9 +448,9 @@ function validateAndProceed() {
 // =====================
 // STEP 4: Payment
 // =====================
-function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookings?resource=customer-lookup&email=' + encodeURIComponent(email)).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { state.welcomeBackName = (data && data.found && data.name) ? data.name : null; var el = document.getElementById('welcomeBackMsg'); if (el) { if (state.welcomeBackName) { el.textContent = 'Welcome back, ' + state.welcomeBackName + '!'; el.style.display = 'flex'; } else { el.style.display = 'none'; } } }).catch(function () {}); } function renderPaymentStep() {
+function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookings?resource=customer-lookup&email=' + encodeURIComponent(email)).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { state.welcomeBackFound = !!(data && data.found); state.welcomeBackName = null; var el = document.getElementById('welcomeBackMsg'); if (el) { if (state.welcomeBackFound) { el.textContent = 'Welcome back!'; el.style.display = 'flex'; } else { el.style.display = 'none'; } } }).catch(function () {}); } function renderPaymentStep() {
    calculatePrice();
-   const finalSummary = document.getElementById('finalSummary'); var welcomeEl = document.getElementById('welcomeBackMsg'); if (welcomeEl) { if (state.welcomeBackName) { welcomeEl.textContent = 'Welcome back, ' + state.welcomeBackName + '!'; welcomeEl.style.display = 'flex'; } else { welcomeEl.style.display = 'none'; } }
+   const finalSummary = document.getElementById('finalSummary'); var welcomeEl = document.getElementById('welcomeBackMsg'); if (welcomeEl) { if (state.welcomeBackFound) { welcomeEl.textContent = 'Welcome back!'; welcomeEl.style.display = 'flex'; } else { welcomeEl.style.display = 'none'; } }
    if (finalSummary) {
       finalSummary.innerHTML = buildBookingInfoRows() +
          '<div class="summary-row"><span class="label">Customer</span><span class="value">' + state.customerName + '</span></div>' +
@@ -565,7 +565,7 @@ function createRazorpayOrder() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-         amount: Math.round(state.totalAmount * 100),
+         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null),
          currency: 'INR',
          receipt: state.bookingId,
          notes: {
@@ -591,7 +591,7 @@ function createRazorpayOrder() {
       return res.json();
    }).then(function (data) {
       if (!data || !data.id) throw new Error('Invalid order response from server.');
-      state.razorpayOrderId = data.id;
+      state.razorpayOrderId = data.id; if (typeof data.amount === 'number') { state.totalAmount = data.amount / 100; var totalEl = document.getElementById('pay-total'); if (totalEl) totalEl.innerHTML = '<strong>₹' + state.totalAmount + '</strong>'; var payBtnAmount = document.getElementById('btnPayAmount'); if (payBtnAmount) payBtnAmount.textContent = '₹' + state.totalAmount; }
       return data;
    });
 }
@@ -625,7 +625,7 @@ function verifyAndConfirm(response) {
 function openRazorpay() {
    const options = {
       key: 'rzp_live_T90dB0bfW4qEMO',
-      amount: Math.round(state.totalAmount * 100), // Amount in paise
+      facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), // Amount in paise
       currency: 'INR',
       name: 'PlayBox Kashmir',
       description: state.facilityName + ' - ' + state.slotLabel + ' on ' + state.dateFormatted,
