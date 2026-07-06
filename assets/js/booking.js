@@ -358,6 +358,7 @@ const rows = []; rows.push(['Sport', state.sportName]); rows.push(['Facility', s
       return '<div class="summary-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>';
    }).join('');
 }
+function buildBookingInfoRows() { const rows = []; rows.push(['Sport', state.sportName]); rows.push(['Facility', state.facilityName]); rows.push(['Date', state.dateFormatted]); rows.push(['Time Slot', state.slotLabel]); return rows.map(function (r) { return '<div class="summary-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>'; }).join(''); }
 
 // Discount is applied using whichever promo was last validated by the server
 // via applyPromo() below - no promo details are hardcoded in the frontend.
@@ -451,7 +452,7 @@ function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookin
    calculatePrice();
    const finalSummary = document.getElementById('finalSummary'); var welcomeEl = document.getElementById('welcomeBackMsg'); if (welcomeEl) { if (state.welcomeBackName) { welcomeEl.textContent = 'Welcome back, ' + state.welcomeBackName + '!'; welcomeEl.style.display = 'flex'; } else { welcomeEl.style.display = 'none'; } }
    if (finalSummary) {
-      finalSummary.innerHTML = buildSummaryRows() +
+      finalSummary.innerHTML = buildBookingInfoRows() +
          '<div class="summary-row"><span class="label">Customer</span><span class="value">' + state.customerName + '</span></div>' +
          '<div class="summary-row"><span class="label">Email</span><span class="value">' + state.customerEmail + '</span></div>';
    }
