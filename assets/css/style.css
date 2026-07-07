@@ -1,11 +1,5 @@
-/* ============================
-   PlayBox Kashmir - Main Styles
-   ============================ */
-
-/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-/* CSS Reset & Variables */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -45,9 +39,6 @@ body {
   overflow-x: hidden;
 }
 
-/* =====================
-   NAVBAR
-   ===================== */
 .navbar {
   position: fixed;
   top: 0; left: 0; right: 0;
@@ -157,9 +148,6 @@ body {
   transition: var(--transition);
 }
 
-/* =====================
-   HERO SECTION
-   ===================== */
 .hero {
   min-height: 100vh;
   display: flex;
@@ -337,9 +325,6 @@ body {
   50% { transform: rotate(45deg) translateY(8px); }
 }
 
-/* =====================
-   QUICK BOOK BAR
-   ===================== */
 .quick-book-bar {
   background: linear-gradient(135deg, var(--primary-dark), var(--primary));
   padding: 1rem 2rem;
@@ -383,9 +368,6 @@ body {
   transform: translateY(-1px);
 }
 
-/* =====================
-   GENERAL SECTIONS
-   ===================== */
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -430,9 +412,6 @@ section { padding: 100px 0; }
 
 .text-center .section-sub { margin: 1rem auto 0; }
 
-/* =====================
-   FACILITIES
-   ===================== */
 .facilities { background: var(--off-white); }
 
 .facilities-grid {
@@ -598,9 +577,6 @@ section { padding: 100px 0; }
   transform: translateY(-1px);
 }
 
-/* =====================
-   WHY US
-   ===================== */
 .why-us {
   background: var(--white);
   padding: 100px 0;
@@ -657,9 +633,6 @@ section { padding: 100px 0; }
 
 .feature-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.65; }
 
-/* =====================
-   ABOUT
-   ===================== */
 .about { background: var(--off-white); }
 
 .about-grid {
@@ -737,9 +710,6 @@ section { padding: 100px 0; }
   color: var(--white);
 }
 
-/* =====================
-   GALLERY
-   ===================== */
 .gallery { background: var(--white); }
 
 .gallery-grid {
@@ -785,9 +755,6 @@ section { padding: 100px 0; }
 
 .gallery-item:hover .gallery-caption { transform: translateY(0); }
 
-/* =====================
-   CTA SECTION
-   ===================== */
 .cta-section {
   position: relative;
   padding: 100px 0;
@@ -862,9 +829,6 @@ section { padding: 100px 0; }
   border-color: rgba(255,255,255,0.7);
 }
 
-/* =====================
-   CONTACT
-   ===================== */
 .contact { background: var(--off-white); }
 
 .contact-grid {
@@ -914,9 +878,6 @@ section { padding: 100px 0; }
 
 .social-link:hover { background: var(--primary); transform: translateY(-3px); }
 
-/* =====================
-   FOOTER
-   ===================== */
 .footer {
   background: var(--dark);
   padding: 4rem 0 2rem;
@@ -976,9 +937,6 @@ section { padding: 100px 0; }
 
 .footer-bottom a { color: var(--primary-light); text-decoration: none; }
 
-/* =====================
-   MODAL
-   ===================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -1020,9 +978,6 @@ section { padding: 100px 0; }
 
 .modal-close:hover { background: var(--border); }
 
-/* =====================
-   RESPONSIVE
-   ===================== */
 @media (max-width: 1024px) {
   .about-grid { grid-template-columns: 1fr; gap: 3rem; }
   .about-badge { bottom: -1rem; right: 1rem; }
@@ -1053,7 +1008,6 @@ section { padding: 100px 0; }
   .stat-divider { display: none; }
 }
 
-/* ===== COMING SOON STATES ===== */
 .coming-soon-card { opacity: 0.85; }
 .coming-soon-card .facility-info h3,
 .coming-soon-card .facility-info p,
