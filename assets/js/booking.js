@@ -1,14 +1,3 @@
-/* ============================
-   PlayBox Kashmir - Booking System
-   ============================ */
-
-// =====================
-// CONFIGURATION
-// =====================
-// Sport metadata (icon/colour/coming-soon flag) that isn't stored in the
-// database. Facility list, live prices, and promo codes are loaded from the
-// backend APIs below so that changes made in the admin dashboard (pricing,
-// promos) show up here automatically without editing this file.
 const SPORT_META = {
    football: { name: 'Football Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false }, boxcricket: { name: 'Box Cricket', icon: 'fas fa-baseball-ball', color: '#ea580c', comingSoon: false },
    cricket: { name: 'Cricket Nets', icon: 'fas fa-baseball-ball', color: '#22c55e', comingSoon: true },
@@ -16,58 +5,52 @@ const SPORT_META = {
 };
 
 const CONFIG = {
-   facilities: {}, // populated at runtime by loadFacilities() from /api/facilities
-   slots: {
-      start: 5, // 5 AM
-      end: 26, // 2 AM (next day)
-      duration: 60 // minutes
-   },
-   peak_hours: [18, 19, 20, 21], // 6PM - 10PM
-   weekend_days: [0, 6], // Sunday, Saturday
-   gst_rate: 0,
-   convenience_fee: 7,
-    inaugural_discount_pct: 15,
-   reservation_minutes: 10
+   facilities: {},
+       slots: {
+                start: 5,
+                end: 26,
+                duration: 60
+       },
+       peak_hours: [18, 19, 20, 21],
+       weekend_days: [0, 6],
+       gst_rate: 0,
+       convenience_fee: 7,
+       inaugural_discount_pct: 15,
+       reservation_minutes: 10
 };
 
-// =====================
-// BOOKING STATE
-// =====================
-let state = {
-   step: 1,
-   sport: null,
-   sportName: null,
-   facilityId: null,
-   facilityDbId: null,
-   facilityName: null,
-   facilityPrice: 0,
-   facilityPeakPrice: 0,
-   date: null,
-   dateFormatted: null,
-   slotTime: null,
-   slotLabel: null, selectedHours: [],
-   customerName: null,
-   customerPhone: null,
-   customerEmail: null,
-   customerNotes: null, welcomeBackName: null,
-   promoCode: null,
-   promoType: null,
-   promoValue: 0,
-   promoMinAmount: 0,
-   promoDiscount: 0,
-   basePrice: 0,
-   gstAmount: 0,
-   totalAmount: 0,
-   bookingId: null,
-   reservationTimer: null,
-   reservationSeconds: CONFIG.reservation_minutes * 60
-};
+  let state = {
+         step: 1,
+         sport: null,
+         sportName: null,
+         facilityId: null,
+         facilityDbId: null,
+         facilityName: null,
+         facilityPrice: 0,
+         facilityPeakPrice: 0,
+         date: null,
+         dateFormatted: null,
+         slotTime: null,
+         slotLabel: null, selectedHours: [],
+         customerName: null,
+         customerPhone: null,
+         customerEmail: null,
+         customerNotes: null, welcomeBackName: null,
+         promoCode: null,
+         promoType: null,
+         promoValue: 0,
+         promoMinAmount: 0,
+         promoDiscount: 0,
+         basePrice: 0,
+         gstAmount: 0,
+         totalAmount: 0,
+         bookingId: null,
+         reservationTimer: null,
+         reservationSeconds: CONFIG.reservation_minutes * 60
+  };
 
-// =====================
-// LIVE DATA (facilities/pricing from the backend)
-// =====================
-async function loadFacilities() {
-   try {
+  async function loadFacilities() {
+         try {
       const res = await fetch('/api/facilities');
       if (!res.ok) throw new Error('Failed to load facilities');
       const data = await res.json();
@@ -100,8 +83,6 @@ async function loadFacilities() {
    }
 }
 
-// Loads site-wide pricing settings (e.g. convenience fee) from /api/settings
-// so that changing them in the admin dashboard reflects here automatically.
 async function loadSettings() {
      try {
             const res = await fetch('/api/settings');
@@ -117,8 +98,6 @@ async function loadSettings() {
 }
 
 
-// Keeps any static "starting from" price teasers elsewhere on the page (e.g.
-// the homepage facility cards) in sync with the live price from the database.
 function updateStaticPriceDisplays() {
    document.querySelectorAll('[data-live-price]').forEach(function (el) {
       const optionId = el.getAttribute('data-live-price');
@@ -131,16 +110,12 @@ function updateStaticPriceDisplays() {
    });
 }
 
-// =====================
-// STEP NAVIGATION
-// =====================
 function goToStep(stepNum) {
    const currentStep = document.getElementById('step-' + state.step);
    const nextStep = document.getElementById('step-' + stepNum);
    if (!nextStep) return;
    if (currentStep) currentStep.style.display = 'none';
    nextStep.style.display = 'block';
-   // Update step indicators
 for (let i = 1; i <= 5; i++) {
    const indicator = document.getElementById('step-indicator-' + i);
    if (!indicator) continue;
@@ -155,9 +130,6 @@ for (let i = 1; i <= 5; i++) {
    if (stepNum === 4) renderPaymentStep();
 }
 
-// =====================
-// STEP 1: Sport & Facility Selection
-// =====================
 function selectSport(sport) {
    if (!CONFIG.facilities[sport]) {
       alert('Facility data is still loading. Please try again in a moment.');
@@ -173,15 +145,12 @@ function selectSport(sport) {
    state.facilityDbId = null;
    state.facilityName = null;
    state.facilityPrice = 0;
-   // Update UI
 document.querySelectorAll('.sport-card').forEach(function (el) { el.classList.remove('selected'); });
    const card = document.querySelector('[data-sport="' + sport + '"]');
    if (card) card.classList.add('selected');
-   // Show facility selector
 const facilitySelector = document.getElementById('facilitySelector');
    const facilitiesList = document.getElementById('facilitiesList');
    if (facilitySelector) facilitySelector.style.display = 'block';
-   // Build facility buttons
 const options = CONFIG.facilities[sport].options;
    if (facilitiesList) {
       facilitiesList.innerHTML = options.map(function (opt) {
@@ -209,9 +178,6 @@ function checkStep1Complete() {
    btn.disabled = !(state.sport && state.facilityId);
 }
 
-// =====================
-// STEP 2: Calendar & Slots
-// =====================
 let currentCalDate = new Date();
 
 function renderCalendar() {
@@ -271,9 +237,6 @@ function selectDate(year, month, day) {
    updateStep2Btn();
 }
 
-// Fetches real booked slots for the selected date/facility from the server
-// (instead of a client-side simulation) so double-booking is accurate and
-// admin-created bookings immediately show as unavailable on the website.
 async function renderSlots() {
    const slotsGrid = document.getElementById('slotsGrid');
    if (!slotsGrid || !state.date || !state.facilityId) return;
@@ -289,8 +252,6 @@ async function renderSlots() {
    } catch (err) {
       console.error('Could not check slot availability:', err);
    }
-   // If the user changed date/facility while this request was in flight, drop
-// the stale response instead of rendering it.
 if (!state.date || state.date.toISOString().split('T')[0] !== dateKey) return;
 
 const today = new Date();
@@ -342,9 +303,6 @@ function isHourBlocked(hour, block) { var s = parseInt(String(block.start_time).
    btn.disabled = !(state.date && state.selectedHours && state.selectedHours.length);
 }
 
-// =====================
-// STEP 3: Customer Details
-// =====================
 function renderSummaryStep3() {
    const el = document.getElementById('summaryItems3');
    if (!el) return;
@@ -360,12 +318,7 @@ const rows = []; rows.push(['Sport', state.sportName]); rows.push(['Facility', s
 }
 function buildBookingInfoRows() { const rows = []; rows.push(['Sport', state.sportName]); rows.push(['Facility', state.facilityName]); rows.push(['Date', state.dateFormatted]); rows.push(['Time Slot', state.slotLabel]); return rows.map(function (r) { return '<div class="summary-row"><span class="label">' + r[0] + '</span><span class="value">' + r[1] + '</span></div>'; }).join(''); }
 
-// Discount is applied using whichever promo was last validated by the server
-// via applyPromo() below - no promo details are hardcoded in the frontend.
 function calculatePrice() { const original = state.basePrice; const inauguralDiscount = Math.round(original * CONFIG.inaugural_discount_pct / 100); state.inauguralDiscount = inauguralDiscount; const afterInaugural = original - inauguralDiscount; let price = afterInaugural; let discount = 0; if (state.promoCode && price >= state.promoMinAmount) { if (state.promoType === 'percent') { discount = Math.round(price * state.promoValue / 100); } else { discount = state.promoValue; } } state.promoDiscount = discount; const discounted = price - discount; state.discountedSubtotal = discounted; const convenienceFee = CONFIG.convenience_fee; state.gstAmount = convenienceFee; state.totalAmount = Math.round((discounted + convenienceFee) * 100) / 100; }
-// Validates the promo code against the live database (/api/promos?validate=)
-// instead of a hardcoded list, so promo codes created/edited/disabled in the
-// admin dashboard take effect immediately on the website.
 async function applyPromo() {
    const codeInput = document.getElementById('promoCode');
    const resultEl = document.getElementById('promoResult');
@@ -445,9 +398,6 @@ function validateAndProceed() {
    goToStep(4);
 }
 
-// =====================
-// STEP 4: Payment
-// =====================
 function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookings?resource=customer-lookup&email=' + encodeURIComponent(email)).then(function (r) { return r.ok ? r.json() : null; }).then(function (data) { state.welcomeBackFound = !!(data && data.found); state.welcomeBackName = null; var el = document.getElementById('welcomeBackMsg'); if (el) { if (state.welcomeBackFound) { el.textContent = 'Welcome back!'; el.style.display = 'flex'; } else { el.style.display = 'none'; } } }).catch(function () {}); } function renderPaymentStep() {
    calculatePrice();
    const finalSummary = document.getElementById('finalSummary'); var welcomeEl = document.getElementById('welcomeBackMsg'); if (welcomeEl) { if (state.welcomeBackFound) { welcomeEl.textContent = 'Welcome back!'; welcomeEl.style.display = 'flex'; } else { welcomeEl.style.display = 'none'; } }
@@ -475,8 +425,6 @@ function lookupReturningCustomer(email) { if (!email) return; fetch('/api/bookin
          discRow.style.display = 'none';
       }
    }
-   // Peak-hour upsell nudge: classic marketing tactic encouraging customers to
-       // extend to a 2-hour slot before peak-hour demand fills up the remaining time.
        const upsellEl = document.getElementById('peakUpsellBanner');
        if (upsellEl) {
                 
@@ -517,11 +465,7 @@ function stopReservationTimer() {
 }
 function createSlotHold() { if (!state.facilityDbId || !state.date || !(state.selectedHours && state.selectedHours.length)) return; var dateKey = state.date.toISOString().split('T')[0]; var slots = state.selectedHours.map(function (h) { return { start_time: (h % 24) + ':00', end_time: ((h + 1) % 24) + ':00' }; }); if (!state.holdToken) { state.holdToken = 'H' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); } fetch('/api/bookings?resource=hold', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ facility_id: state.facilityDbId, booking_date: dateKey, slots: slots, hold_token: state.holdToken }) }).catch(function (err) { console.error('Could not place slot hold:', err); }); }
 
-// =====================
-// PAYMENT (Razorpay Integration)
-// =====================
 function initiatePayment() {
-   // Require agreement to Privacy Policy, Terms & Conditions and Cancellation Policy
 var agreeBox = document.getElementById('agree-terms');
    if (agreeBox && !agreeBox.checked) {
       var wrap = document.getElementById('agree-terms-wrap');
@@ -535,14 +479,10 @@ var agreeBox = document.getElementById('agree-terms');
       return;
    }
    showLoading('Initializing payment...');
-   // Generate booking ID
 state.bookingId = 'PBK' + Date.now().toString(36).toUpperCase();
-   // Create order on the server (Razorpay Orders API) before opening checkout
 createRazorpayOrder().then(function () {
    hideLoading();
-   // Check if Razorpay script is loaded
                            if (typeof Razorpay === 'undefined') {
-                              // Load Razorpay script dynamically
    const script = document.createElement('script');
                               script.src = 'https://checkout.razorpay.com/v1/checkout.js';
                               script.onload = openRazorpay;
@@ -559,13 +499,12 @@ createRazorpayOrder().then(function () {
 });
 }
 
-// Create a Razorpay order via the serverless API (/api/create-order)
 function createRazorpayOrder() {
    return fetch('/api/create-order', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null),
+         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), terms_accepted: true,
          currency: 'INR',
          receipt: state.bookingId,
          notes: {
@@ -596,7 +535,6 @@ function createRazorpayOrder() {
    });
 }
 
-// Verify the payment signature on the server (/api/verify-payment) before confirming
 function verifyAndConfirm(response) {
    showLoading('Verifying payment...');
    fetch('/api/verify-payment', {
@@ -625,7 +563,7 @@ function verifyAndConfirm(response) {
 function openRazorpay() {
    const options = {
       key: 'rzp_live_T90dB0bfW4qEMO',
-      facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), // Amount in paise
+      amount: Math.round(state.totalAmount * 100),
       currency: 'INR',
       name: 'PlayBox Kashmir',
       description: state.facilityName + ' - ' + state.slotLabel + ' on ' + state.dateFormatted,
@@ -671,7 +609,6 @@ function showPaymentCancelled() {
 }
 
 function showConfirmation(paymentResponse) {
-   // Safety: remove any leftover demo/payment overlay so the confirmation is never dimmed
 document.querySelectorAll('div').forEach(function (el) {
    if (el.style && el.style.position === 'fixed' && el.style.zIndex === '99999') {
       el.remove();
@@ -697,20 +634,12 @@ document.querySelectorAll('div').forEach(function (el) {
 function handlePaymentSuccess(response) {
    showLoading('Confirming booking...');
    stopReservationTimer();
-   // The actual booking record is written to the database and the confirmation
-// email is sent server-side by the Razorpay webhook once payment.captured
-// is received - see api/razorpay-webhook.js. We simply show the confirmation
-// screen here; renderSlots() will reflect this slot as booked the next time
-// availability is checked from the server.
 setTimeout(function () {
    hideLoading();
    showConfirmation(response);
 }, 1500);
 }
 
-// =====================
-// RESET
-// =====================
 function resetBooking() {
    state = {
       step: 1,
@@ -741,7 +670,6 @@ function resetBooking() {
       reservationTimer: null,
       reservationSeconds: CONFIG.reservation_minutes * 60
    };
-   // Reset form
 ['custName', 'custPhone', 'custEmail', 'custNotes', 'promoCode'].forEach(function (id) {
    const el = document.getElementById(id);
    if (el) el.value = '';
@@ -751,9 +679,6 @@ function resetBooking() {
    goToStep(1);
 }
 
-// =====================
-// UTILITIES
-// =====================
 function showLoading(text) {
    const overlay = document.getElementById('loadingOverlay');
    if (overlay) overlay.style.display = 'flex';
@@ -766,23 +691,16 @@ function hideLoading() {
    if (overlay) overlay.style.display = 'none';
 }
 
-// =====================
-// INIT
-// =====================
 document.addEventListener('DOMContentLoaded', async () => {
-   // Load live facility/pricing data from the backend before the user can
-                          // interact with sport/facility selection.
                           await loadFacilities();
    await loadSettings();
 
-                          // Check URL params for pre-selected sport
                           const urlParams = new URLSearchParams(window.location.search);
    const sportParam = urlParams.get('sport');
    if (sportParam && CONFIG.facilities[sportParam]) {
       setTimeout(() => selectSport(sportParam), 100);
    }
 
-                          // Navbar scroll
                           const navbar = document.getElementById('navbar');
    if (navbar) {
       window.addEventListener('scroll', () => {
@@ -793,7 +711,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                           console.log('PlayBox Kashmir Booking System - v2.0 initialized');
 });
 
-// ---- Agreement checkbox gate (Privacy Policy / T&C / Cancellation) ----
 function setupAgreeTermsGate() {
    var box = document.getElementById('agree-terms');
    var btn = document.getElementById('btnPay');

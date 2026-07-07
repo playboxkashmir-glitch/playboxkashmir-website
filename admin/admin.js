@@ -1,9 +1,9 @@
-/* PlayBox Kashmir – Admin JS */
+
 
 const CONFIG = {
   slotStartHour: 5,
   slotEndHour: 26,
-  peakHours: [18, 19, 20, 21], // 6PM-10PM start hours use peak_price (matches assets/js/booking.js)
+  peakHours: [18, 19, 20, 21],
   slotDurationMin: 60
 };
 

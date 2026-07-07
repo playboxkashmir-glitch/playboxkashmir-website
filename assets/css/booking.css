@@ -1,10 +1,5 @@
-/* ============================
-   PlayBox Kashmir - Booking Page Styles
-   ============================ */
-
 .booking-page { background: #f3f4f6; }
 
-/* Booking Hero */
 .booking-hero {
   background: linear-gradient(135deg, #111827 0%, #14532d 50%, #111827 100%);
   padding: 120px 2rem 2.5rem;
@@ -24,7 +19,6 @@
   margin-bottom: 2rem;
 }
 
-/* Booking Steps Indicator */
 .booking-steps {
   display: flex;
   align-items: center;
@@ -87,7 +81,6 @@
   margin-bottom: 20px;
 }
 
-/* Back to Home btn */
 .btn-back-home {
   color: rgba(255,255,255,0.8);
   text-decoration: none;
@@ -103,14 +96,12 @@
 
 .btn-back-home:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
-/* Booking Container */
 .booking-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 2rem;
 }
 
-/* Step Cards */
 .booking-step {
   background: #fff;
   border-radius: 20px;
@@ -134,7 +125,6 @@
 
 .step-header p { color: #6b7280; font-size: 0.95rem; }
 
-/* Sports Grid */
 .sports-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -185,7 +175,6 @@
 
 .sport-card.selected .sport-check { opacity: 1; }
 
-/* Facility Selector */
 .facility-selector {
   background: #f9fafb;
   border-radius: 12px;
@@ -217,7 +206,6 @@
 .facility-btn:hover { border-color: #15803d; color: #15803d; }
 .facility-btn.selected { background: #15803d; border-color: #15803d; color: #fff; }
 
-/* Step Actions */
 .step-actions {
   display: flex;
   justify-content: space-between;
@@ -264,7 +252,6 @@
 
 .btn-back:hover { background: #e5e7eb; }
 
-/* Calendar */
 .datetime-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -340,7 +327,6 @@
 .cal-day.disabled { color: #d1d5db; cursor: not-allowed; opacity: 0.4; }
 .cal-day.empty { cursor: default; }
 
-/* Time Slots */
 .slots-section { padding-left: 1rem; }
 
 .selected-date-display {
@@ -423,7 +409,6 @@
 .legend-dot.booked { background: #f9fafb; border: 2px solid #e5e7eb; }
 .legend-dot.selected { background: #15803d; border: 2px solid #15803d; }
 
-/* Form */
 .form-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -463,7 +448,6 @@
 
 .field-error { color: #ef4444; font-size: 0.8rem; margin-top: 0.25rem; display: block; }
 
-/* Booking Summary */
 .booking-summary {
   background: #f9fafb;
   border: 1px solid #e5e7eb;
@@ -495,7 +479,6 @@
 .summary-row .label { color: #6b7280; }
 .summary-row .value { color: #111827; font-weight: 600; }
 
-/* Promo Code */
 .promo-section {
   background: #f9fafb;
   border: 1px dashed #d1d5db;
@@ -541,7 +524,6 @@
 .promo-result.success { color: #10b981; }
 .promo-result.error { color: #ef4444; }
 
-/* Payment Layout */
 .payment-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -576,7 +558,6 @@
   color: #111827;
 }
 
-/* Payment Section */
 .payment-section { display: flex; flex-direction: column; gap: 1.25rem; }
 
 .secure-badge {
@@ -654,7 +635,6 @@
   gap: 0.4rem;
 }
 
-/* Confirmation Screen */
 .confirmation-screen { text-align: center; padding: 2rem 1rem; }
 
 .confirm-icon {
@@ -718,7 +698,6 @@
 
 .btn-book-another:hover { background: #1e40af; }
 
-/* Loading Overlay */
 .loading-overlay {
   position: fixed;
   inset: 0;
@@ -745,7 +724,6 @@
 
 #loadingText { font-size: 1rem; font-weight: 600; }
 
-/* Reservation Timer */
 .reservation-timer {
   position: fixed;
   top: 80px; right: 1rem;
@@ -761,7 +739,6 @@
 .timer-content i { color: #f59e0b; }
 .timer-content strong { color: #f59e0b; font-size: 1rem; }
 
-/* Responsive */
 @media (max-width: 768px) {
   .booking-step { padding: 1.5rem; }
   .datetime-grid { grid-template-columns: 1fr; }
@@ -775,7 +752,6 @@
   .bstep-connector { min-width: 15px; }
 }
 
-/* ===== COMING SOON (booking) ===== */
 .sport-card.coming-soon-card { opacity: 0.7; cursor: not-allowed; pointer-events: none; }
 .sport-card.coming-soon-card img { filter: grayscale(70%); }
 .sport-card.coming-soon-card .sport-info h3,

@@ -1,8 +1,3 @@
-/* ============================
-   PlayBox Kashmir - Main JS
-   ============================ */
-
-// Navbar scroll effect
 const navbar = document.getElementById('navbar');
 if (navbar) {
   window.addEventListener('scroll', () => {
@@ -14,7 +9,6 @@ if (navbar) {
   });
 }
 
-// Mobile nav toggle
 const navToggle = document.getElementById('navToggle');
 const navMenu = document.getElementById('navMenu');
 if (navToggle && navMenu) {
@@ -23,7 +17,6 @@ if (navToggle && navMenu) {
     navToggle.classList.toggle('active');
   });
 
-  // Close menu when clicking a link
   navMenu.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       navMenu.classList.remove('open');
@@ -32,7 +25,6 @@ if (navToggle && navMenu) {
   });
 }
 
-// Active nav link on scroll
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
 
@@ -53,7 +45,6 @@ if (sections.length && navLinks.length) {
   });
 }
 
-// Policy modals
 window.showPolicy = function(type) {
   const policies = {
     cancellation: {
@@ -430,7 +421,6 @@ window.closePolicy = function() {
   }
 };
 
-// Close modal on overlay click
 document.addEventListener('DOMContentLoaded', () => {
   const modal = document.getElementById('policyModal');
   if (modal) {
@@ -440,7 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
     const href = this.getAttribute('href');
@@ -455,7 +444,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   });
 });
 
-// Animate elements on scroll
 const observerOptions = {
   threshold: 0.1,
   rootMargin: '0px 0px -50px 0px'
