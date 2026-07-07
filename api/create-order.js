@@ -12,7 +12,7 @@ import { query } from '../lib/db.js';
 // TODO: move these into the settings table (like convenience_fee) so there is
 // a single source of truth shared by the website and this API.
 const PEAK_HOURS = [18, 19, 20, 21];
-const INAUGURAL_DISCOUNT_PCT = 15;
+const INAUGURAL_DISCOUNT_PCT = 15; const TERMS_VERSION = '2026-07-07'; // bump when Terms/Privacy/Cancellation policy text changes
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -32,7 +32,7 @@ try {
   const currency = body.currency || 'INR';
 
   if (!facility_id || !booking_date || !Array.isArray(hours) || hours.length === 0 || hours.length > 12) {
-    return res.status(400).json({ error: 'facility_id, booking_date and a valid hours[] array (1-12 entries) are required.' });
+    return res.status(400).json({ error: 'facility_id, booking_date and a valid hours[] array (1-12 entries) are required.' }); } if (body.terms_accepted !== true) { return res.status(400).json({ error: 'You must accept the Terms & Conditions, Privacy Policy and Cancellation Policy before payment.' });
   }
   if (!hours.every(function (h) { return Number.isInteger(h) && h >= 0 && h < 26; })) {
     return res.status(400).json({ error: 'hours[] must contain valid hour numbers.' });
@@ -89,7 +89,7 @@ try {
     booking_date: booking_date,
     rate: basePriceTotal,
     promo_code: appliedPromoCode,
-    amount: totalAmount
+    amount: totalAmount, terms_accepted: !!body.terms_accepted, terms_version: TERMS_VERSION
   });
 
   const auth = Buffer.from(keyId + ':' + keySecret).toString('base64');
