@@ -6,6 +6,51 @@ const SPORT_META = {
 
 const CONFIG = {
    facilities: {},
+       slots: {
+                start: 5,
+                end: 26,
+                duration: 60
+       },
+       peak_hours: [18, 19, 20, 21],
+       weekend_days: [0, 6],
+       gst_rate: 0,
+       convenience_fee: 7,
+       inaugural_discount_pct: 15,
+       reservation_minutes: 10
+};
+
+  let state = {
+         step: 1,
+         sport: null,
+         sportName: null,
+         facilityId: null,
+         facilityDbId: null,
+         facilityName: null,
+         facilityPrice: 0,
+         facilityPeakPrice: 0,
+         date: null,
+         dateFormatted: null,
+         slotTime: null,
+         slotLabel: null, selectedHours: [],
+         customerName: null,
+         customerPhone: null,
+         customerEmail: null,
+         customerNotes: null, welcomeBackName: null,
+         promoCode: null,
+         promoType: null,
+         promoValue: 0,
+         promoMinAmount: 0,
+         promoDiscount: 0,
+         basePrice: 0,
+         gstAmount: 0,
+         totalAmount: 0,
+         bookingId: null,
+         reservationTimer: null,
+         reservationSeconds: CONFIG.reservation_minutes * 60
+  };
+
+  async function loadFacilities() {
+         try {
       const res = await fetch('/api/facilities');
       if (!res.ok) throw new Error('Failed to load facilities');
       const data = await res.json();
