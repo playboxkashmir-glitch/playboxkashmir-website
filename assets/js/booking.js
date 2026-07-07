@@ -565,7 +565,7 @@ function createRazorpayOrder() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null),
+         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), terms_accepted: true,
          currency: 'INR',
          receipt: state.bookingId,
          notes: {
@@ -625,7 +625,7 @@ function verifyAndConfirm(response) {
 function openRazorpay() {
    const options = {
       key: 'rzp_live_T90dB0bfW4qEMO',
-      facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), // Amount in paise
+      amount: Math.round(state.totalAmount * 100), // Amount in paise
       currency: 'INR',
       name: 'PlayBox Kashmir',
       description: state.facilityName + ' - ' + state.slotLabel + ' on ' + state.dateFormatted,
