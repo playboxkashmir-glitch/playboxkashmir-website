@@ -114,13 +114,13 @@ async function handlePaymentCaptured(event) {
     const facility = facilityLookup.rows[0];
 
   const amount = payment.amount ? payment.amount / 100 : Number(notes.amount) || 0;
-    const rate = Number(notes.rate) || amount;
+    const rate = Number(notes.rate) || amount; const termsAccepted = (notes.terms_accepted === true || notes.terms_accepted === 'true'); const termsVersion = notes.terms_version || null;
 
   const insertResult = await query(
     `INSERT INTO bookings
     (booking_ref, facility_id, customer_name, customer_email, customer_phone,
-    booking_date, start_time, end_time, rate, amount, payment_method, status, source, notes)
-    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)
+    booking_date, start_time, end_time, rate, amount, payment_method, status, source, notes, terms_accepted_at, terms_version)
+    VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14, CASE WHEN $15 THEN now() ELSE NULL END, $16)
     RETURNING *`,
     [
       bookingRef,
@@ -136,7 +136,7 @@ async function handlePaymentCaptured(event) {
       'razorpay',
       'confirmed',
       'online',
-      'Razorpay payment_id: ' + payment.id
+      'Razorpay payment_id: ' + payment.id, termsAccepted, termsVersion
       ]
     );
 
