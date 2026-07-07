@@ -29,7 +29,14 @@ res.setHeader('Allow', 'GET, POST');
 async function handleList(req, res) {
   try {
     const rows = await query('SELECT * FROM facilities ORDER BY sport_key, option_name');
-    return res.status(200).json({ facilities: rows.rows });
+    const UNLAUNCHED_SPORTS = ['cricket', 'pickleball']; // keep in sync with SPORT_META in assets/js/booking.js
+          const facilities = rows.rows.map(function (f) {
+                    if (UNLAUNCHED_SPORTS.indexOf(f.sport_key) !== -1) {
+                                return Object.assign({}, f, { base_price: null, peak_price: null });
+                    }
+                    return f;
+          });
+          return res.status(200).json({ facilities: facilities });
   } catch (err) {
     console.error('List facilities error:', err);
     return res.status(500).json({ error: 'Server error while fetching facilities.' });

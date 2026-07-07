@@ -180,7 +180,7 @@ if (req.method === 'PATCH') {
   }
 }
 
-if (req.method === 'DELETE') {
+if (req.method === 'DELETE') {found: true
   try {
     const rows = await query(`UPDATE bookings SET status='cancelled', updated_at=now() WHERE id=$1 RETURNING *`, [id]);
     if (rows.rows.length === 0) {
@@ -197,7 +197,7 @@ res.setHeader('Allow', 'GET, PATCH, DELETE');
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); } const { email } = req.query; if (!email) { return res.status(400).json({ error: 'email query param is required.' }); } try { const rows = await query('SELECT customer_name FROM bookings WHERE lower(customer_email) = lower($1) ORDER BY booking_date DESC LIMIT 1', [email]); if (rows.rows.length === 0) { return res.status(200).json({ found: false }); } const fullName = rows.rows[0].customer_name || ''; const firstName = fullName.trim().split(/\s+/)[0] || fullName; return res.status(200).json({ found: true, name: firstName }); } catch (err) { console.error('Customer lookup error:', err); return res.status(500).json({ error: 'Server error while looking up customer.' }); } } async function handleAvailability(req, res) {
+async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); } const { email } = req.query; if (!email) { return res.status(400).json({ error: 'email query param is required.' }); } try { const rows = await query('SELECT customer_name FROM bookings WHERE lower(customer_email) = lower($1) ORDER BY booking_date DESC LIMIT 1', [email]); if (rows.rows.length === 0) { return res.status(200).json({ found: false }); } const fullName = rows.rows[0].customer_name || ''; const firstName = fullName.trim().split(/\s+/)[0] || fullName; return res.status(200).json({ found: true }); } catch (err) { console.error('Customer lookup error:', err); return res.status(500).json({ error: 'Server error while looking up customer.' }); } } async function handleAvailability(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
@@ -226,7 +226,7 @@ async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.
     return res.status(500).json({ error: 'Server error while checking availability.' });
   }
 }
-async function handleHold(req, res) { if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'Method not allowed' }); } try { const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {}); const { facility_id, booking_date, slots, hold_token } = body; if (!facility_id || !booking_date || !Array.isArray(slots) || slots.length === 0 || !hold_token) { return res.status(400).json({ error: 'facility_id, booking_date, slots[], and hold_token are required.' }); } await query('DELETE FROM slot_holds WHERE expires_at < now()'); const expiresAt = new Date(Date.now() + 10 * 60000); for (const s of slots) { await query('INSERT INTO slot_holds (facility_id, booking_date, start_time, end_time, hold_token, expires_at) VALUES ($1,$2,$3,$4,$5,$6)', [facility_id, booking_date, s.start_time, s.end_time, hold_token, expiresAt]); } return res.status(200).json({ success: true, expires_at: expiresAt }); } catch (err) { console.error('Hold error:', err); return res.status(500).json({ error: 'Server error while creating slot hold.' }); } }
+async function handleHold(req, res) { if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'Method not allowed' }); } try { const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : (req.body || {}); const { facility_id, booking_date, slots, hold_token } = body; if (!facility_id || !booking_date || !Array.isArray(slots) || slots.length === 0 || slots.length > 12 || !hold_token) { return res.status(400).json({ error: 'facility_id, booking_date, slots[], and hold_token are required.' }); } await query('DELETE FROM slot_holds WHERE expires_at < now()'); const expiresAt = new Date(Date.now() + 10 * 60000); for (const s of slots) { await query('INSERT INTO slot_holds (facility_id, booking_date, start_time, end_time, hold_token, expires_at) VALUES ($1,$2,$3,$4,$5,$6)', [facility_id, booking_date, s.start_time, s.end_time, hold_token, expiresAt]); } return res.status(200).json({ success: true, expires_at: expiresAt }); } catch (err) { console.error('Hold error:', err); return res.status(500).json({ error: 'Server error while creating slot hold.' }); } }
 
 async function handleSendConfirmation(req, res) {
   if (req.method !== 'POST') {
