@@ -136,7 +136,7 @@ async function handlePaymentCaptured(event) {
       'razorpay',
       'confirmed',
       'online',
-      'Razorpay payment_id: ' + payment.id, termsAccepted, termsVersion
+      (notes.customer_notes ? notes.customer_notes + ' | ' : '') + 'Razorpay payment_id: ' + payment.id, termsAccepted, termsVersion
       ]
     );
 
