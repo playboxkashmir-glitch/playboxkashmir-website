@@ -515,6 +515,7 @@ function createRazorpayOrder() {
             customer_name: state.customerName,
             customer_email: state.customerEmail,
             customer_phone: state.customerPhone,
+          customer_notes: state.customerNotes,
             booking_date: state.date ? state.date.toISOString().split('T')[0] : '',
             start_time: (function () { var hh = (state.selectedHours && state.selectedHours[0] !== undefined) ? state.selectedHours[0] : parseInt(String(state.slotTime).split(':')[0], 10); return (hh % 24) + ':00'; })(),
             end_time: (function () {
