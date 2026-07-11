@@ -63,13 +63,13 @@ window.showPolicy = function(type) {
 
 <p><strong>✔ No-shows:</strong> No refund.</p>
 
-<p><strong>✔ To cancel a booking:</strong> Click <strong>"Cancel Booking"</strong> in your booking confirmation email or contact PlayBox Kashmir through our official customer support channels before the applicable cancellation deadline.</p>
+<p><strong>✔ To cancel a booking:</strong> Click <strong>"Cancel Booking"</strong> in your booking confirmation email or contact PlayBox Kashmir™ through our official customer support channels before the applicable cancellation deadline.</p>
 </div>
 
 <h4 style="margin-top:1.5rem;">Detailed Terms</h4>
 
 <p><strong>1. Acceptance of this Policy</strong><br>
-By making a booking with PlayBox Kashmir, you acknowledge that you have read, understood, and agreed to this Cancellation & Refund Policy. This policy forms part of the contractual terms governing every booking.</p>
+By making a booking with PlayBox Kashmir™, you acknowledge that you have read, understood, and agreed to this Cancellation & Refund Policy. This policy forms part of the contractual terms governing every booking.</p>
 
 <p><strong>2. Refund Eligibility</strong><br>
 Refund eligibility is determined solely by the time remaining before the scheduled booking start time.</p>
@@ -82,16 +82,16 @@ Refund eligibility is determined solely by the time remaining before the schedul
 </ul>
 
 <p><strong>3. Cancellation Procedure</strong><br>
-A cancellation is considered valid only after it has been successfully submitted through the "Cancel Booking" option in the booking confirmation email or acknowledged by an authorized representative of PlayBox Kashmir.</p>
+A cancellation is considered valid only after it has been successfully submitted through the "Cancel Booking" option in the booking confirmation email or acknowledged by an authorized representative of PlayBox Kashmir™.</p>
 
 <p><strong>4. Refund Processing</strong><br>
-Approved refunds shall be processed to the original payment method. Processing times may vary depending upon banks, payment gateways or financial institutions. PlayBox Kashmir shall not be responsible for delays caused by third-party payment processors.</p>
+Approved refunds shall be processed to the original payment method. Processing times may vary depending upon banks, payment gateways or financial institutions. PlayBox Kashmir™ shall not be responsible for delays caused by third-party payment processors.</p>
 
 <p><strong>5. Booking & Payment Charges</strong><br>
 Payment gateway fees, convenience charges, platform charges or similar third-party transaction fees, where applicable, may be non-refundable unless otherwise required under applicable law.</p>
 
 <p><strong>6. Rescheduling</strong><br>
-Rescheduling requests are subject to slot availability and are entirely at the discretion of PlayBox Kashmir. Approval of one rescheduling request shall not create any obligation to approve future requests.</p>
+Rescheduling requests are subject to slot availability and are entirely at the discretion of PlayBox Kashmir™. Approval of one rescheduling request shall not create any obligation to approve future requests.</p>
 
 <p><strong>7. Late Arrival</strong><br>
 Customers arriving late will not receive additional playing time or a partial refund. Bookings shall end at the originally scheduled end time.</p>
@@ -100,19 +100,19 @@ Customers arriving late will not receive additional playing time or a partial re
 No refund or credit shall be issued where a customer voluntarily ends their session before the scheduled completion time.</p>
 
 <p><strong>9. Weather & Operational Interruptions</strong><br>
-If PlayBox Kashmir cancels a booking due to unsafe weather, maintenance, technical issues, government orders or operational necessity, we may, at our sole discretion, provide a rescheduled slot, booking credit or full refund.</p>
+If PlayBox Kashmir™ cancels a booking due to unsafe weather, maintenance, technical issues, government orders or operational necessity, we may, at our sole discretion, provide a rescheduled slot, booking credit or full refund.</p>
 
 <p><strong>10. Fraud & Misuse</strong><br>
-PlayBox Kashmir reserves the right to refuse refunds and cancel bookings involving suspected fraud, duplicate bookings, misuse of promotional offers, payment disputes or violations of our Terms of Service.</p>
+PlayBox Kashmir™ reserves the right to refuse refunds and cancel bookings involving suspected fraud, duplicate bookings, misuse of promotional offers, payment disputes or violations of our Terms of Service.</p>
 
 <p><strong>11. Chargebacks</strong><br>
-Customers agree to contact PlayBox Kashmir before initiating any payment dispute or chargeback. In the event of a chargeback, PlayBox Kashmir may submit booking records, payment confirmations, communication logs, system timestamps, IP logs and other relevant evidence to the payment processor or issuing bank.</p>
+Customers agree to contact PlayBox Kashmir™ before initiating any payment dispute or chargeback. In the event of a chargeback, PlayBox Kashmir™ may submit booking records, payment confirmations, communication logs, system timestamps, IP logs and other relevant evidence to the payment processor or issuing bank.</p>
 
 <p><strong>12. Limitation of Liability</strong><br>
-To the maximum extent permitted by law, PlayBox Kashmir's total liability shall never exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or economic losses, including travel expenses, accommodation costs or loss of opportunity.</p>
+To the maximum extent permitted by law, PlayBox Kashmir™'s total liability shall never exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or economic losses, including travel expenses, accommodation costs or loss of opportunity.</p>
 
 <p><strong>13. Amendments</strong><br>
-PlayBox Kashmir reserves the right to modify this Cancellation & Refund Policy at any time. The version in force at the time of booking shall apply to that booking unless otherwise required by law.</p>
+PlayBox Kashmir™ reserves the right to modify this Cancellation & Refund Policy at any time. The version in force at the time of booking shall apply to that booking unless otherwise required by law.</p>
 
 <p><strong>14. Governing Law</strong><br>
 This policy shall be governed by the laws of India. Any dispute arising from this policy or any booking shall be subject to the exclusive jurisdiction of the competent courts at Srinagar, Jammu & Kashmir.</p>
@@ -123,12 +123,12 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
       content: `
 <h3 style="margin-bottom:1rem;">Privacy Policy</h3>
 
-<p>At <strong>PlayBox Kashmir</strong>, we are committed to protecting your privacy and ensuring that your personal information is handled responsibly, securely, and transparently. This Privacy Policy explains how we collect, use, store, protect, and disclose your information when you access our website, make a booking, or use any of our services.</p>
+<p>At <strong>PlayBox Kashmir™</strong>, we are committed to protecting your privacy and ensuring that your personal information is handled responsibly, securely, and transparently. This Privacy Policy explains how we collect, use, store, protect, and disclose your information when you access our website, make a booking, or use any of our services.</p>
 
 <div style="margin-top:1rem;padding:14px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;">
 <p><strong>Summary</strong></p>
 
-<p>• PlayBox Kashmir collects personal information (including your name, email address and phone number) solely for booking, customer support, and service-related purposes.</p>
+<p>• PlayBox Kashmir™ collects personal information (including your name, email address and phone number) solely for booking, customer support, and service-related purposes.</p>
 
 <p>• Payment information is processed securely through <strong>Razorpay</strong>. We do not store your complete debit card, credit card, UPI PIN, banking credentials or other sensitive payment information.</p>
 
@@ -139,7 +139,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">1. Information We Collect</h4>
 
-<p>Depending upon your interaction with PlayBox Kashmir, we may collect the following information:</p>
+<p>Depending upon your interaction with PlayBox Kashmir™, we may collect the following information:</p>
 
 <ul style="padding-left:20px;line-height:1.8;">
 <li>Full Name</li>
@@ -161,7 +161,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">2. Information We Do Not Collect</h4>
 
-<p>PlayBox Kashmir does not intentionally collect or store your complete debit card number, credit card number, CVV, banking passwords, UPI PIN, internet banking credentials or any other confidential payment authentication data.</p>
+<p>PlayBox Kashmir™ does not intentionally collect or store your complete debit card number, credit card number, CVV, banking passwords, UPI PIN, internet banking credentials or any other confidential payment authentication data.</p>
 
 <p>All online payments are securely processed by our authorized payment partner, Razorpay.</p>
 
@@ -188,7 +188,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <p>All online payments are processed through <strong>Razorpay</strong>, a secure third-party payment gateway. When you make a payment, certain information necessary to complete the transaction may be shared with Razorpay. Such information is governed by Razorpay's own Privacy Policy and security standards.</p>
 
-<p>PlayBox Kashmir does not have access to or store your complete payment credentials.</p>
+<p>PlayBox Kashmir™ does not have access to or store your complete payment credentials.</p>
 
 <h4 style="margin-top:1.5rem;">5. Sharing of Information</h4>
 
@@ -209,7 +209,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">6. Data Security</h4>
 
-<p>PlayBox Kashmir implements commercially reasonable technical, physical and organizational security measures to protect your information from unauthorized access, alteration, disclosure, misuse or destruction.</p>
+<p>PlayBox Kashmir™ implements commercially reasonable technical, physical and organizational security measures to protect your information from unauthorized access, alteration, disclosure, misuse or destruction.</p>
 
 <p>Although we strive to use industry-standard security practices, no electronic storage or internet transmission can be guaranteed to be completely secure. Users acknowledge that information transmitted over the internet is at their own risk.</p>
 
@@ -235,7 +235,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">9. Marketing Communications</h4>
 
-<p>PlayBox Kashmir may occasionally send booking-related notifications, service updates or operational announcements.</p>
+<p>PlayBox Kashmir™ may occasionally send booking-related notifications, service updates or operational announcements.</p>
 
 <p>We do not send unsolicited marketing communications without an appropriate legal basis or your consent where required.</p>
 
@@ -245,23 +245,23 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">11. Third-Party Websites</h4>
 
-<p>Our website may contain links to third-party websites or services. PlayBox Kashmir is not responsible for the privacy practices, security or content of external websites.</p>
+<p>Our website may contain links to third-party websites or services. PlayBox Kashmir™ is not responsible for the privacy practices, security or content of external websites.</p>
 
 <h4 style="margin-top:1.5rem;">12. User Rights</h4>
 
-<p>Subject to applicable law, users may request access to, correction of or deletion of their personal information, or raise concerns regarding the processing of their personal data by contacting PlayBox Kashmir through our official communication channels.</p>
+<p>Subject to applicable law, users may request access to, correction of or deletion of their personal information, or raise concerns regarding the processing of their personal data by contacting PlayBox Kashmir™ through our official communication channels.</p>
 
 <h4 style="margin-top:1.5rem;">13. Legal Compliance</h4>
 
-<p>We may preserve or disclose information where reasonably necessary to comply with applicable laws, legal proceedings, governmental requests, law enforcement investigations or to protect the rights, safety and property of PlayBox Kashmir, its customers or the public.</p>
+<p>We may preserve or disclose information where reasonably necessary to comply with applicable laws, legal proceedings, governmental requests, law enforcement investigations or to protect the rights, safety and property of PlayBox Kashmir™, its customers or the public.</p>
 
 <h4 style="margin-top:1.5rem;">14. Limitation of Liability</h4>
 
-<p>To the fullest extent permitted by applicable law, PlayBox Kashmir shall not be liable for any unauthorized access, cyberattack, interception or disclosure resulting from events beyond our reasonable control, including failures of telecommunications networks, internet infrastructure, third-party service providers or force majeure events.</p>
+<p>To the fullest extent permitted by applicable law, PlayBox Kashmir™ shall not be liable for any unauthorized access, cyberattack, interception or disclosure resulting from events beyond our reasonable control, including failures of telecommunications networks, internet infrastructure, third-party service providers or force majeure events.</p>
 
 <h4 style="margin-top:1.5rem;">15. Changes to this Privacy Policy</h4>
 
-<p>PlayBox Kashmir reserves the right to modify or update this Privacy Policy at any time. The latest version published on our website shall supersede all previous versions and shall become effective immediately upon publication unless otherwise stated.</p>
+<p>PlayBox Kashmir™ reserves the right to modify or update this Privacy Policy at any time. The latest version published on our website shall supersede all previous versions and shall become effective immediately upon publication unless otherwise stated.</p>
 
 <h4 style="margin-top:1.5rem;">16. Governing Law</h4>
 
@@ -269,7 +269,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">17. Contact</h4>
 
-<p>If you have any questions regarding this Privacy Policy or the processing of your personal information, you may contact PlayBox Kashmir through the official contact details provided on our website.</p>
+<p>If you have any questions regarding this Privacy Policy or the processing of your personal information, you may contact PlayBox Kashmir™ through the official contact details provided on our website.</p>
       `
     },
     terms: {
@@ -277,7 +277,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
       content: `
         <h3 style="margin-bottom:1rem;">Terms of Service</h3>
 
-<p>Welcome to <strong>PlayBox Kashmir</strong>. These Terms of Service govern your access to and use of our website, online booking platform, sports facilities, and related services. By making a booking, accessing our facilities, or using our website, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms of Service.</p>
+<p>Welcome to <strong>PlayBox Kashmir™</strong>. These Terms of Service govern your access to and use of our website, online booking platform, sports facilities, and related services. By making a booking, accessing our facilities, or using our website, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms of Service.</p>
 
 <div style="margin-top:1rem;padding:14px;border:1px solid #ddd;border-radius:8px;background:#f8f9fa;">
 <p><strong>Summary</strong></p>
@@ -288,14 +288,14 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <p>• Appropriate sports footwear and attire are mandatory.</p>
 
-<p>• PlayBox Kashmir reserves the right to cancel or reschedule bookings due to maintenance, weather conditions, emergencies, or operational requirements.</p>
+<p>• PlayBox Kashmir™ reserves the right to cancel or reschedule bookings due to maintenance, weather conditions, emergencies, or operational requirements.</p>
 
 <p>• Alcohol, smoking, vaping, narcotic substances, and any illegal activities are strictly prohibited anywhere on the premises.</p>
 </div>
 
 <h4 style="margin-top:1.5rem;">1. Acceptance of Terms</h4>
 
-<p>By accessing our website, making a booking, entering our premises, or using any services provided by PlayBox Kashmir, you agree to comply with these Terms of Service, our Privacy Policy, Cancellation & Refund Policy, and all other policies published by PlayBox Kashmir.</p>
+<p>By accessing our website, making a booking, entering our premises, or using any services provided by PlayBox Kashmir™, you agree to comply with these Terms of Service, our Privacy Policy, Cancellation & Refund Policy, and all other policies published by PlayBox Kashmir™.</p>
 
 <h4 style="margin-top:1.5rem;">2. Eligibility</h4>
 
@@ -319,7 +319,7 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 <li>Follow all posted safety instructions.</li>
 <li>Maintain appropriate sportsmanship.</li>
 <li>Avoid damaging equipment or property.</li>
-<li>Comply with all instructions issued by PlayBox Kashmir staff.</li>
+<li>Comply with all instructions issued by PlayBox Kashmir™ staff.</li>
 </ul>
 
 <h4 style="margin-top:1.5rem;">6. Dress Code</h4>
@@ -340,23 +340,23 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 <li>Intentional damage to facilities or equipment.</li>
 </ul>
 
-<p>PlayBox Kashmir reserves the right to remove any person violating these rules without refund.</p>
+<p>PlayBox Kashmir™ reserves the right to remove any person violating these rules without refund.</p>
 
 <h4 style="margin-top:1.5rem;">8. Health and Safety</h4>
 
-<p>Players participate entirely at their own risk. Users are responsible for ensuring that they are medically fit to participate in sporting activities. PlayBox Kashmir shall not be responsible for injuries arising from normal sporting activities, misuse of facilities, negligence by other participants, or failure to follow safety instructions.</p>
+<p>Players participate entirely at their own risk. Users are responsible for ensuring that they are medically fit to participate in sporting activities. PlayBox Kashmir™ shall not be responsible for injuries arising from normal sporting activities, misuse of facilities, negligence by other participants, or failure to follow safety instructions.</p>
 
 <h4 style="margin-top:1.5rem;">9. Personal Property</h4>
 
-<p>Customers are solely responsible for their personal belongings. PlayBox Kashmir shall not be liable for any loss, theft, damage or misplacement of personal property left on the premises.</p>
+<p>Customers are solely responsible for their personal belongings. PlayBox Kashmir™ shall not be liable for any loss, theft, damage or misplacement of personal property left on the premises.</p>
 
 <h4 style="margin-top:1.5rem;">10. Booking Cancellations</h4>
 
-<p>Cancellation and refund requests shall be governed exclusively by the PlayBox Kashmir Cancellation & Refund Policy, which forms an integral part of these Terms of Service.</p>
+<p>Cancellation and refund requests shall be governed exclusively by the PlayBox Kashmir™ Cancellation & Refund Policy, which forms an integral part of these Terms of Service.</p>
 
-<h4 style="margin-top:1.5rem;">11. Cancellation by PlayBox Kashmir</h4>
+<h4 style="margin-top:1.5rem;">11. Cancellation by PlayBox Kashmir™</h4>
 
-<p>PlayBox Kashmir reserves the right to cancel, postpone or reschedule bookings due to maintenance, weather conditions, technical failures, tournaments, government orders, safety concerns, force majeure events or other operational requirements. In such cases, customers may be offered a rescheduled booking, booking credit or refund at our discretion.</p>
+<p>PlayBox Kashmir™ reserves the right to cancel, postpone or reschedule bookings due to maintenance, weather conditions, technical failures, tournaments, government orders, safety concerns, force majeure events or other operational requirements. In such cases, customers may be offered a rescheduled booking, booking credit or refund at our discretion.</p>
 
 <h4 style="margin-top:1.5rem;">12. User Conduct</h4>
 
@@ -364,39 +364,39 @@ This policy shall be governed by the laws of India. Any dispute arising from thi
 
 <h4 style="margin-top:1.5rem;">13. Suspension or Refusal of Service</h4>
 
-<p>PlayBox Kashmir reserves the right to suspend or permanently refuse access to any individual who violates these Terms of Service, engages in misconduct, damages property, threatens staff or customers, or attempts fraudulent activities.</p>
+<p>PlayBox Kashmir™ reserves the right to suspend or permanently refuse access to any individual who violates these Terms of Service, engages in misconduct, damages property, threatens staff or customers, or attempts fraudulent activities.</p>
 
 <h4 style="margin-top:1.5rem;">14. Intellectual Property</h4>
 
-<p>All logos, trademarks, photographs, graphics, software, website content, branding and other intellectual property displayed on this website remain the exclusive property of PlayBox Kashmir unless otherwise stated. Unauthorized copying, reproduction or commercial use is prohibited.</p>
+<p>All logos, trademarks, photographs, graphics, software, website content, branding and other intellectual property displayed on this website remain the exclusive property of PlayBox Kashmir™ unless otherwise stated. Unauthorized copying, reproduction or commercial use is prohibited.</p>
 
 <h4 style="margin-top:1.5rem;">15. Website Availability</h4>
 
-<p>While we strive to maintain uninterrupted access, PlayBox Kashmir does not guarantee that the website or booking platform will always be available, error-free or free from interruptions caused by maintenance, internet failures or third-party services.</p>
+<p>While we strive to maintain uninterrupted access, PlayBox Kashmir™ does not guarantee that the website or booking platform will always be available, error-free or free from interruptions caused by maintenance, internet failures or third-party services.</p>
 
 <h4 style="margin-top:1.5rem;">16. Limitation of Liability</h4>
 
-<p>To the fullest extent permitted by law, PlayBox Kashmir's total liability arising from any booking, service or use of the facilities shall not exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or special damages, including loss of income, travel expenses, accommodation costs or business interruption.</p>
+<p>To the fullest extent permitted by law, PlayBox Kashmir™'s total liability arising from any booking, service or use of the facilities shall not exceed the amount paid for the affected booking. We shall not be liable for indirect, incidental, consequential or special damages, including loss of income, travel expenses, accommodation costs or business interruption.</p>
 
 <h4 style="margin-top:1.5rem;">17. Indemnification</h4>
 
-<p>You agree to indemnify and hold harmless PlayBox Kashmir, its owners, partners, employees, representatives and affiliates from any claims, liabilities, damages, losses or expenses arising from your violation of these Terms, misuse of the facilities, negligence or unlawful conduct.</p>
+<p>You agree to indemnify and hold harmless PlayBox Kashmir™, its owners, partners, employees, representatives and affiliates from any claims, liabilities, damages, losses or expenses arising from your violation of these Terms, misuse of the facilities, negligence or unlawful conduct.</p>
 
 <h4 style="margin-top:1.5rem;">18. Force Majeure</h4>
 
-<p>PlayBox Kashmir shall not be responsible for any delay, interruption or failure to provide services due to events beyond our reasonable control, including natural disasters, floods, earthquakes, pandemics, government restrictions, civil unrest, utility failures, internet outages or other force majeure events.</p>
+<p>PlayBox Kashmir™ shall not be responsible for any delay, interruption or failure to provide services due to events beyond our reasonable control, including natural disasters, floods, earthquakes, pandemics, government restrictions, civil unrest, utility failures, internet outages or other force majeure events.</p>
 
 <h4 style="margin-top:1.5rem;">19. Changes to Terms</h4>
 
-<p>PlayBox Kashmir reserves the right to amend or update these Terms of Service at any time. The version in effect at the time of booking shall apply unless otherwise required by applicable law.</p>
+<p>PlayBox Kashmir™ reserves the right to amend or update these Terms of Service at any time. The version in effect at the time of booking shall apply unless otherwise required by applicable law.</p>
 
 <h4 style="margin-top:1.5rem;">20. Governing Law and Jurisdiction</h4>
 
-<p>These Terms of Service shall be governed by the laws of India. Any dispute arising out of or relating to these Terms or the use of PlayBox Kashmir's facilities shall be subject to the exclusive jurisdiction of the competent courts at Srinagar, Jammu & Kashmir.</p>
+<p>These Terms of Service shall be governed by the laws of India. Any dispute arising out of or relating to these Terms or the use of PlayBox Kashmir™'s facilities shall be subject to the exclusive jurisdiction of the competent courts at Srinagar, Jammu & Kashmir.</p>
 
 <h4 style="margin-top:1.5rem;">21. Contact</h4>
 
-<p>For questions regarding these Terms of Service or your booking, please contact PlayBox Kashmir through the official contact details available on our website.</p>
+<p>For questions regarding these Terms of Service or your booking, please contact PlayBox Kashmir™ through the official contact details available on our website.</p>
 `
     }
   };
@@ -465,4 +465,4 @@ document.querySelectorAll('.facility-card, .feature-card, .gallery-item').forEac
   observer.observe(el);
 });
 
-console.log('PlayBox Kashmir - v2.0 loaded');
+console.log('PlayBox Kashmir™ - v2.0 loaded');
