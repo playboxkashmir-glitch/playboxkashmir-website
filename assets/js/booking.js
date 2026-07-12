@@ -1,4 +1,4 @@
-™const SPORT_META = {
+const SPORT_META = {
    football: { name: 'Football Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false }, boxcricket: { name: 'Box Cricket', icon: 'fas fa-baseball-ball', color: '#ea580c', comingSoon: false },
    cricket: { name: 'Cricket Nets', icon: 'fas fa-baseball-ball', color: '#22c55e', comingSoon: true },
    pickleball: { name: 'Pickleball Court', icon: 'fas fa-table-tennis', color: '#22c55e', comingSoon: true }
