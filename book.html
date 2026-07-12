@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book Now - PlayBox Kashmir</title>
+<title>Book Now - PlayBox Kashmir™</title>
   <link rel="icon" type="image/png" href="favicon.png">
-<meta name="description" content="Book your sports slot at PlayBox Kashmir. Football Turf, Cricket Nets, Pickleball Court.">
+<meta name="description" content="Book your sports slot at PlayBox Kashmir™. Football Turf, Cricket Nets, Pickleball Court.">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/booking.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -28,7 +28,7 @@
   <div class="nav-container">
     <a href="index.html" class="nav-logo">
       <span class="logo-play">Play</span><span class="logo-box">Box</span>
-      <span class="logo-kashmir">Kashmir</span>
+      <span class="logo-kashmir">Kashmir</span><span class="logo-tm">™</span>
     </a>
     <div class="nav-actions">
       <a href="index.html" class="btn-back-home">
@@ -89,10 +89,11 @@
           <p>Full-size turf for football matches</p>
           <div class="sport-price"><span class="price-strike">₹2000</span> <span class="price-now" data-live-price="turf1">₹1700</span>/hr <span class="offer-badge">15% OFF</span></div>
         </div>
+        <button type="button" class="sport-card-proceed" onclick="event.stopPropagation(); goToStep(2);">Proceed</button>
         <div class="sport-check"><i class="fas fa-check-circle"></i></div>
       </div>
 
-      <div class="sport-card" data-sport="boxcricket" onclick="selectSport('boxcricket')"><div class="sport-img"><img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400&auto=format&fit=crop&q=80" alt="Box Cricket"></div><div class="sport-info"><div class="sport-icon-wrap"><i class="fas fa-baseball-ball"></i></div><h3>Box Cricket</h3><p>Enclosed turf for box cricket matches</p><div class="sport-price"><span class="price-strike">₹2000</span> <span class="price-now" data-live-price="boxc1">₹1700</span>/hr <span class="offer-badge">15% OFF</span></div></div><div class="sport-check"><i class="fas fa-check-circle"></i></div></div><div class="sport-card coming-soon-card" data-sport="cricket">
+      <div class="sport-card" data-sport="boxcricket" onclick="selectSport('boxcricket')"><div class="sport-img"><img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400&auto=format&fit=crop&q=80" alt="Box Cricket"></div><div class="sport-info"><div class="sport-icon-wrap"><i class="fas fa-baseball-ball"></i></div><h3>Box Cricket</h3><p>Enclosed turf for box cricket matches</p><div class="sport-price"><span class="price-strike">₹2000</span> <span class="price-now" data-live-price="boxc1">₹1700</span>/hr <span class="offer-badge">15% OFF</span></div></div><button type="button" class="sport-card-proceed" onclick="event.stopPropagation(); goToStep(2);">Proceed</button><div class="sport-check"><i class="fas fa-check-circle"></i></div></div><div class="sport-card coming-soon-card" data-sport="cricket">
         <div class="sport-img">
           <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400&auto=format&fit=crop&q=80" alt="Cricket Nets">
           <div class="coming-soon-ribbon">Coming Soon</div>
@@ -120,12 +121,6 @@
         <div class="sport-check"><i class="fas fa-check-circle"></i></div>
       </div>
 
-    </div>
-
-    <!-- Facility Selection (shown after sport is selected) -->
-    <div class="facility-selector" id="facilitySelector" style="display:none;">
-      <h3 class="facility-selector-title">Select Facility</h3>
-      <div class="facilities-list" id="facilitiesList"></div>
     </div>
 
     <div class="step-actions">
@@ -236,7 +231,7 @@
         <input type="text" id="promoCode" placeholder="Enter promo code">
         <button class="btn-apply-promo" onclick="applyPromo()">Apply</button>
       </div>
-      <div class="promo-hint" style="font-size:0.8rem;color:#555;margin-top:0.4rem;"><i class="fas fa-tag"></i> Try code <strong>PBK10</strong> for an additional 10% off (on top of the flat 15% inaugural discount).</div>
+      <div class="promo-hint" style="font-size:0.8rem;color:#555;margin-top:0.4rem;"><i class="fas fa-tag"></i> Try code <strong>PBK10</strong> for an additional 10% off (on top of the flat 15% inaugural discount). <button type="button" class="btn-apply-promo" style="margin-left:6px;padding:2px 10px;font-size:0.8em;" onclick="document.getElementById('promoCode').value='PBK10'; applyPromo();">Apply PBK10</button></div>
       <div class="promo-result" id="promoResult"></div>
     </div>
 
@@ -294,7 +289,7 @@
 
         <div class="agree-terms" id="agree-terms-wrap">
           <input type="checkbox" id="agree-terms" />
-          <label for="agree-terms">I agree to PlayBox Kashmir's <a href="privacy.html" target="_blank">Privacy Policy</a>, <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and <a href="cancellation.html" target="_blank">Cancellation Policy</a>. <span class="req">*</span></label>
+          <label for="agree-terms">I agree to PlayBox Kashmir™'s <a href="privacy.html" target="_blank">Privacy Policy</a>, <a href="terms.html" target="_blank">Terms &amp; Conditions</a> and <a href="cancellation.html" target="_blank">Cancellation Policy</a>. <span class="req">*</span></label>
         </div>
 
         <button class="btn-pay" id="btnPay" onclick="initiatePayment()">
