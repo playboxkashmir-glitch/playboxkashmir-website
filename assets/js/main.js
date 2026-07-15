@@ -68,14 +68,22 @@ window.showPolicy = async function(type) {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
 
-        const policy = doc.querySelector(".policy");
+       document.getElementById("policyContent").innerHTML = `
+    <iframe
+        src="${pages[type]}"
+        style="
+            width:100%;
+            height:80vh;
+            border:none;
+            border-radius:16px;
+            background:#fff;
+        ">
+    </iframe>
+`;
 
-        document.getElementById("policyContent").innerHTML =
-            policy ? policy.innerHTML : "<p>Policy not found.</p>";
+document.getElementById("policyModal").style.display = "flex";
 
-        document.getElementById("policyModal").style.display = "flex";
-
-        document.body.style.overflow = "hidden";
+document.body.style.overflow = "hidden";
 
     } catch (err) {
 
