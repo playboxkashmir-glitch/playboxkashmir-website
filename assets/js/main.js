@@ -45,7 +45,7 @@ if (sections.length && navLinks.length) {
   });
 }
 
-window.showPolicy = async function(type) {
+window.showPolicy = function(type) {
 
     const pages = {
         terms: "/terms.html",
@@ -53,85 +53,11 @@ window.showPolicy = async function(type) {
         cancellation: "/cancellation.html"
     };
 
-    if (!pages[type]) return;
-
-    try {
-
-        const response = await fetch(pages[type]);
-
-        if (!response.ok) {
-            throw new Error("Unable to load policy.");
-        }
-
-        const html = await response.text();
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, "text/html");
-
-       document.getElementById("policyContent").innerHTML = `
-    <iframe
-        src="${pages[type]}"
-        style="
-            width:100%;
-            height:80vh;
-            border:none;
-            border-radius:16px;
-            background:#fff;
-        ">
-    </iframe>
-`;
-
-document.getElementById("policyModal").style.display = "flex";
-
-document.body.style.overflow = "hidden";
-
-    } catch (err) {
-
-        document.getElementById("policyContent").innerHTML =
-            "<p>Unable to load this policy.</p>";
-
-        document.getElementById("policyModal").style.display = "flex";
-
+    if (pages[type]) {
+        window.location.href = pages[type];
     }
 
 };
-
-window.closePolicy = function() {
-
-    const modal = document.getElementById("policyModal");
-
-    if (modal) {
-        modal.style.display = "none";
-        document.body.style.overflow = "";
-    }
-
-};
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const modal = document.getElementById("policyModal");
-
-    if (modal) {
-
-        modal.addEventListener("click", function(e) {
-
-            if (e.target === modal) {
-                window.closePolicy();
-            }
-
-        });
-
-    }
-
-});
-
-window.addEventListener("keydown", function(e) {
-
-    if (e.key === "Escape") {
-        window.closePolicy();
-    }
-
-});
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function(e) {
