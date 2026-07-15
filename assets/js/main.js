@@ -45,18 +45,12 @@ if (sections.length && navLinks.length) {
   });
 }
 
-window.showPolicy = async function (type) {
+window.showPolicy = async function(type) {
 
     const pages = {
-        terms: "terms.html",
-        privacy: "privacy.html",
-        cancellation: "cancellation.html"
-    };
-
-    const titles = {
-        terms: "Terms & Conditions",
-        privacy: "Privacy Policy",
-        cancellation: "Cancellation & Refund Policy"
+        terms: "/terms.html",
+        privacy: "/privacy.html",
+        cancellation: "/cancellation.html"
     };
 
     if (!pages[type]) return;
@@ -72,72 +66,63 @@ window.showPolicy = async function (type) {
         const html = await response.text();
 
         const parser = new DOMParser();
-        const documentHTML = parser.parseFromString(html, "text/html");
+        const doc = parser.parseFromString(html, "text/html");
 
-        // Extract only the policy body from the page
-        const policyContent =
-            documentHTML.querySelector(".policy") ||
-            documentHTML.body;
+        const policy = doc.querySelector(".policy");
 
-        document.getElementById("policyModalTitle").textContent = titles[type];
+        document.getElementById("policyContent").innerHTML =
+            policy ? policy.innerHTML : "<p>Policy not found.</p>";
 
-        document.getElementById("policyModalBody").innerHTML =
-            policyContent.innerHTML;
+        document.getElementById("policyModal").style.display = "flex";
 
-        document.getElementById("policyModal").classList.add("show");
         document.body.style.overflow = "hidden";
 
-    } catch (error) {
+    } catch (err) {
 
-        document.getElementById("policyModalTitle").textContent =
-            "Error";
+        document.getElementById("policyContent").innerHTML =
+            "<p>Unable to load this policy.</p>";
 
-        document.getElementById("policyModalBody").innerHTML =
-            "<p>Sorry, this policy could not be loaded. Please try again later.</p>";
+        document.getElementById("policyModal").style.display = "flex";
 
-        document.getElementById("policyModal").classList.add("show");
     }
 
 };
 
-window.closePolicy = function () {
-    document.getElementById("policyModal").classList.remove("show");
-    document.body.style.overflow = "";
-};
-
-window.addEventListener("click", function (e) {
+window.closePolicy = function() {
 
     const modal = document.getElementById("policyModal");
 
-    if (e.target === modal) {
-        closePolicy();
+    if (modal) {
+        modal.style.display = "none";
+        document.body.style.overflow = "";
     }
 
-});
-
-window.addEventListener("keydown", function (e) {
-
-    if (e.key === "Escape") {
-        closePolicy();
-    }
-
-});
-
-window.closePolicy = function() {
-  const modal = document.getElementById('policyModal');
-  if (modal) {
-    modal.style.display = 'none';
-    document.body.style.overflow = '';
-  }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('policyModal');
-  if (modal) {
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) window.closePolicy();
-    });
-  }
+document.addEventListener("DOMContentLoaded", function() {
+
+    const modal = document.getElementById("policyModal");
+
+    if (modal) {
+
+        modal.addEventListener("click", function(e) {
+
+            if (e.target === modal) {
+                window.closePolicy();
+            }
+
+        });
+
+    }
+
+});
+
+window.addEventListener("keydown", function(e) {
+
+    if (e.key === "Escape") {
+        window.closePolicy();
+    }
+
 });
 
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
