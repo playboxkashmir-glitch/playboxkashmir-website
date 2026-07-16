@@ -11,7 +11,6 @@
 import { query } from '../../lib/db.js';
 import { requireAuth } from '../../lib/auth.js';
 import { sendBookingConfirmationEmail } from '../../lib/email.js';
-import { sendBookingConfirmationWhatsApp } from '../../lib/whatsapp.js';
 
 function generateBookingRef() {
   const ts = Date.now().toString(36).toUpperCase();
@@ -246,11 +245,6 @@ async function handleSendConfirmation(req, res) {
       return res.status(404).json({ error: 'Booking not found.' });
     }
     await sendBookingConfirmationEmail(booking);
-    try {
-      await sendBookingConfirmationWhatsApp(booking);
-    } catch (waErr) {
-      console.error('WhatsApp confirmation error (non-fatal):', waErr);
-    }
     await query('UPDATE bookings SET confirmation_sent_at = now() WHERE id = $1', [booking_id]);
     return res.status(200).json({ success: true });
   } catch (err) {
