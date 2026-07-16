@@ -29,7 +29,7 @@ res.setHeader('Allow', 'GET, POST');
 async function handleList(req, res) {
   try {
     const rows = await query('SELECT * FROM facilities ORDER BY sport_key, option_name');
-    const UNLAUNCHED_SPORTS = ['cricket', 'pickleball']; // keep in sync with SPORT_META in assets/js/booking.js
+        const UNLAUNCHED_SPORTS = []; // no unlaunched sports — football and boxcricket are both live, sharing the same synthetic turf
           const facilities = rows.rows.map(function (f) {
                     if (UNLAUNCHED_SPORTS.indexOf(f.sport_key) !== -1) {
                                 return Object.assign({}, f, { base_price: null, peak_price: null });
