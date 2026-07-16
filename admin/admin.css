@@ -239,8 +239,6 @@
 }
 
 .facility-tag.football { background: rgba(16,185,129,0.12); color: #065f46; }
-.facility-tag.cricket { background: rgba(59,130,246,0.12); color: #1e3a8a; }
-.facility-tag.pickleball { background: rgba(139,92,246,0.12); color: #5b21b6; }
 
 .amount { font-weight: 700; color: #111827; }
 
@@ -309,8 +307,6 @@
 
 .sport-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 .sport-dot.football { background: #10b981; }
-.sport-dot.cricket { background: #3b82f6; }
-.sport-dot.pickleball { background: #8b5cf6; }
 
 .sport-bar-wrap { flex: 1; height: 8px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
 .sport-bar { height: 100%; border-radius: 4px; transition: width 1s ease; }
