@@ -1,5 +1,6 @@
 const SPORT_META = {
-     football: { name: 'Football Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false }
+     football: { name: 'Football Turf', icon: 'fas fa-futbol', color: '#15803d', comingSoon: false },
+         boxcricket: { name: 'Box Cricket', icon: 'fas fa-baseball-ball', color: '#15803d', comingSoon: false }
 };
 
 const CONFIG = {
