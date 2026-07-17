@@ -1,0 +1,22 @@
+{
+    "headers": [
+          {
+                  "source": "/(.*)",
+                  "headers": [
+                            { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+                            { "key": "X-Content-Type-Options", "value": "nosniff" },
+                            { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+                            { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+                            { "key": "Permissions-Policy", "value": "geolocation=(), camera=(), microphone=()" }
+                  ]
+          }
+    ],
+    "rewrites": [
+          { "source": "/lib/:path*", "destination": "/api/blocked" },
+          { "source": "/db/:path*", "destination": "/api/blocked" },
+          { "source": "/scripts/:path*", "destination": "/api/blocked" },
+          { "source": "/README-BACKEND.md", "destination": "/api/blocked" },
+          { "source": "/package.json", "destination": "/api/blocked" },
+          { "source": "/.env.example", "destination": "/api/blocked" }
+    ]
+}
