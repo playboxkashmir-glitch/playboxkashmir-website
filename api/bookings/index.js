@@ -10,7 +10,7 @@
 // /api/bookings?resource=send-confirmation       (POST send confirmation email - admin only)
 import { query } from '../../lib/db.js';
 import { requireAuth } from '../../lib/auth.js';
-import { sendBookingConfirmationEmail } from '../../lib/email.js';
+import { sendBookingConfirmationEmail } from '../../lib/email.js'; const lookupAttempts = new Map(); const LOOKUP_WINDOW_MS = 10 * 60 * 1000; const LOOKUP_MAX_REQUESTS = 8; function getClientIp(req) { const fwd = req.headers['x-forwarded-for']; if (fwd) return String(fwd).split(',')[0].trim(); return (req.socket && req.socket.remoteAddress) || 'unknown'; } function isLookupRateLimited(ip) { const now = Date.now(); if (lookupAttempts.size > 5000) { for (const [key, entry] of lookupAttempts) { if (now - entry.windowStart > LOOKUP_WINDOW_MS) lookupAttempts.delete(key); } } const entry = lookupAttempts.get(ip); if (!entry || now - entry.windowStart > LOOKUP_WINDOW_MS) { lookupAttempts.set(ip, { count: 1, windowStart: now }); return false; } entry.count += 1; return entry.count > LOOKUP_MAX_REQUESTS; }
 
 function generateBookingRef() {
   const ts = Date.now().toString(36).toUpperCase();
@@ -197,7 +197,7 @@ res.setHeader('Allow', 'GET, PATCH, DELETE');
   return res.status(405).json({ error: 'Method not allowed' });
 }
 
-async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); } const { email } = req.query; if (!email) { return res.status(400).json({ error: 'email query param is required.' }); } try { const rows = await query('SELECT customer_name FROM bookings WHERE lower(customer_email) = lower($1) ORDER BY booking_date DESC LIMIT 1', [email]); if (rows.rows.length === 0) { return res.status(200).json({ found: false }); } const fullName = rows.rows[0].customer_name || ''; const firstName = fullName.trim().split(/\s+/)[0] || fullName; return res.status(200).json({ found: true }); } catch (err) { console.error('Customer lookup error:', err); return res.status(500).json({ error: 'Server error while looking up customer.' }); } } async function handleAvailability(req, res) {
+async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.setHeader('Allow', 'GET'); return res.status(405).json({ error: 'Method not allowed' }); } const ip = getClientIp(req); if (isLookupRateLimited(ip)) { return res.status(429).json({ error: 'Too many requests. Please try again later.' }); } const { email } = req.query; if (!email) { return res.status(400).json({ error: 'email query param is required.' }); } try { const rows = await query('SELECT customer_name FROM bookings WHERE lower(customer_email) = lower($1) ORDER BY booking_date DESC LIMIT 1', [email]); if (rows.rows.length === 0) { return res.status(200).json({ found: false }); } return res.status(200).json({ found: true }); } catch (err) { console.error('Customer lookup error:', err); return res.status(500).json({ error: 'Server error while looking up customer.' }); } } async function handleAvailability(req, res) {
   if (req.method !== 'GET') {
     res.setHeader('Allow', 'GET');
     return res.status(405).json({ error: 'Method not allowed' });
@@ -214,7 +214,7 @@ async function handleCustomerLookup(req, res) { if (req.method !== 'GET') { res.
       facilityClause = `AND facility_id = $${params.length}`;
     }
     const rows = await query(
-      `SELECT facility_id, start_time, end_time, status, booking_ref
+      `SELECT facility_id, start_time, end_time, status
       FROM bookings
       WHERE booking_date = $1 AND status IN ('reserved','confirmed') ${facilityClause}`,
       params
