@@ -18,6 +18,8 @@ const CONFIG = {
        reservation_minutes: 10
 };
 
+function toLocalDateKey(date) { if (!date) return ''; var y = date.getFullYear(); var m = String(date.getMonth() + 1).padStart(2, '0'); var d = String(date.getDate()).padStart(2, '0'); return y + '-' + m + '-' + d; }
+
   let state = {
          step: 1,
          sport: null,
@@ -91,6 +93,7 @@ async function loadSettings() {
             if (!isNaN(fee)) {
                      CONFIG.convenience_fee = fee;
             }
+          if (Array.isArray(data.peak_hours) && data.peak_hours.length) { CONFIG.peak_hours = data.peak_hours; } var inauguralPct = parseFloat(data.inaugural_discount_pct); if (!isNaN(inauguralPct)) { CONFIG.inaugural_discount_pct = inauguralPct; }
      } catch (err) {
             console.error('Could not load settings from server:', err);
      }
@@ -239,7 +242,7 @@ function selectDate(year, month, day) {
 async function renderSlots() {
    const slotsGrid = document.getElementById('slotsGrid');
    if (!slotsGrid || !state.date || !state.facilityId) return;
-   const dateKey = state.date.toISOString().split('T')[0];
+   const dateKey = toLocalDateKey(state.date);
    slotsGrid.innerHTML = '<p style="grid-column:1/-1;text-align:center;color:#9ca3af;">Loading available slots...</p>';
    let blockedRanges = [];
    try {
@@ -251,7 +254,7 @@ async function renderSlots() {
    } catch (err) {
       console.error('Could not check slot availability:', err);
    }
-if (!state.date || state.date.toISOString().split('T')[0] !== dateKey) return;
+if (!state.date || toLocalDateKey(state.date) !== dateKey) return;
 
 const today = new Date();
    const isToday = state.date.toDateString() === today.toDateString();
@@ -483,7 +486,7 @@ function stopReservationTimer() {
    const timerEl = document.getElementById('reservationTimer');
    if (timerEl) timerEl.style.display = 'none';
 }
-function createSlotHold() { if (!state.facilityDbId || !state.date || !(state.selectedHours && state.selectedHours.length)) return; var dateKey = state.date.toISOString().split('T')[0]; var slots = state.selectedHours.map(function (h) { return { start_time: (h % 24) + ':00', end_time: ((h + 1) % 24) + ':00' }; }); if (!state.holdToken) { state.holdToken = 'H' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); } fetch('/api/bookings?resource=hold', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ facility_id: state.facilityDbId, booking_date: dateKey, slots: slots, hold_token: state.holdToken }) }).catch(function (err) { console.error('Could not place slot hold:', err); }); }
+function createSlotHold() { if (!state.facilityDbId || !state.date || !(state.selectedHours && state.selectedHours.length)) return; var dateKey = toLocalDateKey(state.date); var slots = state.selectedHours.map(function (h) { return { start_time: (h % 24) + ':00', end_time: ((h + 1) % 24) + ':00' }; }); if (!state.holdToken) { state.holdToken = 'H' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); } fetch('/api/bookings?resource=hold', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ facility_id: state.facilityDbId, booking_date: dateKey, slots: slots, hold_token: state.holdToken }) }).catch(function (err) { console.error('Could not place slot hold:', err); }); }
 
 function initiatePayment() {
 var agreeBox = document.getElementById('agree-terms');
@@ -524,7 +527,7 @@ function createRazorpayOrder() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-         facility_id: state.facilityId, booking_date: (state.date ? state.date.toISOString().split('T')[0] : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), terms_accepted: true,
+         facility_id: state.facilityId, booking_date: (state.date ? toLocalDateKey(state.date) : ''), hours: (state.selectedHours || []).slice(), promo_code: (state.promoCode || null), terms_accepted: true,
          currency: 'INR',
          receipt: state.bookingId,
          notes: {
@@ -536,7 +539,7 @@ function createRazorpayOrder() {
             customer_email: state.customerEmail,
             customer_phone: state.customerPhone,
           customer_notes: state.customerNotes,
-            booking_date: state.date ? state.date.toISOString().split('T')[0] : '',
+            booking_date: state.date ? toLocalDateKey(state.date) : '',
             start_time: (function () { var hh = (state.selectedHours && state.selectedHours[0] !== undefined) ? state.selectedHours[0] : parseInt(String(state.slotTime).split(':')[0], 10); return (hh % 24) + ':00'; })(),
             end_time: (function () {
                var hrsArr = state.selectedHours || []; var h = hrsArr.length ? hrsArr[hrsArr.length - 1] : parseInt(String(state.slotTime).split(':')[0], 10);
