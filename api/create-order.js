@@ -8,11 +8,11 @@
 // the request from letting someone pay less than the real price.
 import { query } from '../lib/db.js';
 
-// Keep these in sync with the equivalent values in assets/js/booking.js CONFIG.
-// TODO: move these into the settings table (like convenience_fee) so there is
-// a single source of truth shared by the website and this API.
-const PEAK_HOURS = [18, 19, 20, 21];
-const INAUGURAL_DISCOUNT_PCT = 15; const TERMS_VERSION = '2026-07-07'; // bump when Terms/Privacy/Cancellation policy text changes
+// Default values, used only if not overridden by a row in the settings
+// table (see below). Kept in sync with assets/js/booking.js CONFIG, which
+// reads the same keys from GET /api/settings -- single source of truth.
+const DEFAULT_PEAK_HOURS = [18, 19, 20, 21];
+const DEFAULT_INAUGURAL_DISCOUNT_PCT = 15; const TERMS_VERSION = '2026-07-07'; // bump when Terms/Privacy/Cancellation policy text changes
 
 export default async function handler(req, res) {
     if (req.method !== 'POST') {
@@ -46,7 +46,8 @@ try {
   const basePrice = Number(facility.base_price);
   const peakPrice = Number(facility.peak_price);
 
-  let basePriceTotal = 0;
+  let PEAK_HOURS = DEFAULT_PEAK_HOURS; let INAUGURAL_DISCOUNT_PCT = DEFAULT_INAUGURAL_DISCOUNT_PCT; let convenienceFee = 0; const settingsRows = await query("SELECT key, value FROM settings WHERE key IN ('convenience_fee','peak_hours','inaugural_discount_pct')", []); settingsRows.rows.forEach(function (row) { if (row.key === 'convenience_fee') { const fee = parseFloat(row.value); if (!isNaN(fee)) convenienceFee = fee; } else if (row.key === 'peak_hours' && Array.isArray(row.value) && row.value.length) { PEAK_HOURS = row.value; } else if (row.key === 'inaugural_discount_pct') { const pct = parseFloat(row.value); if (!isNaN(pct)) INAUGURAL_DISCOUNT_PCT = pct; } });
+    let basePriceTotal = 0;
   hours.forEach(function (h) {
     const isPeak = PEAK_HOURS.indexOf(h % 24) !== -1;
     basePriceTotal += isPeak ? peakPrice : basePrice;
@@ -71,12 +72,6 @@ try {
 
   const discountedSubtotal = afterInaugural - promoDiscount;
 
-  let convenienceFee = 0;
-  const settingsRows = await query("SELECT value FROM settings WHERE key = 'convenience_fee'", []);
-  if (settingsRows.rows.length > 0) {
-    const fee = parseFloat(settingsRows.rows[0].value);
-    if (!isNaN(fee)) convenienceFee = fee;
-  }
 
   const totalAmount = Math.round((discountedSubtotal + convenienceFee) * 100) / 100;
   const amount = Math.round(totalAmount * 100);
