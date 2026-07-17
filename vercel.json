@@ -1,22 +1,22 @@
 {
-    "headers": [
-          {
-                  "source": "/(.*)",
-                  "headers": [
-                            { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-                            { "key": "X-Content-Type-Options", "value": "nosniff" },
-                            { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
-                            { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-                            { "key": "Permissions-Policy", "value": "geolocation=(), camera=(), microphone=()" }
-                  ]
-          }
-    ],
-    "rewrites": [
-          { "source": "/lib/:path*", "destination": "/api/blocked" },
-          { "source": "/db/:path*", "destination": "/api/blocked" },
-          { "source": "/scripts/:path*", "destination": "/api/blocked" },
-          { "source": "/README-BACKEND.md", "destination": "/api/blocked" },
-          { "source": "/package.json", "destination": "/api/blocked" },
-          { "source": "/.env.example", "destination": "/api/blocked" }
-    ]
+      "routes": [
+              { "src": "^/lib(?:/.*)?$", "status": 404 },
+              { "src": "^/db(?:/.*)?$", "status": 404 },
+              { "src": "^/scripts(?:/.*)?$", "status": 404 },
+              { "src": "^/README-BACKEND\\.md$", "status": 404 },
+              { "src": "^/package\\.json$", "status": 404 },
+              { "src": "^/\\.env\\.example$", "status": 404 },
+              {
+                        "src": "^/(.*)$",
+                        "headers": {
+                                    "X-Frame-Options": "SAMEORIGIN",
+                                    "X-Content-Type-Options": "nosniff",
+                                    "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+                                    "Referrer-Policy": "strict-origin-when-cross-origin",
+                                    "Permissions-Policy": "geolocation=(), camera=(), microphone=()"
+                        },
+                        "continue": true
+              },
+              { "handle": "filesystem" }
+      ]
 }
