@@ -3,6 +3,9 @@ const SPORT_META = {
          boxcricket: { name: 'Box Cricket', icon: 'fas fa-baseball-ball', color: '#15803d', comingSoon: false }
 };
 
+let facilitiesLoaded = false;
+let pendingSportSelection = null;
+
 const CONFIG = {
    facilities: {},
        slots: {
@@ -81,7 +84,15 @@ function toLocalDateKey(date) { if (!date) return ''; var y = date.getFullYear()
       updateStaticPriceDisplays();
    } catch (err) {
       console.error('Could not load facilities from server:', err);
-   }
+   } finally {
+              facilitiesLoaded = true;
+              document.body.classList.remove('facilities-loading');
+              if (pendingSportSelection && CONFIG.facilities[pendingSportSelection]) {
+                   const s = pendingSportSelection;
+                   pendingSportSelection = null;
+                   selectSport(s);
+              }
+         }
 }
 
 async function loadSettings() {
@@ -134,8 +145,12 @@ for (let i = 1; i <= 5; i++) {
 
 function selectSport(sport) {
    if (!CONFIG.facilities[sport]) {
-      alert('Facility data is still loading. Please try again in a moment.');
-      return;
+if (!facilitiesLoaded) {
+     pendingSportSelection = sport;
+     return;
+}
+        alert('This sport is not available for booking right now.');
+        return;
    }
    if (CONFIG.facilities[sport].comingSoon) {
       alert(CONFIG.facilities[sport].name + ' is coming soon. Bookings are not available yet.');
@@ -716,8 +731,8 @@ function hideLoading() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-                          await loadFacilities();
-   await loadSettings();
+document.body.classList.add('facilities-loading');
+     await Promise.all([loadFacilities(), loadSettings()]);
 
                           const urlParams = new URLSearchParams(window.location.search);
    const sportParam = urlParams.get('sport');
