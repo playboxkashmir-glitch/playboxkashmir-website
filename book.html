@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/booking.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
   <style>
     .agree-terms{display:flex;align-items:flex-start;gap:10px;margin:16px 0;padding:12px 14px;border:1px solid #e5e7eb;border-radius:10px;background:#f9fafb;font-size:14px;line-height:1.5;color:#374151;}
     .agree-terms.error{border-color:#ef4444;background:#fef2f2;}
@@ -81,7 +81,7 @@
       
       <div class="sport-card" data-sport="football" onclick="selectSport('football')">
         <div class="sport-img">
-          <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&auto=format&fit=crop&q=80" alt="Football Turf">
+          <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&auto=format&fit=crop&q=80" alt="Football Turf" loading="lazy" width="400" height="220">
         </div>
         <div class="sport-info">
           <div class="sport-icon-wrap"><i class="fas fa-futbol"></i></div>
@@ -95,13 +95,13 @@
 
                   <div class="sport-card" data-sport="boxcricket" onclick="selectSport('boxcricket')">
                             <div class="sport-img">
-                                        <img src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=400&auto=format&fit=crop&q=80" alt="Box Cricket">
+                                        <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400&auto=format&fit=crop&q=80" alt="Box Cricket" loading="lazy" width="400" height="220">
                             </div>
                             <div class="sport-info">
                                         <div class="sport-icon-wrap"><i class="fas fa-baseball-ball"></i></div>
                                         <h3>Box Cricket</h3>
                                         <p>Play box cricket on our premium synthetic turf.</p>
-                                        <div class="sport-price"><span class="price-strike">₹2000</span> <span class="price-now" data-live-price="turf1">₹1700</span>/hr <span class="offer-badge">15% OFF</span></div>
+                                        <div class="sport-price"><span class="price-strike">₹2000</span> <span class="price-now" data-live-price="boxc1">₹1700</span>/hr <span class="offer-badge">15% OFF</span></div>
                             </div>
                             <button type="button" class="sport-card-proceed" onclick="event.stopPropagation(); goToStep(2);">Proceed</button>
                             <div class="sport-check"><i class="fas fa-check-circle"></i></div>
